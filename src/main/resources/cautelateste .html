@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Modelo de Cautela</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 10mm;
+            background-color: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: auto;
+            border: 1px solid #ccc;
+            padding: 30px;
+            position: relative;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #000;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 18pt;
+            text-transform: uppercase;
+        }
+        .info-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .field {
+            margin-bottom: 10px;
+        }
+        .label {
+            font-weight: bold;
+        }
+        .line {
+            border-bottom: 1px solid #000;
+            display: inline-block;
+            min-width: 250px;
+        }
+        .termo-box {
+            border: 1px solid #000;
+            padding: 15px;
+            background-color: #f9f9f9;
+            margin-bottom: 25px;
+            text-align: justify;
+            font-size: 10pt;
+        }
+        .termo-box p {
+            margin: 0;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+        table, th, td {
+            border: 1px solid #000;
+        }
+        th {
+            background-color: #eee;
+            padding: 8px;
+            font-size: 11pt;
+        }
+        td {
+            padding: 12px 8px;
+            height: 25px;
+        }
+        .obs-section {
+            margin-bottom: 30px;
+        }
+        .obs-lines {
+            border-bottom: 1px solid #000;
+            height: 25px;
+            margin-top: 5px;
+        }
+        .signatures-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+        .sig-block {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .sig-line {
+            border-top: 1px solid #000;
+            margin-bottom: 5px;
+        }
+        .sig-sub {
+            font-size: 9pt;
+            color: #555;
+        }
+        .no-print {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        @media print {
+            .no-print { display: none; }
+            .container { border: none; padding: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<button class="no-print" onclick="window.print()">Imprimir Cautela</button>
+
+<div class="container">
+    <div class="header">
+        <h1>
+            CAUTELA TRANSFERÊNCIA             Nº
+            <span style="border-bottom: 1px solid black; display: inline-block; width: 150px;">
+        {{idcautela}}
+    </span>
+        </h1>
+    </div>
+
+
+    <div class="field">
+        <span class="label">ORIGEM:</span> <span class="line" style="min-width: 500px;">{{departamentoorigem}}</span>
+    </div>
+    <div class="field">
+        <span class="label">DESTINO:</span> <span class="line" style="min-width: 500px;">{{departamentodestino}}</span>
+    </div>
+    <div class="field">
+        <span class="label">DATA:</span> <span class="line" style="min-width: 150px;">{{data}}</span>
+    </div>
+
+    <div class="termo-box">
+        <p>
+            AO FIRMAR ESTA CAUTELA, O FUNCIONÁRIO ASSUME O COMPROMISSO DE ZELAR PELA GUARDA, USO ADEQUADO E CONSERVAÇÃO DOS MATERIAIS SOB SUA RESPONSABILIDADE. A PERDA, EXTRAVIO OU DANO DE QUALQUER UM DOS ITENS ABAIXO RELACIONADOS PODERÁ RESULTAR NA OBRIGAÇÃO DE RESSARCIMENTO, EM VALOR CORRESPONDENTE AO PREJUÍZO CAUSADO OU, EM CASO DE EXTRAVIO, AO VALOR ORIGINAL DE AQUISIÇÃO DO MATERIAL, DEVIDAMENTE ATUALIZADO, DESDE QUE, APÓS APURAÇÃO INTERNA (SINDICÂNCIA), SEJA CONSTATADA A RESPONSABILIDADE DO FUNCIONÁRIO.        </p>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th style="width: 5%;">Quant</th>
+            <th style="width: 50%;">Descrição do Material</th>
+            <th style="width: 25%;">Patrimônio</th>
+            <th style="width: 20%;">Estado</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td>01</td><td>test</td><td></td><td></td></tr>
+        <tr><td>02</td><td>teste</td><td></td><td></td></tr>
+        <tr><td colspan="4" >03</td>
+        </tbody>
+    </table>
+
+    <div class="sig-block" style="
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    font-size: 12px;
+"><div class="label">EMISSOR CAUTELA: {{emissorcautela}}</div>
+    </div>
+
+
+    <div class="obs-section">
+        <span class="label">OBSERVAÇÕES:</span>
+        <div class="obs-lines"> {{obs}}</div>
+    </div>
+
+    <br><br>
+
+    <div class="signatures-grid">
+        <div class="sig-block">
+            <div class="sig-line"></div>
+            <div class="label">RESPONSÁVEL: {{departamentoorigem}}</div>
+            <div class="sig-sub">Assinatura</div>
+        </div>
+        <div class="sig-block">
+            <div class="sig-line"></div>
+            <div class="label">RESPONSÁVEL: {{departamentodestino}}</div>
+            <div class="sig-sub">Assinatura</div>
+        </div>
+    </div>
+
+    <br><br>
+</div>
+
+</body>
+</html>
+
