@@ -1,7 +1,9 @@
 package sys.patrimonio.model;
 
 
-public class ItemsPatrimonio {
+import sys.patrimonio.util.DataFormatada;
+
+public class ItemPatrimonio {
     private String entrada;
     private String nome;
     private String tombo;
@@ -13,25 +15,25 @@ public class ItemsPatrimonio {
     private String categoria;
     private String foto;
 
-    public ItemsPatrimonio(String nome, String tombo, String numeroSerie, String descricao, Departamento departamento, String categoria, String caminhoFoto) {
+    public ItemPatrimonio(String nome, String tombo, String numeroSerie, String descricao, Departamento departamento, String categoria, String caminhoFoto) {
         this.nome = nome;
         this.tombo = tombo;
         this.numeroSerie = numeroSerie;
         this.descricao = descricao;
         this.departamento = departamento;
         this.status = Status.NOVO;
-        this.entrada = Datas.dataAgora();
+        this.entrada = DataFormatada.dataAgora();
         this.categoria = categoria;
         this.foto = caminhoFoto;
     }
 
-    public ItemsPatrimonio(String nome, String descricao, Departamento departamento, int quantidade, String categoria, String caminhoFoto) {
+    public ItemPatrimonio(String nome, String descricao, Departamento departamento, int quantidade, String categoria, String caminhoFoto) {
         this.nome = nome;
         this.descricao = descricao;
         this.departamento = departamento;
         this.quantidade = quantidade;
         this.status = Status.NOVO;
-        this.entrada = Datas.dataAgora();
+        this.entrada = DataFormatada.dataAgora();
         this.categoria = categoria;
         this.foto = caminhoFoto;
     }

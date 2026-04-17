@@ -1,10 +1,10 @@
-package sys.patrimonio.model;
+package sys.patrimonio.util;
 
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Datas {
+public class DataFormatada {
     private static LocalDateTime localDate = LocalDateTime.now();
     private static DateTimeFormatter dateTimeFormatter =  DateTimeFormatter.ofPattern("dd'/'MM'/'yyyy");
 
