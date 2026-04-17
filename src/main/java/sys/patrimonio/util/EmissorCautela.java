@@ -1,8 +1,9 @@
-package sys.patrimonio.model;
+package sys.patrimonio.util;
 
-public class UsuarioADM extends Usuario{
+public class EmissorCautela {
 
-    public UsuarioADM(TipoUsuario usuario, String senha) {
-        super(usuario, senha);
+    public static String emissorCautela(){
+        return System.getProperty("user.name");
     }
+
 }

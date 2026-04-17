@@ -62,7 +62,7 @@ public class RepositorioPatrimonio implements MetodosPatrimonio {
         if(patrimonioList.contains(item)){
             for(ItemPatrimonio bens: patrimonioList){
                 if(bens.equals(item)) {
-                    bens.setDepartamento(departamento);
+                    bens.setLocal(departamento);
                 }
             }
         }

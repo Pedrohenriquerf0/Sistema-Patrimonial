@@ -1,9 +1,6 @@
 package sys.patrimonio;
 
-import sys.patrimonio.model.Cautela;
-import sys.patrimonio.model.Departamento;
-import sys.patrimonio.model.ItemPatrimonio;
-import sys.patrimonio.model.Status;
+import sys.patrimonio.model.*;
 import sys.patrimonio.repository.RepositorioPatrimonio;
 
 
@@ -14,7 +11,7 @@ public class Main {
     public static void main(String[] args) {
         Departamento ti = new Departamento("TI");
         Departamento rh = new Departamento("RH");
-        ItemPatrimonio pc = new ItemPatrimonio("PC", "AADC", "ASQW321546", "PC GAMER", ti, "INFORMATICA", "C:\\Users\\pedro.fernandes\\Documents\\teste.png");
+        ItemPatrimonio pc = new ItemPatrimonio("PC", "AADC", "ASQW321546", "PC GAMER", Localidade.DEPARTEMENTO,"INFORMATICA", "C:\\Users\\pedro.fernandes\\Documents\\teste.png");
         RepositorioPatrimonio repositorioPatrimonio = new RepositorioPatrimonio();
 
         repositorioPatrimonio.adiconarItems(pc);

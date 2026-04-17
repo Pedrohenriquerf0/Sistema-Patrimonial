@@ -9,28 +9,28 @@ public class ItemPatrimonio {
     private String tombo;
     private String numeroSerie;
     private String descricao;
-    private Departamento departamento;
+    private Localidade local;
     private int quantidade = 1;
     private Status status;
     private String categoria;
     private String foto;
 
-    public ItemPatrimonio(String nome, String tombo, String numeroSerie, String descricao, Departamento departamento, String categoria, String caminhoFoto) {
+    public ItemPatrimonio(String nome, String tombo, String numeroSerie, String descricao, Localidade local, String categoria, String caminhoFoto) {
         this.nome = nome;
         this.tombo = tombo;
         this.numeroSerie = numeroSerie;
         this.descricao = descricao;
-        this.departamento = departamento;
+        this.local = local;
         this.status = Status.NOVO;
         this.entrada = DataFormatada.dataAgora();
         this.categoria = categoria;
         this.foto = caminhoFoto;
     }
 
-    public ItemPatrimonio(String nome, String descricao, Departamento departamento, int quantidade, String categoria, String caminhoFoto) {
+    public ItemPatrimonio(String nome, String descricao, Localidade local, int quantidade, String categoria, String caminhoFoto) {
         this.nome = nome;
         this.descricao = descricao;
-        this.departamento = departamento;
+        this.local = local;
         this.quantidade = quantidade;
         this.status = Status.NOVO;
         this.entrada = DataFormatada.dataAgora();
@@ -78,12 +78,12 @@ public class ItemPatrimonio {
         this.descricao = descricao;
     }
 
-    public Departamento getDepartamento() {
-        return departamento;
+    public Localidade getLocal() {
+        return local;
     }
 
-    public void setDepartamento(Departamento departamento) {
-        this.departamento = departamento;
+    public void setLocal(Localidade local) {
+        this.local = local;
     }
 
     public int getQuantidade() {
@@ -117,7 +117,7 @@ public class ItemPatrimonio {
                 ", tombo='" + tombo + '\'' +
                 ", numeroSerie='" + numeroSerie + '\'' +
                 ", descricao='" + descricao + '\'' +
-                ", departamento=" + departamento.getDepartamento() +
+                ", local=" + local.ge() +
                 ", quantidade=" + quantidade +
                 ", status=" + status +
                 ", categoria='" + categoria + '\'' +

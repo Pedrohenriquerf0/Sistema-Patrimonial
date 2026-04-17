@@ -1,38 +1,32 @@
 package sys.patrimonio.model;
 
 import sys.patrimonio.util.DataFormatada;
+import sys.patrimonio.util.EmissorCautela; //criar uma instancia, guarda no banco e gera o html para imprimir
 
 public class Cautela {
-    private String usuarioPatrimonio;
+    private Departamento destino;
+    private String emissor;
     private String data;
     private ItemPatrimonio itemPatrimonio;
-    private StringBuilder numeroCautela;
-    private String cautelaHTML = "";
+    private int idCautela;
+    private String obsevacoa;
 
 
     public Cautela(ItemPatrimonio itemPatrimonio) {
         this.itemPatrimonio = itemPatrimonio;
         this.data = DataFormatada.dataAgora();
-        this.usuarioPatrimonio = UsuarioPatrimonio.UsuarioPatrimonio();
-        setNumeroCautela();
+        this.emissor = EmissorCautela.emissorCautela();
 
     }
 
-    private void setNumeroCautela(){ // vai gera o numero da cautela 0000/ano
-        int id = 0001;
-        int ano = DataFormatada.anoAgora();
-        this.numeroCautela = new StringBuilder(String.format("%04d/%d", id, ano));
-        id++;
-    }
 
     @Override
     public String toString() {
         return "Cautela{" +
-                "usuarioPatrimonio='" + usuarioPatrimonio + '\'' +
+                "emissor='" + emissor + '\'' +
                 ", data='" + data + '\'' +
                 ", itemPatrimonio=" + itemPatrimonio +
-                ", numeroCautela='" + numeroCautela+ '\'' +
-                ", cautelaHTML='" + cautelaHTML + '\'' +
+                ", idCautela='" + idCautela + '\'' +
                 '}';
     }
 }
