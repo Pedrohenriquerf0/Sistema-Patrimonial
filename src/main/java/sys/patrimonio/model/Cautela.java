@@ -4,7 +4,7 @@ import sys.patrimonio.util.DataFormatada;
 import sys.patrimonio.util.EmissorCautela; //criar uma instancia, guarda no banco e gera o html para imprimir
 
 public class Cautela {
-    private Departamento destino;
+    private Localidade destino;
     private String emissor;
     private String data;
     private ItemPatrimonio itemPatrimonio;

@@ -1,5 +1,13 @@
 package sys.patrimonio.model;
 
 public enum Localidade {
-    DEPARTEMENTO, ESTOQUE;
+    TI,
+    RH,
+    PATRIMONIO,
+    ADMINISTRATIVO,
+    FINANCEIRO,
+    COMECIAL,
+    ESTOQUE;
+
+
 }

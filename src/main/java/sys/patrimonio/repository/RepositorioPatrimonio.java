@@ -1,7 +1,7 @@
 package sys.patrimonio.repository;
 
-import sys.patrimonio.model.Departamento;
 import sys.patrimonio.model.ItemPatrimonio;
+import sys.patrimonio.model.Localidade;
 import sys.patrimonio.model.Status;
 
 import java.time.LocalDate;
@@ -58,11 +58,11 @@ public class RepositorioPatrimonio implements MetodosPatrimonio {
     }
 
     @Override
-    public void transferencia(ItemPatrimonio item, Departamento departamento) { // cria uma função que vai juntar essa com a de remanja
+    public void transferencia(ItemPatrimonio item, Localidade local) { // cria uma função que vai juntar essa com a de remanja
         if(patrimonioList.contains(item)){
             for(ItemPatrimonio bens: patrimonioList){
                 if(bens.equals(item)) {
-                    bens.setLocal(departamento);
+                    bens.setLocal(local);
                 }
             }
         }

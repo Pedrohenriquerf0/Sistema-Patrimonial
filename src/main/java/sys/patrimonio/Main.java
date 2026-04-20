@@ -9,9 +9,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        Departamento ti = new Departamento("TI");
-        Departamento rh = new Departamento("RH");
-        ItemPatrimonio pc = new ItemPatrimonio("PC", "AADC", "ASQW321546", "PC GAMER", Localidade.DEPARTEMENTO,"INFORMATICA", "C:\\Users\\pedro.fernandes\\Documents\\teste.png");
+        ItemPatrimonio pc = new ItemPatrimonio("PC", "AADC", "ASQW321546", "PC GAMER", Localidade.TI,"INFORMATICA", "C:\\Users\\pedro.fernandes\\Documents\\teste.png");
         RepositorioPatrimonio repositorioPatrimonio = new RepositorioPatrimonio();
 
         repositorioPatrimonio.adiconarItems(pc);
@@ -27,7 +25,7 @@ public class Main {
         repositorioPatrimonio.mudarStatus(pc, Status.OTIMO);
         repositorioPatrimonio.listagem();
         System.out.println("====================================================");
-        repositorioPatrimonio.transferencia(pc, rh);
+        repositorioPatrimonio.transferencia(pc, Localidade.ADMINISTRATIVO);
         repositorioPatrimonio.listagem();
 
         System.out.println("====================================================");

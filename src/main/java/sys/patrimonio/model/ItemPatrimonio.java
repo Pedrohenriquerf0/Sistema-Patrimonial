@@ -117,7 +117,7 @@ public class ItemPatrimonio {
                 ", tombo='" + tombo + '\'' +
                 ", numeroSerie='" + numeroSerie + '\'' +
                 ", descricao='" + descricao + '\'' +
-                ", local=" + local.ge() +
+                ", local=" + local +
                 ", quantidade=" + quantidade +
                 ", status=" + status +
                 ", categoria='" + categoria + '\'' +
