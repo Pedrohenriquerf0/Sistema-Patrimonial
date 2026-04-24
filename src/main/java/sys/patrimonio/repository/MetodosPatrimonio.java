@@ -4,7 +4,6 @@ import sys.patrimonio.model.ItemPatrimonio;
 import sys.patrimonio.model.Localidade;
 import sys.patrimonio.model.Status;
 
-import java.util.Locale;
 
 public interface MetodosPatrimonio {
     public void adiconarItems(ItemPatrimonio item);

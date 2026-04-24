@@ -71,14 +71,26 @@ public class RepositorioPatrimonio implements MetodosPatrimonio {
     @Override
     public void listagem(){
         for(ItemPatrimonio patrimonio: patrimonioList){
-            System.out.println(patrimonio);
+            System.out.println(patrimonio.getNome());
+            System.out.println(patrimonio.getEntrada());
+            System.out.println(patrimonio.getTombo());
+            System.out.println(patrimonio.getDescricao());
+            System.out.println(patrimonio.getLocal());
+            System.out.println(patrimonio.getCategoria());
+            System.out.println(patrimonio.getStatus());
         }
     }
 
     @Override
     public void relatorio() {
-        for(ItemPatrimonio bens: patrimonioList){
-            System.out.println(bens.toString());
+        for(ItemPatrimonio patrimonio: patrimonioList){
+            System.out.println(patrimonio.getNome());
+            System.out.println(patrimonio.getEntrada());
+            System.out.println(patrimonio.getTombo());
+            System.out.println(patrimonio.getDescricao());
+            System.out.println(patrimonio.getLocal());
+            System.out.println(patrimonio.getCategoria());
+            System.out.println(patrimonio.getStatus());
         }
     }
 }

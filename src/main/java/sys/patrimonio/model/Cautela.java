@@ -1,32 +1,51 @@
 package sys.patrimonio.model;
 
 import sys.patrimonio.util.DataFormatada;
-import sys.patrimonio.util.EmissorCautela; //criar uma instancia, guarda no banco e gera o html para imprimir
+import sys.patrimonio.util.CautelaProcesso;
 
 public class Cautela {
     private Localidade destino;
     private String emissor;
     private String data;
     private ItemPatrimonio itemPatrimonio;
-    private int idCautela;
-    private String obsevacoa;
+    private String obsevacoes;
 
 
-    public Cautela(ItemPatrimonio itemPatrimonio) {
+    public Cautela(ItemPatrimonio itemPatrimonio, Localidade destino) {
         this.itemPatrimonio = itemPatrimonio;
         this.data = DataFormatada.dataAgora();
-        this.emissor = EmissorCautela.emissorCautela();
+        this.emissor = CautelaProcesso.emissorCautela();
+        this.destino = destino;
+        this.obsevacoes = "-";
 
     }
 
-
-    @Override
-    public String toString() {
-        return "Cautela{" +
-                "emissor='" + emissor + '\'' +
-                ", data='" + data + '\'' +
-                ", itemPatrimonio=" + itemPatrimonio +
-                ", idCautela='" + idCautela + '\'' +
-                '}';
+    public Cautela(ItemPatrimonio itemPatrimonio, Localidade destino, String obsevacoes) {
+        this.itemPatrimonio = itemPatrimonio;
+        this.data = DataFormatada.dataAgora();
+        this.emissor = CautelaProcesso.emissorCautela();
+        this.destino = destino;
+        this.obsevacoes = obsevacoes;
     }
+
+    public Localidade getDestino() {
+        return destino;
+    }
+
+    public String getEmissor() {
+        return emissor;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public ItemPatrimonio getItemPatrimonio() {
+        return itemPatrimonio;
+    }
+
+    public String getObsevacoes() {
+        return obsevacoes;
+    }
+
 }

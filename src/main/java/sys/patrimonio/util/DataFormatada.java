@@ -4,7 +4,7 @@ package sys.patrimonio.util;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class DataFormatada {
+public final class DataFormatada {
     private static LocalDateTime localDate = LocalDateTime.now();
     private static DateTimeFormatter dateTimeFormatter =  DateTimeFormatter.ofPattern("dd'/'MM'/'yyyy");
 

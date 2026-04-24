@@ -2,7 +2,7 @@ package sys.patrimonio;
 
 import sys.patrimonio.model.*;
 import sys.patrimonio.repository.RepositorioPatrimonio;
-
+import sys.patrimonio.service.CriarCautela;
 
 
 public class Main {
@@ -32,9 +32,17 @@ public class Main {
 
         repositorioPatrimonio.relatorio();
 
-        Cautela cautela = new Cautela(pc);
-        System.out.println(cautela.toString());
-        Cautela cautela2 = new Cautela(pc);
-        System.out.println(cautela2.toString());
+        Cautela cautela = new Cautela(pc, Localidade.COMECIAL);
+
+        System.out.println("====================================================");
+
+        Cautela cautela2 = new Cautela(pc, Localidade.ESTOQUE);
+        CriarCautela cautela1 = new CriarCautela(cautela2);
+        cautela1 = new CriarCautela(cautela);
+
+
+        System.out.println("====================================================");
+
+        cautela1.visualizarCautela();
     }
 }

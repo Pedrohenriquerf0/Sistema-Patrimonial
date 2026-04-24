@@ -109,19 +109,4 @@ public class ItemPatrimonio {
         return categoria;
     }
 
-    @Override
-    public String toString() {
-        return "ItemsPatrimonio{" +
-                "entrada='" + entrada + '\'' +
-                ", nome='" + nome + '\'' +
-                ", tombo='" + tombo + '\'' +
-                ", numeroSerie='" + numeroSerie + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", local=" + local +
-                ", quantidade=" + quantidade +
-                ", status=" + status +
-                ", categoria='" + categoria + '\'' +
-                ", foto='" + foto + '\'' +
-                '}';
-    }
 }
