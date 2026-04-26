@@ -1,8 +1,8 @@
 package sys.patrimonio;
 
 import sys.patrimonio.model.*;
-import sys.patrimonio.repository.RepositorioPatrimonio;
 import sys.patrimonio.service.CriarCautela;
+import sys.patrimonio.service.ItemManager;
 
 
 public class Main {
@@ -10,27 +10,26 @@ public class Main {
 
     public static void main(String[] args) {
         ItemPatrimonio pc = new ItemPatrimonio("PC", "AADC", "ASQW321546", "PC GAMER", Localidade.TI,"INFORMATICA", "C:\\Users\\pedro.fernandes\\Documents\\teste.png");
-        RepositorioPatrimonio repositorioPatrimonio = new RepositorioPatrimonio();
+        ItemManager itemManager = new ItemManager();
 
-        repositorioPatrimonio.adiconarItems(pc);
-        repositorioPatrimonio.listagem();
-
-        System.out.println("====================================================");
-
-
-        repositorioPatrimonio.itemDanificado(pc);
-        repositorioPatrimonio.listagem();
-        System.out.println("====================================================");
-
-        repositorioPatrimonio.mudarStatus(pc, Status.OTIMO);
-        repositorioPatrimonio.listagem();
-        System.out.println("====================================================");
-        repositorioPatrimonio.transferencia(pc, Localidade.ADMINISTRATIVO);
-        repositorioPatrimonio.listagem();
+        itemManager.adcionarItem(pc);
+        itemManager.listagem();
 
         System.out.println("====================================================");
 
-        repositorioPatrimonio.relatorio();
+
+
+        itemManager.mudarStatus(pc, Status.DANIFICADO);
+        itemManager.listagem();
+        System.out.println("====================================================");
+
+        itemManager.mudarStatus(pc, Status.OTIMO);
+        itemManager.listagem();
+        System.out.println("====================================================");
+        itemManager.remanejaItem(pc, Localidade.ADMINISTRATIVO);
+        itemManager.listagem();
+
+        System.out.println("====================================================");
 
         Cautela cautela = new Cautela(pc, Localidade.COMECIAL);
 
