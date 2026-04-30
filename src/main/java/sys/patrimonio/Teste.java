@@ -9,14 +9,14 @@ public class Main {
 
 
     public static void main(String[] args) {
-        ItemPatrimonio pc = new ItemPatrimonio("PC", "AADC", "ASQW321546", "PC GAMER", Localidade.TI,"INFORMATICA", "C:\\Users\\pedro.fernandes\\Documents\\teste.png");
+
+        ItemPatrimonio pc = new ItemPatrimonio("PC", "AADC", "ASQW321546", "PC GAMER", Localidade.TI, "INFORMATICA", "C:\\Users\\pedro.fernandes\\Documents\\teste.png");
         ItemManager itemManager = new ItemManager();
 
         itemManager.adcionarItem(pc);
         itemManager.listagem();
 
         System.out.println("====================================================");
-
 
 
         itemManager.mudarStatus(pc, Status.DANIFICADO);
@@ -34,7 +34,10 @@ public class Main {
         Cautela cautela = new Cautela(pc, Localidade.COMECIAL);
 
         System.out.println("====================================================");
+        System.out.println("====================================================");
 
+
+        /*
         Cautela cautela2 = new Cautela(pc, Localidade.ESTOQUE);
         CriarCautela cautela1 = new CriarCautela(cautela2);
         cautela1 = new CriarCautela(cautela);
@@ -43,5 +46,6 @@ public class Main {
         System.out.println("====================================================");
 
         cautela1.visualizarCautela();
+                 */
     }
 }
