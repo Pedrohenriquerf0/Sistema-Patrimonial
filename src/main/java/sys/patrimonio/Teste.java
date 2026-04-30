@@ -1,11 +1,10 @@
 package sys.patrimonio;
 
 import sys.patrimonio.model.*;
-import sys.patrimonio.service.CriarCautela;
 import sys.patrimonio.service.ItemManager;
 
 
-public class Main {
+public class Teste {
 
 
     public static void main(String[] args) {

@@ -97,6 +97,7 @@ public class ItemPatrimonio {
     public void setStatus(Status status) {
         this.status = status;
     }
+
     public Status getStatus() {
         return status;
     }
@@ -109,4 +110,17 @@ public class ItemPatrimonio {
         return categoria;
     }
 
+
+    @Override
+    public String toString() {
+        return  "entrada: " + entrada + "\n" +
+                "nome=: " + nome + "\n" +
+                "tombo=: " + tombo + "\n" +
+                "numeroSerie=: " + numeroSerie + "\n" +
+                "descricao: " + descricao + "\n" +
+                "local: " + local +
+                "quantidade: " + quantidade +
+                "status: " + status +
+                "categoria: " + categoria + "\n";
+    }
 }

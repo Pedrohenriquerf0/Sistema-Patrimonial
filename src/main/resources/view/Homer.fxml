@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="427.0" prefWidth="616.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sys.patrimonio.view.controller.ControllerHomer">
+   <children>
+      <Button fx:id="btt_pesquisa" layoutX="389.0" layoutY="46.0" mnemonicParsing="false" onAction="#pesquisaPatrimonio" prefHeight="35.0" prefWidth="84.0" text="Pesquisa" textOverrun="CLIP" />
+      <TextField fx:id="text_pesquisa" layoutX="43.0" layoutY="50.0" prefHeight="26.0" prefWidth="314.0" promptText="pesquisa" />
+      <TableView fx:id="tabela_view" layoutX="17.0" layoutY="110.0" prefHeight="278.0" prefWidth="582.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="FOTO" />
+          <TableColumn prefWidth="75.0" text="MATERIAL" />
+         </columns>
+      </TableView>
+      <Button fx:id="btt_adicionar" layoutX="491.0" layoutY="46.0" mnemonicParsing="false" onAction="#adicionarPatrimonio" prefHeight="35.0" prefWidth="84.0" text="Adicionar" textOverrun="CLIP" />
+   </children>
+</AnchorPane>
