@@ -13,11 +13,10 @@ import sys.patrimonio.model.ItemPatrimonio;
 import sys.patrimonio.model.Localidade;
 import sys.patrimonio.service.ItemManager;
 
-import javax.swing.*;
 import java.io.InputStream;
 
 
-public class ControllerHomer {
+public class ControllerHome {
 
     @FXML
     private TextField text_pesquisa;
@@ -43,7 +42,7 @@ public class ControllerHomer {
     private void adicionarPatrimonio(ActionEvent event){
         try (InputStream fxmlStream = getClass().getClassLoader().getResourceAsStream("view/Adicionar.fxml")){
             if (fxmlStream == null) {
-                throw new RuntimeException("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/Homer.fxml está correto.");
+                throw new RuntimeException("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/Home.fxml está correto.");
             }
             FXMLLoader fxmlLoader = new FXMLLoader();
             Parent parent = fxmlLoader.load(fxmlStream);
