@@ -9,7 +9,7 @@ public class Teste {
 
     public static void main(String[] args) {
 
-        ItemPatrimonio pc = new ItemPatrimonio("PC", "AADC", "ASQW321546", "PC GAMER", Localidade.TI, "INFORMATICA", "C:\\Users\\pedro.fernandes\\Documents\\teste.png");
+        ItemPatrimonio pc = new ItemPatrimonio("PC", "AADC", "ASQW321546", "PC GAMER", 1, Localidade.TI, "INFORMATICA", "C:\\Users\\pedro.fernandes\\Documents\\teste.png");
         ItemManager itemManager = new ItemManager();
 
         itemManager.adcionarItem(pc);
