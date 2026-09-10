@@ -6,6 +6,7 @@ target/
 
 ### IntelliJ IDEA ###
 .idea/
+src/main/resources/database/database.properties
 *.iws
 *.iml
 *.ipr

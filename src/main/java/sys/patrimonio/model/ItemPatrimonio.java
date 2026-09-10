@@ -3,6 +3,8 @@ package sys.patrimonio.model;
 
 import sys.patrimonio.util.DataFormatada;
 
+import java.util.Objects;
+
 public class ItemPatrimonio {
     private String entrada;
     private String nome;
@@ -115,5 +117,18 @@ public class ItemPatrimonio {
                 "quantidade: " + quantidade +
                 "status: " + status +
                 "categoria: " + categoria + "\n";
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || getClass() != obj.getClass()) return false;
+        ItemPatrimonio other = (ItemPatrimonio) obj;
+        return tombo.equals(other.tombo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(tombo);
     }
 }

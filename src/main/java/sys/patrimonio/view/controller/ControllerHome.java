@@ -10,8 +10,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sys.patrimonio.model.ItemPatrimonio;
-import sys.patrimonio.model.Localidade;
-import sys.patrimonio.service.ItemManager;
 
 import java.io.InputStream;
 
@@ -28,11 +26,6 @@ public class ControllerHome {
     private void pesquisaPatrimonio(){
 
         String pesquisa = text_pesquisa.getText();
-        ItemPatrimonio pc = new ItemPatrimonio("PC", "AADC", "ASQW321546", "PC GAMER", 1, Localidade.TI, "INFORMATICA", "src/main/resources/teste.png");
-        ItemManager itemManager = new ItemManager();
-        itemManager.adcionarItem(pc);
-
-
         if(!pesquisa.isBlank()){
 
         }
