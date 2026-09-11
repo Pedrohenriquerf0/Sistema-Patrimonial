@@ -6,7 +6,7 @@ public enum Localidade {
     PATRIMONIO,
     ADMINISTRATIVO,
     FINANCEIRO,
-    COMECIAL,
+    COMERCIAL,
     ESTOQUE;
 
 

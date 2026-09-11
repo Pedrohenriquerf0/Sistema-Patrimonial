@@ -9,7 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import sys.patrimonio.model.ItemPatrimonio;
+import sys.patrimonio.model.Item;
 
 import java.io.InputStream;
 
@@ -19,7 +19,7 @@ public class ControllerHome {
     @FXML
     private TextField text_pesquisa;
     @FXML
-    private TableView<ItemPatrimonio> tabela_view;
+    private TableView<Item> tabela_view;
 
 
     @FXML
@@ -32,7 +32,7 @@ public class ControllerHome {
     }
 
     @FXML
-    private void adicionarPatrimonio(ActionEvent event){
+    private void Cadastrar_Patrimônio(ActionEvent event){
         try (InputStream fxmlStream = getClass().getClassLoader().getResourceAsStream("view/Adicionar.fxml")){
             if (fxmlStream == null) {
                 throw new RuntimeException("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/Home.fxml está correto.");

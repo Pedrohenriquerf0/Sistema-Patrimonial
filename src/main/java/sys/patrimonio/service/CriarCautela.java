@@ -31,21 +31,21 @@ public class CriarCautela {
             InputStream caminhoTemplate = getClass().getClassLoader().getResourceAsStream("cautelaTemplate.html");
 
             if (caminhoTemplate == null) {
-                throw new RuntimeException("Templatenão encontrado dentro do JAR");
+                throw new RuntimeException("Template não encontrado dentro do JAR");
             }
             String htmlCautela = new String(caminhoTemplate.readAllBytes(), StandardCharsets.UTF_8);
             htmlCautela = htmlCautela.replace("{{idcautela}}", this.id);
-            htmlCautela = htmlCautela.replace("{{departamentoorigem}}", String.valueOf(cautela.getItemPatrimonio().getLocal()));
+            htmlCautela = htmlCautela.replace("{{departamentoorigem}}", String.valueOf(cautela.getItemPatrimoniado().getLocal()));
             htmlCautela = htmlCautela.replace("{{departamentodestino}}", String.valueOf(cautela.getDestino()));
             htmlCautela = htmlCautela.replace("{{data}}", cautela.getData());
             htmlCautela = htmlCautela.replace("{{emissorcautela}}", cautela.getEmissor());
-            htmlCautela = htmlCautela.replace("{{obs}}", cautela.getObsevacoes());
-            htmlCautela = htmlCautela.replace("{{quandidade}}", String.valueOf(cautela.getItemPatrimonio().getQuantidade()));
+            htmlCautela = htmlCautela.replace("{{obs}}", cautela.getObservacoes());
+            htmlCautela = htmlCautela.replace("{{quandidade}}", String.valueOf(cautela.getItemPatrimoniado().getQuantidade()));
             htmlCautela = htmlCautela.replace("{{descricao}}", CautelaProcesso.descricaoFormatada(cautela));
-            htmlCautela = htmlCautela.replace("{{nome}}", cautela.getItemPatrimonio().getNome());
-            htmlCautela = htmlCautela.replace("{{tombo}}", cautela.getItemPatrimonio().getTombo());
-            htmlCautela = htmlCautela.replace("{{status}}", String.valueOf(cautela.getItemPatrimonio().getStatus()));
-            htmlCautela = htmlCautela.replace("{{foto}}", cautela.getItemPatrimonio().getFoto());
+            htmlCautela = htmlCautela.replace("{{nome}}", cautela.getItemPatrimoniado().getNome());
+            htmlCautela = htmlCautela.replace("{{tombo}}", cautela.getItemPatrimoniado().getTombo());
+            htmlCautela = htmlCautela.replace("{{status}}", String.valueOf(cautela.getItemPatrimoniado().getStatus()));
+            htmlCautela = htmlCautela.replace("{{foto}}", cautela.getItemPatrimoniado().getFoto());
             abriCautela(htmlCautela);
         } catch (IOException e) {
             throw new RuntimeException(e);

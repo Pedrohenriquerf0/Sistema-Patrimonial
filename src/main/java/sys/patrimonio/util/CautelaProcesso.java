@@ -13,7 +13,7 @@ public final class CautelaProcesso {
     }
 
     public static String descricaoFormatada(Cautela cautela){
-        return cautela.getItemPatrimonio().getDescricao() + ", n/s: " + cautela.getItemPatrimonio().getNumeroSerie();
+        return cautela.getItemPatrimoniado().getDescricao() + ", n/s: " + cautela.getItemPatrimoniado().getNumeroSerie();
     }
 
 

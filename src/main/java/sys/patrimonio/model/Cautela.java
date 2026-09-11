@@ -7,25 +7,25 @@ public class Cautela {
     private Localidade destino;
     private String emissor;
     private String data;
-    private ItemPatrimonio itemPatrimonio;
-    private String obsevacoes;
+    private ItemPatrimoniado itemPatrimoniado;
+    private String observacoes;
 
 
-    public Cautela(ItemPatrimonio itemPatrimonio, Localidade destino) {
-        this.itemPatrimonio = itemPatrimonio;
+    public Cautela(ItemPatrimoniado itemPatrimoniado, Localidade destino) {
+        this.itemPatrimoniado = itemPatrimoniado;
         this.data = DataFormatada.dataAgora();
         this.emissor = CautelaProcesso.emissorCautela();
         this.destino = destino;
-        this.obsevacoes = "-";
+        this.observacoes = "-";
 
     }
 
-    public Cautela(ItemPatrimonio itemPatrimonio, Localidade destino, String obsevacoes) {
-        this.itemPatrimonio = itemPatrimonio;
+    public Cautela(ItemPatrimoniado itemPatrimoniado, Localidade destino, String obsevacoes) {
+        this.itemPatrimoniado = itemPatrimoniado;
         this.data = DataFormatada.dataAgora();
         this.emissor = CautelaProcesso.emissorCautela();
         this.destino = destino;
-        this.obsevacoes = obsevacoes;
+        this.observacoes = obsevacoes;
     }
 
     public Localidade getDestino() {
@@ -40,12 +40,12 @@ public class Cautela {
         return data;
     }
 
-    public ItemPatrimonio getItemPatrimonio() {
-        return itemPatrimonio;
+    public ItemPatrimoniado getItemPatrimoniado() {
+        return itemPatrimoniado;
     }
 
-    public String getObsevacoes() {
-        return obsevacoes;
+    public String getObservacoes() {
+        return observacoes;
     }
 
 }

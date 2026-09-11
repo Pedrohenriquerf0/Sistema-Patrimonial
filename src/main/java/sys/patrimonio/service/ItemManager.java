@@ -1,6 +1,6 @@
 package sys.patrimonio.service;
 
-import sys.patrimonio.model.ItemPatrimonio;
+import sys.patrimonio.model.Item;
 import sys.patrimonio.model.Localidade;
 import sys.patrimonio.model.Status;
 import sys.patrimonio.repository.RepositorioPatrimonio;
@@ -9,41 +9,41 @@ import java.util.List;
 
 
 public class ItemManager {
-    public void adcionarItem(ItemPatrimonio itemPatrimonio) {
-        RepositorioPatrimonio.adicionarPatrimonio(itemPatrimonio);
+    public void adicionarItem(Item item) {
+        RepositorioPatrimonio.adicionarPatrimonio(item);
     }
 
-    public void remanejaItem(ItemPatrimonio itemPatrimonio, Localidade novoLocal) {
-        if (RepositorioPatrimonio.existePatrimonio(itemPatrimonio) && itemPatrimonio.getLocal() != novoLocal) {
-            RepositorioPatrimonio.getPatrimonioList(itemPatrimonio, novoLocal);
+    public void remanejaItem(Item item, Localidade novoLocal) {
+        if (RepositorioPatrimonio.existePatrimonio(item) && item.getLocal() != novoLocal) {
+            RepositorioPatrimonio.getPatrimonioList(item, novoLocal);
             System.out.println("Remanejado com sucesso com sucesso " + DataFormatada.dataAgora());
         }
     }
 
-    public void registroSaida(ItemPatrimonio itemPatrimonio, int quantidade) { // atualiza a quantidade
-        if (RepositorioPatrimonio.existePatrimonio(itemPatrimonio) && itemPatrimonio.getQuantidade() >= quantidade) {
-            RepositorioPatrimonio.getPatrimonioList(itemPatrimonio, quantidade);
+    public void registroSaida(Item item, int quantidade) { // atualiza a quantidade
+        if (RepositorioPatrimonio.existePatrimonio(item) && item.getQuantidade() >= quantidade) {
+            RepositorioPatrimonio.getPatrimonioList(item, quantidade);
             System.out.println("Saida registrada e atualizada quantidade com sucesso " + DataFormatada.dataAgora());
         }
     }
 
-    public void mudarStatus(ItemPatrimonio itemPatrimonio, Status novoStatus) {
-        if (RepositorioPatrimonio.existePatrimonio(itemPatrimonio) && itemPatrimonio.getStatus() != novoStatus) {
-            RepositorioPatrimonio.getPatrimonioList(itemPatrimonio, novoStatus);
+    public void mudarStatus(Item item, Status novoStatus) {
+        if (RepositorioPatrimonio.existePatrimonio(item) && item.getStatus() != novoStatus) {
+            RepositorioPatrimonio.getPatrimonioList(item, novoStatus);
             System.out.println("Mudança de Status feita com sucesso");
         }
     }
 
-    public List<ItemPatrimonio> teste(){ // remover no futuro
+    public List<Item> teste(){ // remover no futuro
         return RepositorioPatrimonio.getPatrimonioList();
     }
     public void listagem() {
-        List<ItemPatrimonio> itemPatrimonioList = RepositorioPatrimonio.getPatrimonioList();
+        List<Item> itemList = RepositorioPatrimonio.getPatrimonioList();
 
-        if (itemPatrimonioList.isEmpty()) {
+        if (itemList.isEmpty()) {
             System.out.println("sem dados;");
             return;
         }
-        itemPatrimonioList.forEach(System.out::println);
+        itemList.forEach(System.out::println);
     }
 }
