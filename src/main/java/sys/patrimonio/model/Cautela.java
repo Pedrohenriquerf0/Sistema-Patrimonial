@@ -1,7 +1,10 @@
 package sys.patrimonio.model;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
 import sys.patrimonio.util.DataFormatada;
-import sys.patrimonio.util.CautelaProcesso;
+import sys.patrimonio.util.Processo;
+
+import java.util.Optional;
 
 public class Cautela {
     private Localidade destino;
@@ -10,20 +13,10 @@ public class Cautela {
     private ItemPatrimoniado itemPatrimoniado;
     private String observacoes;
 
-
-    public Cautela(ItemPatrimoniado itemPatrimoniado, Localidade destino) {
+    public Cautela(ItemPatrimoniado itemPatrimoniado, Localidade destino, @Nullable String obsevacoes) {
         this.itemPatrimoniado = itemPatrimoniado;
         this.data = DataFormatada.dataAgora();
-        this.emissor = CautelaProcesso.emissorCautela();
-        this.destino = destino;
-        this.observacoes = "-";
-
-    }
-
-    public Cautela(ItemPatrimoniado itemPatrimoniado, Localidade destino, String obsevacoes) {
-        this.itemPatrimoniado = itemPatrimoniado;
-        this.data = DataFormatada.dataAgora();
-        this.emissor = CautelaProcesso.emissorCautela();
+        this.emissor = Processo.emissorCautela();
         this.destino = destino;
         this.observacoes = obsevacoes;
     }
@@ -44,8 +37,8 @@ public class Cautela {
         return itemPatrimoniado;
     }
 
-    public String getObservacoes() {
-        return observacoes;
+    public Optional<String> getObservacoes() {
+        return Optional.ofNullable(observacoes);
     }
 
 }

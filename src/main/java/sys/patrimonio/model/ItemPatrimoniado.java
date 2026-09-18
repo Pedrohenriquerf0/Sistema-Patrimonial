@@ -6,8 +6,8 @@ public class ItemPatrimoniado extends Item{
     private String tombo;
     private String numeroSerie;
 
-    public ItemPatrimoniado(String nome, String tombo, String numeroSerie, String descricao, Localidade local, String categoria, String caminhoFoto) {
-        super(nome, 1,descricao, local, categoria, caminhoFoto);
+    public ItemPatrimoniado(String nome, String tombo, String numeroSerie, String descricao, Localidade local, String categoria, Status status, String caminhoFoto) {
+        super(nome, 1,descricao, local, categoria, status,  caminhoFoto);
         this.numeroSerie = numeroSerie;
         this.tombo = tombo;
     }

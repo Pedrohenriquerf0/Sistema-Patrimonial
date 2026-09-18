@@ -2,18 +2,30 @@ package sys.patrimonio.repository;
 
 import sys.patrimonio.model.Cautela;
 
-import java.util.ArrayList;
-import java.util.List;
+public class RepositorioCautela implements CautelaRepositorio{
 
-public class RepositorioCautela {
-    private static List<Cautela> cautelaList = new ArrayList<>();
+    @Override
+    public void listar(Cautela objeto) {
 
-    public static void adicionarCautela(Cautela cautela){
-        cautelaList.add(cautela);
     }
 
+    @Override
+    public void atualizar(Cautela objeto) {
 
-    public static int idCautela(Cautela cautela){
-        return cautelaList.indexOf(cautela);
+    }
+
+    @Override
+    public void excluir(Long aLong) {
+
+    }
+
+    @Override
+    public void salvar(Cautela objeto) {
+
+    }
+
+    @Override
+    public Long idCautela(Cautela objeto) {
+        return 0L;
     }
 }

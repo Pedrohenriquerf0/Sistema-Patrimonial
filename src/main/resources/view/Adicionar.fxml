@@ -5,7 +5,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sys.patrimonio.view.controller.ControllerAdicionar">
    <children>
-      <Button fx:id="btt_voltar" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#voltarHomer" text="&lt;" AnchorPane.leftAnchor="14.0">
+      <Button fx:id="btt_voltar" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#voltarHome" text="&lt;" AnchorPane.leftAnchor="14.0">
       </Button>
    </children>
 </AnchorPane>

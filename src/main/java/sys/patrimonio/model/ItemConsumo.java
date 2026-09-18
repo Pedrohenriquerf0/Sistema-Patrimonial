@@ -6,11 +6,10 @@ public class ItemConsumo extends Item {
 
     private Long id;
 
-    public ItemConsumo(String nome, int quantidade, String descricao, Localidade local, String categoria, String caminhoFoto) {
-        super(nome, quantidade, descricao, local, categoria, caminhoFoto);
+    public ItemConsumo(String nome, int quantidade, String descricao, Localidade local, String categoria,Status status, String caminhoFoto) {
+        super(nome, quantidade, descricao, local, categoria, status, caminhoFoto);
 
     }
-
 
     public Long getId() {
         return id;
@@ -18,6 +17,21 @@ public class ItemConsumo extends Item {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+
+    public void darBaixa(int quantidade){
+        if(quantidade > this.getQuantidade()){
+            throw new IllegalStateException("Saida maior que o estoque");
+        }
+        this.setQuantidade(this.getQuantidade() - quantidade);
+    }
+
+    public void reporEstoque(int quantidade){
+        if(quantidade <= 0){
+            throw new IllegalArgumentException("quantidade tem que ser positiva");
+        }
+        this.setQuantidade(this.getQuantidade() + quantidade);
     }
 
     @Override

@@ -13,11 +13,11 @@ public abstract class Item {
     private String categoria;
     private String foto;
 
-    public Item(String nome, int quantidade, String descricao, Localidade local, String categoria, String caminhoFoto) {
+    public Item(String nome, int quantidade, String descricao, Localidade local, String categoria, Status status, String caminhoFoto) {
         this.nome = nome;
         this.descricao = descricao;
         this.local = local;
-        this.status = Status.NOVO;
+        this.status = status;
         this.entrada = LocalDate.now();
         this.categoria = categoria;
         this.foto = caminhoFoto;

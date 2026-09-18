@@ -16,7 +16,7 @@ public class ControllerAdicionar {
 
 
     @FXML
-    private void voltarHomer(ActionEvent event){
+    private void voltarHome(ActionEvent event){
         try (InputStream fxmlStream = getClass().getClassLoader().getResourceAsStream("view/Home.fxml")){
             if (fxmlStream == null) {
                 throw new RuntimeException("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/Home.fxml está correto.");

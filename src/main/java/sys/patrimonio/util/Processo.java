@@ -2,7 +2,7 @@ package sys.patrimonio.util;
 
 import sys.patrimonio.model.Cautela;
 
-public final class CautelaProcesso {
+public final class Processo {
 
     public static String emissorCautela(){
         return System.getProperty("user.name").replace(".", " ").toUpperCase();
@@ -17,7 +17,7 @@ public final class CautelaProcesso {
     }
 
 
-    public static String IDFormatada(int idcautela){
+    public static String IDFormatada(Long idcautela){
         String idFormatada = String.format("%04d/%s", idcautela, DataFormatada.anoAgora());
         return idFormatada;
     }

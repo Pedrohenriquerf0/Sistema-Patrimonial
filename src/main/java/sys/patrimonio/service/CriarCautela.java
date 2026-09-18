@@ -1,8 +1,8 @@
 package sys.patrimonio.service;
 
 import sys.patrimonio.model.Cautela;
-import sys.patrimonio.repository.RepositorioCautela;
-import sys.patrimonio.util.CautelaProcesso;
+import sys.patrimonio.repository.*;
+import sys.patrimonio.util.Processo;
 
 import java.awt.*;
 import java.io.IOException;
@@ -18,10 +18,10 @@ public class CriarCautela {
 
 
     public CriarCautela(Cautela cautela) {
-        RepositorioCautela.adicionarCautela(cautela);
-        this.id = CautelaProcesso.IDFormatada(RepositorioCautela.idCautela(cautela));
+        CautelaRepositorio cautelaRepositorio = new RepositorioCautela();
+        cautelaRepositorio.salvar(cautela);
+        this.id = Processo.IDFormatada(cautelaRepositorio.idCautela(cautela));
         this.cautela = cautela;
-        System.out.println("Cautela criada id " + this.id);
     }
 
 
@@ -39,9 +39,9 @@ public class CriarCautela {
             htmlCautela = htmlCautela.replace("{{departamentodestino}}", String.valueOf(cautela.getDestino()));
             htmlCautela = htmlCautela.replace("{{data}}", cautela.getData());
             htmlCautela = htmlCautela.replace("{{emissorcautela}}", cautela.getEmissor());
-            htmlCautela = htmlCautela.replace("{{obs}}", cautela.getObservacoes());
-            htmlCautela = htmlCautela.replace("{{quandidade}}", String.valueOf(cautela.getItemPatrimoniado().getQuantidade()));
-            htmlCautela = htmlCautela.replace("{{descricao}}", CautelaProcesso.descricaoFormatada(cautela));
+            htmlCautela = htmlCautela.replace("{{obs}}", cautela.getObservacoes().orElse("-"));
+            htmlCautela = htmlCautela.replace("{{quantidade}}", String.valueOf(cautela.getItemPatrimoniado().getQuantidade()));
+            htmlCautela = htmlCautela.replace("{{descricao}}", Processo.descricaoFormatada(cautela));
             htmlCautela = htmlCautela.replace("{{nome}}", cautela.getItemPatrimoniado().getNome());
             htmlCautela = htmlCautela.replace("{{tombo}}", cautela.getItemPatrimoniado().getTombo());
             htmlCautela = htmlCautela.replace("{{status}}", String.valueOf(cautela.getItemPatrimoniado().getStatus()));
@@ -57,7 +57,7 @@ public class CriarCautela {
         String novoCautela = "Cautela_ID_" + this.id;
         novoCautela = novoCautela.replace("/", "-");
         try {
-            Path pasta = Paths.get(CautelaProcesso.usuarioOS(), "Sistema de Patrimonio", "Cautelas");
+            Path pasta = Paths.get(Processo.usuarioOS(), "Sistema de Patrimonio", "Cautelas");
             Files.createDirectories(pasta);
             Path arquivoFinal = pasta.resolve(novoCautela + ".html");
             Files.writeString(arquivoFinal, htmlCautela);

@@ -1,6 +1,6 @@
 package sys.patrimonio.model;
 
-public enum MovimentacaoConsumo {
+public enum TipoMovimentacao {
     ENTRADA,
     SAIDA
 }
