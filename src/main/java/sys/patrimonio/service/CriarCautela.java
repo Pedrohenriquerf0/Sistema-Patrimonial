@@ -1,7 +1,7 @@
 package sys.patrimonio.service;
 
 import sys.patrimonio.model.Cautela;
-import sys.patrimonio.repository.*;
+import sys.patrimonio.repository.CautelaRepositorio;
 import sys.patrimonio.util.Processo;
 
 import java.awt.*;
@@ -13,14 +13,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class CriarCautela {
-    private String id;
     private Cautela cautela;
+    private final CautelaRepositorio cautelaRepositorio;
 
 
-    public CriarCautela(Cautela cautela) {
-        CautelaRepositorio cautelaRepositorio = new RepositorioCautela();
-        cautelaRepositorio.salvar(cautela);
-        this.id = Processo.IDFormatada(cautelaRepositorio.idCautela(cautela));
+    public CriarCautela(Cautela cautela, CautelaRepositorio cautelaRepositorio) {
+        this.cautelaRepositorio = cautelaRepositorio;
+        this.cautelaRepositorio.salvar(cautela);
+        this.cautela.setId(Processo.IDFormatada(this.cautelaRepositorio.idCautela(cautela)));
         this.cautela = cautela;
     }
 
@@ -34,7 +34,7 @@ public class CriarCautela {
                 throw new RuntimeException("Template não encontrado dentro do JAR");
             }
             String htmlCautela = new String(caminhoTemplate.readAllBytes(), StandardCharsets.UTF_8);
-            htmlCautela = htmlCautela.replace("{{idcautela}}", this.id);
+            htmlCautela = htmlCautela.replace("{{idcautela}}", this.cautela.getId());
             htmlCautela = htmlCautela.replace("{{departamentoorigem}}", String.valueOf(cautela.getItemPatrimoniado().getLocal()));
             htmlCautela = htmlCautela.replace("{{departamentodestino}}", String.valueOf(cautela.getDestino()));
             htmlCautela = htmlCautela.replace("{{data}}", cautela.getData());
@@ -54,7 +54,7 @@ public class CriarCautela {
     }
 
     private void abriCautela(String htmlCautela) {
-        String novoCautela = "Cautela_ID_" + this.id;
+        String novoCautela = "Cautela_ID_" + this.cautela.getId();
         novoCautela = novoCautela.replace("/", "-");
         try {
             Path pasta = Paths.get(Processo.usuarioOS(), "Sistema de Patrimonio", "Cautelas");

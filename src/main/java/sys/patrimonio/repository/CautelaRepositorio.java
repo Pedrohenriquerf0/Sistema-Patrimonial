@@ -2,12 +2,17 @@ package sys.patrimonio.repository;
 
 import sys.patrimonio.model.Cautela;
 
-public interface CautelaRepositorio extends Repositorio<Cautela, Long>{
+import java.util.List;
+
+public interface CautelaRepositorio extends RepositorioSomenteInsercao<Cautela, Long> {
     @Override
-    void listar(Cautela objeto);
+    Cautela buscarPorId(Long aLong);
 
     @Override
-    void salvar(Cautela objeto);
+    List<Cautela> listarTodos();
 
-    abstract Long idCautela(Cautela objeto);
+    @Override
+    void salvar(Cautela obj);
+
+    Long idCautela(Cautela cautela);
 }

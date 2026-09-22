@@ -12,6 +12,7 @@ public class Cautela {
     private String data;
     private ItemPatrimoniado itemPatrimoniado;
     private String observacoes;
+    private String id;
 
     public Cautela(ItemPatrimoniado itemPatrimoniado, Localidade destino, @Nullable String obsevacoes) {
         this.itemPatrimoniado = itemPatrimoniado;
@@ -19,6 +20,14 @@ public class Cautela {
         this.emissor = Processo.emissorCautela();
         this.destino = destino;
         this.observacoes = obsevacoes;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Localidade getDestino() {

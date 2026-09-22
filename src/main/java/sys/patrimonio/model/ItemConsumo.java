@@ -20,6 +20,7 @@ public class ItemConsumo extends Item {
     }
 
 
+    // vai para consumo service
     public void darBaixa(int quantidade){
         if(quantidade > this.getQuantidade()){
             throw new IllegalStateException("Saida maior que o estoque");
