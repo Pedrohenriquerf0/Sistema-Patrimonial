@@ -12,4 +12,30 @@ public class AppContext {
     private static PatrimoniadoRepositorio patrimoniadoRepositorio;
 
 
+    private AppContext() {
+
+    }
+
+    public static void inicializar(CautelaRepositorio cautelaRepo, MovimentacaoRepositorio movimentacaoRepo,ConsumoRepositorio consumoRepo, PatrimoniadoRepositorio patrimoniadoRepo) {
+        cautelaRepositorio = cautelaRepo;
+        movimentacaoRepositorio = movimentacaoRepo;
+        consumoRepositorio = consumoRepo;
+        patrimoniadoRepositorio = patrimoniadoRepo;
+    }
+
+    public static CautelaRepositorio getCautelaRepositorio() {
+        return cautelaRepositorio;
+    }
+
+    public static PatrimoniadoRepositorio getPatrimoniadoRepositorio() {
+        return patrimoniadoRepositorio;
+    }
+
+    public static MovimentacaoRepositorio getMovimentacaoRepositorio() {
+        return movimentacaoRepositorio;
+    }
+
+    public static ConsumoRepositorio getConsumoRepositorio() {
+        return consumoRepositorio;
+    }
 }

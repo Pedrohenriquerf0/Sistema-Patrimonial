@@ -1,5 +1,7 @@
 package sys.patrimonio.model;
 
+import sys.patrimonio.exceptions.SaldoInsuficienteException;
+
 import java.util.Objects;
 
 public class ItemConsumo extends Item {
@@ -23,14 +25,14 @@ public class ItemConsumo extends Item {
     // vai para consumo service
     public void darBaixa(int quantidade){
         if(quantidade > this.getQuantidade()){
-            throw new IllegalStateException("Saida maior que o estoque");
+            throw new SaldoInsuficienteException("Saida maior que o estoque");  // TODO - criar exceptions para esse tipo
         }
         this.setQuantidade(this.getQuantidade() - quantidade);
     }
 
     public void reporEstoque(int quantidade){
         if(quantidade <= 0){
-            throw new IllegalArgumentException("quantidade tem que ser positiva");
+            throw new IllegalArgumentException("quantidade tem que ser positiva");  // TODO - criar exceptions para esse tipo
         }
         this.setQuantidade(this.getQuantidade() + quantidade);
     }

@@ -13,10 +13,11 @@ public class Main extends Application {
     @Override
     public void start(Stage homeStage) {
 
+
         try (InputStream fxmlStream = getClass().getClassLoader().getResourceAsStream("view/Home.fxml")) {
 
             if (fxmlStream == null) {
-                throw new RuntimeException("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/Home.fxml está correto.");
+                throw new RuntimeException("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/Home.fxml está correto.");  // TODO - criar exceptions para esse tipo
             }
 
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -34,7 +35,7 @@ public class Main extends Application {
         }
     }
 
-    public static void main(String[] args) {
+    public static void app(String[] args) {
         launch(args);
     }
 }

@@ -1,11 +1,16 @@
 package sys.patrimonio.repository;
 
+import sys.patrimonio.config.ConnectionFactory;
 import sys.patrimonio.model.Cautela;
 
 import java.util.List;
 
-class CautelaDAO implements CautelaRepositorio {
+public class CautelaDAO implements CautelaRepositorio {
+    private final ConnectionFactory connectionFactory;
 
+    public CautelaDAO(ConnectionFactory connectionFactory) {
+        this.connectionFactory = connectionFactory;
+    }
 
     @Override
     public Cautela buscarPorId(Long aLong) {

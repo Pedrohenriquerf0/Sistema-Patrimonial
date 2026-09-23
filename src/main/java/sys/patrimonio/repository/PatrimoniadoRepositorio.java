@@ -1,4 +1,6 @@
 package sys.patrimonio.repository;
 
-public interface PatrimoniadoRepositorio extends RepositorioMutavel{
+import sys.patrimonio.model.ItemPatrimoniado;
+
+public interface PatrimoniadoRepositorio extends RepositorioMutavel<ItemPatrimoniado, String>{
 }

@@ -48,7 +48,7 @@ public class CriarCautela {
             htmlCautela = htmlCautela.replace("{{foto}}", cautela.getItemPatrimoniado().getFoto());
             abriCautela(htmlCautela);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e);  // TODO - criar exceptions para esse tipo
         }
 
     }
@@ -63,7 +63,7 @@ public class CriarCautela {
             Files.writeString(arquivoFinal, htmlCautela);
             Desktop.getDesktop().browse(arquivoFinal.toUri());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e);  // TODO - criar exceptions para esse tipo
         }
 
     }

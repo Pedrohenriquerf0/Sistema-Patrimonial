@@ -1,28 +1,31 @@
 package sys.patrimonio.repository;
 
-class ConsumoDAO implements ConsumoRepositorio {
+import sys.patrimonio.model.ItemConsumo;
+
+public class ConsumoDAO implements ConsumoRepositorio {
+
     @Override
-    public void salvar(Object objeto) {
+    public void salvar(ItemConsumo objeto) {
 
     }
 
     @Override
-    public void listar(Object objeto) {
+    public void listar(ItemConsumo objeto) {
 
     }
 
     @Override
-    public void atualizar(Object objeto) {
+    public void atualizar(ItemConsumo objeto) {
 
     }
 
     @Override
-    public Object buscarPorId(Object object) {
+    public ItemConsumo buscarPorId(Long aLong) {
         return null;
     }
 
     @Override
-    public void excluir(Object object) {
+    public void excluir(Long aLong) {
 
     }
 }

@@ -1,29 +1,31 @@
 package sys.patrimonio.repository;
 
-class PatrimoniadoDAO implements PatrimoniadoRepositorio {
+import sys.patrimonio.model.ItemPatrimoniado;
+
+public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
 
     @Override
-    public void salvar(Object objeto) {
+    public void salvar(ItemPatrimoniado objeto) {
 
     }
 
     @Override
-    public void listar(Object objeto) {
+    public void listar(ItemPatrimoniado objeto) {
 
     }
 
     @Override
-    public void atualizar(Object objeto) {
+    public void atualizar(ItemPatrimoniado objeto) {
 
     }
 
     @Override
-    public Object buscarPorId(Object object) {
+    public ItemPatrimoniado buscarPorId(String s) {
         return null;
     }
 
     @Override
-    public void excluir(Object object) {
+    public void excluir(String s) {
 
     }
 }

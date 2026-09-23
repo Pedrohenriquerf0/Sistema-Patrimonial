@@ -5,7 +5,7 @@ import sys.patrimonio.model.MovimentacaoItemConsumo;
 
 import java.util.List;
 
-class MovimentacaoDAO implements MovimentacaoRepositorio {
+public class MovimentacaoDAO implements MovimentacaoRepositorio {
 
     @Override
     public MovimentacaoItemConsumo buscarPorId(Long aLong) {

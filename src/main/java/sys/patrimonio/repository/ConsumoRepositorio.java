@@ -1,4 +1,7 @@
 package sys.patrimonio.repository;
 
-public interface ConsumoRepositorio extends RepositorioMutavel{
+import sys.patrimonio.model.ItemConsumo;
+
+
+public interface ConsumoRepositorio extends RepositorioMutavel<ItemConsumo, Long>{
 }
