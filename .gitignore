@@ -7,7 +7,7 @@ target/
 ### IntelliJ IDEA ###
 .idea/
 src/main/resources/database/database.properties
-src\main\java\sys\patrimonio\repository\TesteSQL.java
+src/main/java/sys/patrimonio/repository\TesteSQL.java
 *.iws
 *.iml
 *.ipr
