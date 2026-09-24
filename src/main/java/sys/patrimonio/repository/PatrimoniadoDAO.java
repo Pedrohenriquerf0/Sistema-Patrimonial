@@ -2,7 +2,7 @@ package sys.patrimonio.repository;
 
 
 import sys.patrimonio.config.ConnectionFactory;
-import sys.patrimonio.exceptions.PatriminioExistException;
+import sys.patrimonio.exceptions.PatrimonioExistenteException;
 import sys.patrimonio.model.ItemPatrimoniado;
 import sys.patrimonio.util.Convert;
 
@@ -24,7 +24,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
                 (tombo, numero_serie, data_entrada, nome, descricao, localidade, status, categoria, foto)
                 VALUES (?,?,?,?,?,?,?,?,?)
                 """;
-        try (Connection connection = new ConnectionFactory().getConnection();
+        try (Connection connection = this.connectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
 
@@ -41,12 +41,14 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
             statement.executeUpdate();
 
         } catch (SQLIntegrityConstraintViolationException e) {
-           throw new PatriminioExistException("Patrimonio ja cadastrado");
+           throw new PatrimonioExistenteException("Patrimonio ja cadastrado");
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Erro no salvamento");
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        System.out.println(objeto.toString() + "salvo com sucesso"); // TODO vai ser criado uma metodo que chama uma telinha de aviso
     }
 
     @Override

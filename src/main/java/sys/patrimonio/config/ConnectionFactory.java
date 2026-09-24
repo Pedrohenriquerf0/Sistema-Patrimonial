@@ -15,6 +15,8 @@ public class ConnectionFactory {
             properties.load(input);
         } catch (IOException e) {
             throw new RuntimeException("Não foi possivel carregar database.properties"); // TODO - criar exceptions para esse tipo
+        } catch (NullPointerException e){
+           throw new RuntimeException("Não foi possivel achar arquivo");
         }
     }
 

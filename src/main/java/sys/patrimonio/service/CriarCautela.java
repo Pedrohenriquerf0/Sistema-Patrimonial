@@ -20,8 +20,9 @@ public class CriarCautela {
     public CriarCautela(Cautela cautela, CautelaRepositorio cautelaRepositorio) {
         this.cautelaRepositorio = cautelaRepositorio;
         this.cautelaRepositorio.salvar(cautela);
-        this.cautela.setId(Processo.IDFormatada(this.cautelaRepositorio.idCautela(cautela)));
         this.cautela = cautela;
+        this.cautela.setId(Processo.IDFormatada(this.cautelaRepositorio.idCautela(cautela)));
+
     }
 
 
