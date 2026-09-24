@@ -14,7 +14,7 @@
 <AnchorPane
         prefHeight="768.0"
         prefWidth="1366.0"
-        stylesheets="@css/style.css"
+        stylesheets="@/css/style.css"
         xmlns="http://javafx.com/javafx/21"
         xmlns:fx="http://javafx.com/fxml/1"
         fx:controller="sys.patrimonio.view.controller.ControllerHome">
