@@ -51,7 +51,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
     }
 
     @Override
-    public void listar(ItemPatrimoniado objeto) {
+    public void listar() { // TODO implementação para inventario ou relatorio
         String sql = """
                 SELECT * FROM item_patrimoniado
                 """;
@@ -110,6 +110,11 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
     }
 
     @Override
+    public ItemPatrimoniado buscarPorNome(String nome) {
+        return null;
+    }
+
+    @Override
     public void excluir(String tombo) {
         String sql = """
                 DELETE FROM item_patrimoniado
@@ -127,6 +132,11 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
         } catch (SQLException e) {
             System.out.println("Erro no deletamento ");
         }
+    }
+
+    @Override
+    public ItemPatrimoniado buscarPorNS(String numeroSerie) {
+        return null;
     }
 }
 
