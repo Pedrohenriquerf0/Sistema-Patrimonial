@@ -175,10 +175,11 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
     }
 
     @Override
-    public ItemPatrimoniado buscarPorNome(String nome) {
+    public List<ItemPatrimoniado> buscarPorNome(String nome) {
+        List<ItemPatrimoniado> patrimoniadoList =new ArrayList<>();
         String sql = """
             SELECT * FROM item_patrimoniado
-            WHERE nome = ?
+            WHERE nome LIKE ?
             """;
 
         try (Connection connection = this.connectionFactory.getConnection();
@@ -188,7 +189,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
 
             ResultSet resultSet = statement.executeQuery();
 
-            if (resultSet.next()) {
+            while (resultSet.next()) {
                 String caminhoFoto = Convert.bytesToPaths(resultSet.getBytes("foto"), resultSet.getString("tombo"));
 
                 ItemPatrimoniado itemPatrimoniado =
@@ -206,9 +207,9 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
                                 ),
                                 caminhoFoto
                         );
-
-                return itemPatrimoniado;
+                patrimoniadoList.add(itemPatrimoniado);
             }
+            return patrimoniadoList;
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (IOException e){

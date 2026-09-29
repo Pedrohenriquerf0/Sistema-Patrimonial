@@ -174,10 +174,11 @@ public class ConsumoDAO implements ConsumoRepositorio {
     }
 
     @Override
-    public ItemConsumo buscarPorNome(String nome) {
+    public List<ItemConsumo> buscarPorNome(String nome) {
+        List<ItemConsumo> consumoList = new ArrayList<>();
         String sql = """
             SELECT * FROM item_consumo
-            WHERE nome = ?
+            WHERE nome LIKE ?
             """;
 
         try (Connection connection = this.connectionFactory.getConnection();
@@ -187,7 +188,7 @@ public class ConsumoDAO implements ConsumoRepositorio {
 
             ResultSet resultSet = statement.executeQuery();
 
-            if (resultSet.next()) {
+            while (resultSet.next()) {
                 String caminhoFoto = Convert.bytesToPaths(resultSet.getBytes("foto"), resultSet.getString("nome"));
 
                 ItemConsumo itemConsumo =
@@ -205,9 +206,9 @@ public class ConsumoDAO implements ConsumoRepositorio {
                                 caminhoFoto
                         );
                 itemConsumo.setId(resultSet.getLong("id"));
-
-                return itemConsumo;
+                consumoList.add(itemConsumo);
             }
+            return consumoList;
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (IOException e){

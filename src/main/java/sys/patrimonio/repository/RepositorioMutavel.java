@@ -7,7 +7,7 @@ public interface RepositorioMutavel<T, ID>{
     List<T> listar();
     void atualizar(T objeto);
     T buscarPorId(ID id);
-    T buscarPorNome(String nome);
+    List<T> buscarPorNome(String nome);
     void excluir(ID id);
 
 }
