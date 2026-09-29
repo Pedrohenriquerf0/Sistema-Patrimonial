@@ -4,10 +4,14 @@ package sys.patrimonio.repository;
 import sys.patrimonio.config.ConnectionFactory;
 import sys.patrimonio.exceptions.PatrimonioExistenteException;
 import sys.patrimonio.model.ItemPatrimoniado;
+import sys.patrimonio.model.Localidade;
+import sys.patrimonio.model.Status;
 import sys.patrimonio.util.Convert;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
     private final ConnectionFactory connectionFactory;
@@ -51,7 +55,9 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
     }
 
     @Override
-    public void listar() { // TODO implementação para inventario ou relatorio
+    public List<ItemPatrimoniado> listar() { // TODO implementação para inventario ou relatorio
+        List<ItemPatrimoniado> patrimoniadoList = new ArrayList<>();
+
         String sql = """
                 SELECT * FROM item_patrimoniado
                 """;
@@ -61,12 +67,33 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
-                // TODO fazer
+                String caminhoFoto = Convert.bytesToPaths(resultSet.getBytes("foto"), resultSet.getString("tombo"));
+
+                ItemPatrimoniado itemPatrimoniado =
+                        new ItemPatrimoniado(
+                                resultSet.getString("nome"),
+                                resultSet.getString("tombo"),
+                                resultSet.getString("numero_serie"),
+                                resultSet.getString("descricao"),
+                                Localidade.valueOf(
+                                        resultSet.getString("localidade")
+                                ),
+                                resultSet.getString("categoria"),
+                                Status.valueOf(
+                                        resultSet.getString("status")
+                                ),
+                                caminhoFoto
+                        );
+                patrimoniadoList.add(itemPatrimoniado);
             }
 
+            return patrimoniadoList;
         } catch (SQLException e) {
             System.out.println("Erro ao listar items");
+        } catch (IOException e){
+            e.printStackTrace();
         }
+        return null;
     }
 
     @Override
@@ -98,19 +125,95 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
             System.out.println("Item atualizado com sucesso");
         } catch (SQLException e) {
             System.out.println("Erro ao atualizar item");
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public ItemPatrimoniado buscarPorId(String tombo) {
-        // TODO fazer
+
+        String sql = """
+            SELECT * FROM item_patrimoniado
+            WHERE tombo = ?
+            """;
+
+        try (Connection connection = this.connectionFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, tombo);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                String caminhoFoto = Convert.bytesToPaths(resultSet.getBytes("foto"), resultSet.getString("tombo"));
+
+                ItemPatrimoniado itemPatrimoniado =
+                        new ItemPatrimoniado(
+                                resultSet.getString("nome"),
+                                resultSet.getString("tombo"),
+                                resultSet.getString("numero_serie"),
+                                resultSet.getString("descricao"),
+                                Localidade.valueOf(
+                                        resultSet.getString("localidade")
+                                ),
+                                resultSet.getString("categoria"),
+                                Status.valueOf(
+                                        resultSet.getString("status")
+                                ),
+                                caminhoFoto
+                        );
+
+                return itemPatrimoniado;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
         return null;
     }
 
     @Override
     public ItemPatrimoniado buscarPorNome(String nome) {
+        String sql = """
+            SELECT * FROM item_patrimoniado
+            WHERE nome = ?
+            """;
+
+        try (Connection connection = this.connectionFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, nome);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                String caminhoFoto = Convert.bytesToPaths(resultSet.getBytes("foto"), resultSet.getString("tombo"));
+
+                ItemPatrimoniado itemPatrimoniado =
+                        new ItemPatrimoniado(
+                                resultSet.getString("nome"),
+                                resultSet.getString("tombo"),
+                                resultSet.getString("numero_serie"),
+                                resultSet.getString("descricao"),
+                                Localidade.valueOf(
+                                        resultSet.getString("localidade")
+                                ),
+                                resultSet.getString("categoria"),
+                                Status.valueOf(
+                                        resultSet.getString("status")
+                                ),
+                                caminhoFoto
+                        );
+
+                return itemPatrimoniado;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -136,6 +239,44 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
 
     @Override
     public ItemPatrimoniado buscarPorNS(String numeroSerie) {
+        String sql = """
+            SELECT * FROM item_patrimoniado
+            WHERE numero_serie = ?
+            """;
+
+        try (Connection connection = this.connectionFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, numeroSerie);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                String caminhoFoto = Convert.bytesToPaths(resultSet.getBytes("foto"), resultSet.getString("tombo"));
+
+                ItemPatrimoniado itemPatrimoniado =
+                        new ItemPatrimoniado(
+                                resultSet.getString("nome"),
+                                resultSet.getString("tombo"),
+                                resultSet.getString("numero_serie"),
+                                resultSet.getString("descricao"),
+                                Localidade.valueOf(
+                                        resultSet.getString("localidade")
+                                ),
+                                resultSet.getString("categoria"),
+                                Status.valueOf(
+                                        resultSet.getString("status")
+                                ),
+                                caminhoFoto
+                        );
+
+                return itemPatrimoniado;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
         return null;
     }
 }

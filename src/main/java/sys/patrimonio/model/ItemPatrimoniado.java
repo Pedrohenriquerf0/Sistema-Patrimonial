@@ -31,5 +31,4 @@ public class ItemPatrimoniado extends Item{
     public int hashCode() {
         return Objects.hashCode(tombo);
     }
-
 }
