@@ -91,7 +91,7 @@ public class ConsumoDAO implements ConsumoRepositorio {
         } catch (IOException e){
             e.printStackTrace();
         }
-        return null;
+        return consumoList;
     }
 
     @Override
@@ -184,7 +184,7 @@ public class ConsumoDAO implements ConsumoRepositorio {
         try (Connection connection = this.connectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
-            statement.setString(1, nome);
+            statement.setString(1, "%" + nome + "%");
 
             ResultSet resultSet = statement.executeQuery();
 
@@ -214,7 +214,7 @@ public class ConsumoDAO implements ConsumoRepositorio {
         } catch (IOException e){
             e.printStackTrace();
         }
-        return null;
+        return consumoList;
     }
 
     @Override

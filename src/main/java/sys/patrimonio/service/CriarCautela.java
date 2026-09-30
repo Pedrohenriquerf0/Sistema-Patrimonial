@@ -19,10 +19,10 @@ public class CriarCautela {
 
     public CriarCautela(Cautela cautela, CautelaRepositorio cautelaRepositorio) {
         this.cautelaRepositorio = cautelaRepositorio;
-        this.cautelaRepositorio.salvar(cautela);
         this.cautela = cautela;
+        this.cautelaRepositorio.salvar(this.cautela);
         this.cautela.setId(Processo.IDFormatada(this.cautelaRepositorio.idCautela(cautela)));
-
+        PatrimoniadoManager.atualizar(this.cautela.getItemPatrimoniado());
     }
 
 

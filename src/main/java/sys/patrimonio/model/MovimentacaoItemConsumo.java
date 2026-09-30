@@ -9,6 +9,7 @@ public class MovimentacaoItemConsumo {
     private final String data;
     private final ItemConsumo itemConsumo;
     private final TipoMovimentacao tipoMovimentacao;
+    private  long id;
 
     public MovimentacaoItemConsumo(Localidade destino,  ItemConsumo itemConsumo, TipoMovimentacao tipoMovimentacao) {
         this.destino = destino;
@@ -16,6 +17,14 @@ public class MovimentacaoItemConsumo {
         this.data = DataFormatada.dataAgora();
         this.itemConsumo = itemConsumo;
         this.tipoMovimentacao = tipoMovimentacao;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public Localidade getDestino() {

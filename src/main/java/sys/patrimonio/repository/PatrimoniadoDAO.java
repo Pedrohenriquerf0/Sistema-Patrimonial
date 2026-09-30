@@ -93,7 +93,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
         } catch (IOException e){
             e.printStackTrace();
         }
-        return null;
+        return patrimoniadoList;
     }
 
     @Override
@@ -185,7 +185,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
         try (Connection connection = this.connectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
-            statement.setString(1, nome);
+            statement.setString(1, "%" + nome + "%");
 
             ResultSet resultSet = statement.executeQuery();
 
@@ -215,7 +215,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
         } catch (IOException e){
             e.printStackTrace();
         }
-        return null;
+        return patrimoniadoList;
     }
 
     @Override

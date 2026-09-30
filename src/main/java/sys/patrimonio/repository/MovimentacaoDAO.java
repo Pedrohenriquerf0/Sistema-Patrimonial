@@ -1,11 +1,17 @@
 package sys.patrimonio.repository;
 
 
+import sys.patrimonio.config.ConnectionFactory;
 import sys.patrimonio.model.MovimentacaoItemConsumo;
 
 import java.util.List;
 
 public class MovimentacaoDAO implements MovimentacaoRepositorio {
+    private final ConnectionFactory connectionFactory;
+
+    public MovimentacaoDAO(ConnectionFactory connectionFactory) {
+        this.connectionFactory = connectionFactory;
+    }
 
     @Override
     public MovimentacaoItemConsumo buscarPorId(Long aLong) {
