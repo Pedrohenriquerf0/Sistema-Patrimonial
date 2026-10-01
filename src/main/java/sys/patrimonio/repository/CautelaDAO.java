@@ -2,13 +2,9 @@ package sys.patrimonio.repository;
 
 import sys.patrimonio.config.ConnectionFactory;
 import sys.patrimonio.model.Cautela;
-import sys.patrimonio.model.ItemPatrimoniado;
 import sys.patrimonio.model.Localidade;
-import sys.patrimonio.model.Status;
-import sys.patrimonio.util.Convert;
 import sys.patrimonio.util.Processo;
 
-import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -117,7 +113,7 @@ public class CautelaDAO implements CautelaRepositorio {
 
             System.out.println("Cautela criada com sucesso");
         } catch (SQLException e) {
-            System.out.println("Erro na criacao da cautela" + e);
+            e.printStackTrace();
         }
     }
 
@@ -141,7 +137,7 @@ public class CautelaDAO implements CautelaRepositorio {
                 return Processo.IDFormatada(id, criadoEm.getYear());
             }
         } catch (SQLException e) {
-            System.out.println("Erro ao pegar id da cautela");
+            e.printStackTrace();
         }
         return null;
     }

@@ -46,7 +46,7 @@ public class ConsumoDAO implements ConsumoRepositorio {
         } catch (SQLIntegrityConstraintViolationException e) {
             throw new PatrimonioExistenteException("Patrimonio ja cadastrado");
         } catch (SQLException e) {
-            System.out.println("Erro no salvamento");
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -87,7 +87,7 @@ public class ConsumoDAO implements ConsumoRepositorio {
 
             return consumoList;
         } catch (SQLException e) {
-            System.out.println("Erro ao listar items");
+            e.printStackTrace();
         } catch (IOException e){
             e.printStackTrace();
         }
@@ -124,7 +124,7 @@ public class ConsumoDAO implements ConsumoRepositorio {
 
             System.out.println("Item atualizado com sucesso");
         } catch (SQLException e) {
-            System.out.println("Erro ao atualizar item");
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -233,7 +233,7 @@ public class ConsumoDAO implements ConsumoRepositorio {
 
             System.out.println("Excluido com sucesso");
         } catch (SQLException e) {
-            System.out.println("Erro no deletamento ");
+            e.printStackTrace();
         }
     }
 

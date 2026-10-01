@@ -48,7 +48,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
         } catch (SQLIntegrityConstraintViolationException e) {
             throw new PatrimonioExistenteException("Patrimonio ja cadastrado");
         } catch (SQLException e) {
-            System.out.println("Erro no salvamento");
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -89,7 +89,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
 
             return patrimoniadoList;
         } catch (SQLException e) {
-            System.out.println("Erro ao listar items");
+            e.printStackTrace();
         } catch (IOException e){
             e.printStackTrace();
         }
@@ -124,7 +124,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
 
             System.out.println("Item atualizado com sucesso");
         } catch (SQLException e) {
-            System.out.println("Erro ao atualizar item");
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
