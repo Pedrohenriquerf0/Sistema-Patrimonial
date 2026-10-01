@@ -7,7 +7,9 @@ public enum Localidade {
     ADMINISTRATIVO,
     FINANCEIRO,
     COMERCIAL,
-    ESTOQUE;
+    ESTOQUE,
+    DIRETORIA;
+
 
 
 }

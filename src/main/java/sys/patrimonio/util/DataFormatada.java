@@ -1,7 +1,7 @@
 package sys.patrimonio.util;
 
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public final class DataFormatada {
@@ -9,9 +9,10 @@ public final class DataFormatada {
 
 
     public static String dataAgora(){
-        return LocalDateTime.now().format(dateTimeFormatter);
+        return LocalDate.now().format(dateTimeFormatter);
     }
-    public static int anoAgora(){
-        return LocalDateTime.now().getYear();
+    public static String dataFormat(LocalDate data){
+        return data.format(dateTimeFormatter);
     }
+
 }

@@ -1,7 +1,10 @@
 package sys.patrimonio.service;
 
+import sys.patrimonio.config.AppContext;
+import sys.patrimonio.config.ConnectionFactory;
 import sys.patrimonio.model.Cautela;
 import sys.patrimonio.repository.CautelaRepositorio;
+import sys.patrimonio.repository.PatrimoniadoDAO;
 import sys.patrimonio.util.Processo;
 
 import java.awt.*;
@@ -17,12 +20,16 @@ public class CriarCautela {
     private final CautelaRepositorio cautelaRepositorio;
 
 
-    public CriarCautela(Cautela cautela, CautelaRepositorio cautelaRepositorio) {
-        this.cautelaRepositorio = cautelaRepositorio;
+    public CriarCautela(Cautela cautela) {
+        this.cautelaRepositorio = AppContext.getCautelaRepositorio();
         this.cautela = cautela;
+        this.cautela.getItemPatrimoniado().setLocal(this.cautela.getDestino());
         this.cautelaRepositorio.salvar(this.cautela);
-        this.cautela.setId(Processo.IDFormatada(this.cautelaRepositorio.idCautela(cautela)));
-        PatrimoniadoManager.atualizar(this.cautela.getItemPatrimoniado());
+        this.cautela.setId(this.cautelaRepositorio.idCautela(cautela));
+
+        // TODO RESOLVER DEPOIS
+        PatrimoniadoManager patrimoniadoManager = new PatrimoniadoManager();
+        patrimoniadoManager.atualizar(this.cautela.getItemPatrimoniado());
     }
 
 
@@ -36,9 +43,9 @@ public class CriarCautela {
             }
             String htmlCautela = new String(caminhoTemplate.readAllBytes(), StandardCharsets.UTF_8);
             htmlCautela = htmlCautela.replace("{{idcautela}}", this.cautela.getId());
-            htmlCautela = htmlCautela.replace("{{departamentoorigem}}", String.valueOf(cautela.getItemPatrimoniado().getLocal()));
+            htmlCautela = htmlCautela.replace("{{departamentoorigem}}", String.valueOf(this.cautela.getOrigem()));
             htmlCautela = htmlCautela.replace("{{departamentodestino}}", String.valueOf(cautela.getDestino()));
-            htmlCautela = htmlCautela.replace("{{data}}", cautela.getData());
+            htmlCautela = htmlCautela.replace("{{data}}", String.valueOf(this.cautela.getData()));
             htmlCautela = htmlCautela.replace("{{emissorcautela}}", cautela.getEmissor());
             htmlCautela = htmlCautela.replace("{{obs}}", cautela.getObservacoes().orElse("-"));
             htmlCautela = htmlCautela.replace("{{quantidade}}", String.valueOf(cautela.getItemPatrimoniado().getQuantidade()));

@@ -9,7 +9,7 @@ public class MovimentacaoItemConsumo {
     private final String data;
     private final ItemConsumo itemConsumo;
     private final TipoMovimentacao tipoMovimentacao;
-    private  long id;
+    private long id;
 
     public MovimentacaoItemConsumo(Localidade destino,  ItemConsumo itemConsumo, TipoMovimentacao tipoMovimentacao) {
         this.destino = destino;

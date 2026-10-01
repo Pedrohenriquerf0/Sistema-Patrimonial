@@ -2,13 +2,15 @@ package sys.patrimonio.repository;
 
 import sys.patrimonio.config.ConnectionFactory;
 import sys.patrimonio.model.Cautela;
+import sys.patrimonio.model.ItemPatrimoniado;
+import sys.patrimonio.model.Localidade;
+import sys.patrimonio.model.Status;
 import sys.patrimonio.util.Convert;
+import sys.patrimonio.util.Processo;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,40 @@ public class CautelaDAO implements CautelaRepositorio {
 
     @Override
     public Cautela buscarPorId(Long aLong) {
+        String sql = """
+                SELECT * FROM cautelas
+                WHERE id = ?
+                """;
+
+        try (Connection connection = this.connectionFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setLong(1, aLong);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+
+
+                String origem = resultSet.getString("origem");
+                String destino = resultSet.getString("destino");
+
+                Localidade origemLocal = origem != null && !origem.isBlank()
+                        ? Localidade.valueOf(origem)
+                        : null;
+
+                Localidade destinoLocal = destino != null && !destino.isBlank()
+                        ? Localidade.valueOf(destino)
+                        : null;
+
+                Cautela cautela = new Cautela(destinoLocal, resultSet.getLong("id"), resultSet.getString("observacoes"),origemLocal, resultSet.getString("tombo_item"), resultSet.getDate("criado_em").toLocalDate(), resultSet.getString("emissor"));
+
+
+                return cautela;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -35,18 +71,28 @@ public class CautelaDAO implements CautelaRepositorio {
              PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
 
-            while (resultSet.next()){
-                String caminhoFoto = Convert.bytesToPaths(resultSet.getBytes("foto"), resultSet.getString("nome"));
+            while (resultSet.next()) {
 
-                //Cautela novaCautela = new Cautela()
+                String origem = resultSet.getString("origem");
+                String destino = resultSet.getString("destino");
+
+                Localidade origemLocal = origem != null && !origem.isBlank()
+                        ? Localidade.valueOf(origem)
+                        : null;
+
+                Localidade destinoLocal = destino != null && !destino.isBlank()
+                        ? Localidade.valueOf(destino)
+                        : null;
+
+                Cautela novaCautela = new Cautela(destinoLocal, resultSet.getLong("id"), resultSet.getString("observacoes"),origemLocal, resultSet.getString("tombo_item"), resultSet.getDate("criado_em").toLocalDate(), resultSet.getString("emissor"));
+                cautelaList.add(novaCautela);
             }
             return cautelaList;
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (IOException e){
-            e.printStackTrace();
         }
+
         return cautelaList;
     }
 
@@ -54,8 +100,8 @@ public class CautelaDAO implements CautelaRepositorio {
     public void salvar(Cautela obj) {
         String sql = """
                 INSERT INTO cautelas
-                (tombo_item, destino, emissor, observacoes)
-                VALUES (?, ?, ?, ?)
+                (tombo_item, destino, emissor, observacoes, origem)
+                VALUES (?, ?, ?, ?, ?)
                 """;
 
         try (Connection connection = this.connectionFactory.getConnection();
@@ -65,17 +111,18 @@ public class CautelaDAO implements CautelaRepositorio {
             statement.setString(2, String.valueOf(obj.getDestino()));
             statement.setString(3, obj.getEmissor());
             statement.setString(4, obj.getObservacoes().orElse(null));
+            statement.setString(5, String.valueOf(obj.getOrigem()));
 
             statement.executeUpdate();
 
             System.out.println("Cautela criada com sucesso");
         } catch (SQLException e) {
-            System.out.println("Erro na criacao da cautela");
+            System.out.println("Erro na criacao da cautela" + e);
         }
     }
 
     @Override
-    public Long idCautela(Cautela obj) {
+    public String idCautela(Cautela obj) {
         String sql = """
                 SELECT * FROM cautelas
                 WHERE tombo_item = ?
@@ -89,7 +136,9 @@ public class CautelaDAO implements CautelaRepositorio {
             statement.setString(1, obj.getItemPatrimoniado().getTombo());
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                return resultSet.getLong("id");
+                long id = resultSet.getLong("id");
+                LocalDate criadoEm = resultSet.getDate("criado_em").toLocalDate();
+                return Processo.IDFormatada(id, criadoEm.getYear());
             }
         } catch (SQLException e) {
             System.out.println("Erro ao pegar id da cautela");

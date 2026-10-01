@@ -12,12 +12,22 @@ public class ItemPatrimoniado extends Item{
         this.tombo = tombo;
     }
 
+    public ItemPatrimoniado(String tombo) {
+        super(null, 1, null, null, null, null, null);
+        this.tombo = tombo;
+        this.numeroSerie = null;
+    }
+
     public String getTombo() {
         return tombo;
     }
 
     public String getNumeroSerie() {
         return numeroSerie;
+    }
+
+    public void setTombo(String tombo) {
+        this.tombo = tombo;
     }
 
     @Override

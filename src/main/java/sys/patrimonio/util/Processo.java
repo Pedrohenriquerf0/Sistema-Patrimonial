@@ -2,6 +2,7 @@ package sys.patrimonio.util;
 
 import sys.patrimonio.model.Cautela;
 
+
 public final class Processo {
 
     public static String emissorCautela(){
@@ -17,8 +18,8 @@ public final class Processo {
     }
 
 
-    public static String IDFormatada(Long idcautela){
-        String idFormatada = String.format("%04d/%s", idcautela, DataFormatada.anoAgora());
+    public static String IDFormatada(Long idcautela, int ano){
+        String idFormatada = String.format("%04d/%d", idcautela, ano);
         return idFormatada;
     }
 

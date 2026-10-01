@@ -1,5 +1,6 @@
 package sys.patrimonio.service;
 
+import sys.patrimonio.config.AppContext;
 import sys.patrimonio.model.ItemConsumo;
 import sys.patrimonio.model.Localidade;
 import sys.patrimonio.model.MovimentacaoItemConsumo;
@@ -9,8 +10,8 @@ import sys.patrimonio.repository.MovimentacaoRepositorio;
 public class MovimentacaoConsumo {
     private  MovimentacaoRepositorio movimentacaoRepositorio;
 
-    public void registrarSaida(ItemConsumo item, int quantidade, Localidade destino, MovimentacaoRepositorio movimentacaoRepositorio) {
-        this.movimentacaoRepositorio = movimentacaoRepositorio;
+    public void registrarSaida(ItemConsumo item, int quantidade, Localidade destino) {
+        this.movimentacaoRepositorio = AppContext.getMovimentacaoRepositorio();
         item.darBaixa(quantidade);
         MovimentacaoItemConsumo novaMovimentacao = new MovimentacaoItemConsumo(destino, item, TipoMovimentacao.SAIDA);
         this.movimentacaoRepositorio.salvar(novaMovimentacao);
