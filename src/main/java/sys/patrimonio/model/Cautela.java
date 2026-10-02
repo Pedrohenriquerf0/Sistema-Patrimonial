@@ -25,12 +25,12 @@ public class Cautela {
         this.observacoes = obsevacoes;
     }
 
-    public Cautela(Localidade destino, long id, @Nullable String observacoes, Localidade origem, String tombo_item, LocalDate data, String emissor) {
+    public Cautela(Localidade destino, long id, @Nullable String observacoes, Localidade origem, ItemPatrimoniado itemPatrimoniado, LocalDate data, String emissor) {
         this.destino = destino;
         this.id = Processo.IDFormatada(id, data.getYear());
         this.observacoes = observacoes;
         this.origem = origem;
-        this.itemPatrimoniado = new ItemPatrimoniado(tombo_item); // TODO QUANDO CHAMAR A BUSCA O LISTA TAMBEM CHAMA BUSCA POR TOMBO DO PATRIMONIADO
+        this.itemPatrimoniado = itemPatrimoniado;
         this.data = DataFormatada.dataFormat(data);
         this.emissor = emissor;
     }

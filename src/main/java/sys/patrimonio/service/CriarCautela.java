@@ -1,10 +1,8 @@
 package sys.patrimonio.service;
 
 import sys.patrimonio.config.AppContext;
-import sys.patrimonio.config.ConnectionFactory;
 import sys.patrimonio.model.Cautela;
 import sys.patrimonio.repository.CautelaRepositorio;
-import sys.patrimonio.repository.PatrimoniadoDAO;
 import sys.patrimonio.util.Processo;
 
 import java.awt.*;
@@ -20,9 +18,16 @@ public class CriarCautela {
     private final CautelaRepositorio cautelaRepositorio;
 
 
-    public CriarCautela(Cautela cautela) {
+    public CriarCautela(Cautela cautela, byte tipocriacao) {
         this.cautelaRepositorio = AppContext.getCautelaRepositorio();
         this.cautela = cautela;
+
+        if(tipocriacao == 1){
+            this.cautelaInsert();
+        }
+    }
+
+    private void cautelaInsert(){
         this.cautela.getItemPatrimoniado().setLocal(this.cautela.getDestino());
         this.cautelaRepositorio.salvar(this.cautela);
         this.cautela.setId(this.cautelaRepositorio.idCautela(cautela));
@@ -31,7 +36,6 @@ public class CriarCautela {
         PatrimoniadoManager patrimoniadoManager = new PatrimoniadoManager();
         patrimoniadoManager.atualizar(this.cautela.getItemPatrimoniado());
     }
-
 
     public void visualizarCautela() {
 

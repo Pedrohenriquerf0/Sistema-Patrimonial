@@ -1,7 +1,9 @@
 package sys.patrimonio.repository;
 
+import sys.patrimonio.config.AppContext;
 import sys.patrimonio.config.ConnectionFactory;
 import sys.patrimonio.model.Cautela;
+import sys.patrimonio.model.ItemPatrimoniado;
 import sys.patrimonio.model.Localidade;
 import sys.patrimonio.util.Processo;
 
@@ -9,6 +11,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class CautelaDAO implements CautelaRepositorio {
     private final ConnectionFactory connectionFactory;
@@ -19,6 +22,7 @@ public class CautelaDAO implements CautelaRepositorio {
 
     @Override
     public Cautela buscarPorId(Long aLong) {
+        PatrimoniadoRepositorio patrimoniadoRepositorio = AppContext.getPatrimoniadoRepositorio();
         String sql = """
                 SELECT * FROM cautelas
                 WHERE id = ?
@@ -33,19 +37,21 @@ public class CautelaDAO implements CautelaRepositorio {
 
             if (resultSet.next()) {
 
+                Localidade origemLocal = Optional.ofNullable(resultSet.getString("origem"))
+                        .filter(s -> !s.isBlank())
+                        .map(Localidade::valueOf)
+                        .orElse(null);
 
-                String origem = resultSet.getString("origem");
-                String destino = resultSet.getString("destino");
 
-                Localidade origemLocal = origem != null && !origem.isBlank()
-                        ? Localidade.valueOf(origem)
-                        : null;
+                Localidade destinoLocal = Optional.ofNullable(resultSet.getString("destino"))
+                        .filter(s -> !s.isBlank())
+                        .map(Localidade::valueOf)
+                        .orElse(null);
 
-                Localidade destinoLocal = destino != null && !destino.isBlank()
-                        ? Localidade.valueOf(destino)
-                        : null;
 
-                Cautela cautela = new Cautela(destinoLocal, resultSet.getLong("id"), resultSet.getString("observacoes"),origemLocal, resultSet.getString("tombo_item"), resultSet.getDate("criado_em").toLocalDate(), resultSet.getString("emissor"));
+                ItemPatrimoniado itemPatrimoniado = patrimoniadoRepositorio.buscarPorId(resultSet.getString("tombo_item"));
+
+                Cautela cautela = new Cautela(destinoLocal, resultSet.getLong("id"), resultSet.getString("observacoes"), origemLocal, itemPatrimoniado, resultSet.getDate("criado_em").toLocalDate(), resultSet.getString("emissor"));
 
 
                 return cautela;
@@ -59,6 +65,7 @@ public class CautelaDAO implements CautelaRepositorio {
     @Override
     public List<Cautela> listarTodos() {
         List<Cautela> cautelaList = new ArrayList<>();
+        PatrimoniadoRepositorio patrimoniadoRepositorio = AppContext.getPatrimoniadoRepositorio();
         String sql = """
                 SELECT * FROM cautelas
                 """;
@@ -69,18 +76,23 @@ public class CautelaDAO implements CautelaRepositorio {
 
             while (resultSet.next()) {
 
-                String origem = resultSet.getString("origem");
-                String destino = resultSet.getString("destino");
+                Localidade origemLocal = Optional.ofNullable(resultSet.getString("origem"))
+                        .filter(s -> !s.isBlank())
+                        .map(Localidade::valueOf)
+                        .orElse(null);
 
-                Localidade origemLocal = origem != null && !origem.isBlank()
-                        ? Localidade.valueOf(origem)
-                        : null;
 
-                Localidade destinoLocal = destino != null && !destino.isBlank()
-                        ? Localidade.valueOf(destino)
-                        : null;
+                Localidade destinoLocal = Optional.ofNullable(resultSet.getString("destino"))
+                        .filter(s -> !s.isBlank())
+                        .map(Localidade::valueOf)
+                        .orElse(null);
 
-                Cautela novaCautela = new Cautela(destinoLocal, resultSet.getLong("id"), resultSet.getString("observacoes"),origemLocal, resultSet.getString("tombo_item"), resultSet.getDate("criado_em").toLocalDate(), resultSet.getString("emissor"));
+                ItemPatrimoniado itemPatrimoniado = patrimoniadoRepositorio.buscarPorId(resultSet.getString("tombo_item"));
+
+                Cautela novaCautela = new Cautela(destinoLocal, resultSet.getLong("id"),
+                        resultSet.getString("observacoes"), origemLocal,itemPatrimoniado
+                        , resultSet.getDate("criado_em").toLocalDate(), resultSet.getString("emissor"));
+
                 cautelaList.add(novaCautela);
             }
             return cautelaList;

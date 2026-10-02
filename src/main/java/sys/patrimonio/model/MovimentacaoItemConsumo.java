@@ -3,6 +3,8 @@ package sys.patrimonio.model;
 import sys.patrimonio.util.DataFormatada;
 import sys.patrimonio.util.Processo;
 
+import java.time.LocalDate;
+
 public class MovimentacaoItemConsumo {
     private final Localidade destino;
     private final String emissor;
@@ -17,6 +19,15 @@ public class MovimentacaoItemConsumo {
         this.data = DataFormatada.dataAgora();
         this.itemConsumo = itemConsumo;
         this.tipoMovimentacao = tipoMovimentacao;
+    }
+
+    public MovimentacaoItemConsumo(Localidade destino, String emissor, LocalDate data, ItemConsumo itemConsumo, TipoMovimentacao tipoMovimentacao, long id) {
+        this.destino = destino;
+        this.emissor = emissor;
+        this.data = DataFormatada.dataFormat(data);
+        this.itemConsumo = itemConsumo;
+        this.tipoMovimentacao = tipoMovimentacao;
+        this.id = id;
     }
 
     public long getId() {
