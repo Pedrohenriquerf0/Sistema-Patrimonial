@@ -104,7 +104,7 @@ public class MovimentacaoDAO implements MovimentacaoRepositorio {
         String sql = """
                 INSERT INTO movimentacao_consumo
                 (item_consumo_id, tipo_movimentacao, destino, emissor)
-                VALEUS (?, ?, ?, ?)
+                VALUES (?, ?, ?, ?)
                 """;
 
         try (Connection connection = this.connectionFactory.getConnection();

@@ -110,6 +110,7 @@ public class CautelaDAO implements CautelaRepositorio {
                 INSERT INTO cautelas
                 (tombo_item, destino, emissor, observacoes, origem)
                 VALUES (?, ?, ?, ?, ?)
+                RETURNING id, criado_em
                 """;
 
         try (Connection connection = this.connectionFactory.getConnection();
@@ -121,36 +122,17 @@ public class CautelaDAO implements CautelaRepositorio {
             statement.setString(4, obj.getObservacoes().orElse(null));
             statement.setString(5, String.valueOf(obj.getOrigem()));
 
-            statement.executeUpdate();
+            ResultSet resultado = statement.executeQuery();
+
+            if (resultado.next()) {
+                long id = resultado.getLong("id");
+                LocalDate criadoEm = resultado.getDate("criado_em").toLocalDate();
+                obj.setId(Processo.IDFormatada(id, criadoEm.getYear()));
+            }
 
             System.out.println("Cautela criada com sucesso");
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public String idCautela(Cautela obj) {
-        String sql = """
-                SELECT * FROM cautelas
-                WHERE tombo_item = ?
-                ORDER BY criado_em DESC
-                LIMIT 1;
-                """;
-
-        try (Connection connection = this.connectionFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-
-            statement.setString(1, obj.getItemPatrimoniado().getTombo());
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                long id = resultSet.getLong("id");
-                LocalDate criadoEm = resultSet.getDate("criado_em").toLocalDate();
-                return Processo.IDFormatada(id, criadoEm.getYear());
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }

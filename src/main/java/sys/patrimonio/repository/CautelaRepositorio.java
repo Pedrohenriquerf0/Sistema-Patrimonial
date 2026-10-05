@@ -4,5 +4,4 @@ import sys.patrimonio.model.Cautela;
 
 public interface CautelaRepositorio extends RepositorioSomenteInsercao<Cautela, Long> {
 
-    String idCautela(Cautela cautela);
 }

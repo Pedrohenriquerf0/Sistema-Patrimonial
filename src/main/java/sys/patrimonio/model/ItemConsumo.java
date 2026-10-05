@@ -21,22 +21,6 @@ public class ItemConsumo extends Item {
         this.id = id;
     }
 
-
-    // vai para consumo service
-    public void darBaixa(int quantidade){
-        if(quantidade > this.getQuantidade()){
-            throw new SaldoInsuficienteException("Saida maior que o estoque");  // TODO - criar exceptions para esse tipo
-        }
-        this.setQuantidade(this.getQuantidade() - quantidade);
-    }
-
-    public void reporEstoque(int quantidade){
-        if(quantidade <= 0){
-            throw new IllegalArgumentException("quantidade tem que ser positiva");  // TODO - criar exceptions para esse tipo
-        }
-        this.setQuantidade(this.getQuantidade() + quantidade);
-    }
-
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;

@@ -18,21 +18,34 @@ public class CriarCautela {
     private final CautelaRepositorio cautelaRepositorio;
 
 
-    public CriarCautela(Cautela cautela, byte tipocriacao) {
+    private CriarCautela(Cautela cautela) {
         this.cautelaRepositorio = AppContext.getCautelaRepositorio();
         this.cautela = cautela;
-
-        if(tipocriacao == 1){
-            this.cautelaInsert();
-        }
     }
 
-    private void cautelaInsert(){
+    public static CriarCautela criarCautela(Cautela cautela) {
+        CriarCautela criarCautela = new CriarCautela(cautela);
+        criarCautela.salvar();
+        return criarCautela;
+    }
+
+    public static CriarCautela cautelaBD(Cautela cautela) {
+        return new CriarCautela(cautela);
+    }
+
+    public static Cautela buscarPorID(long id){
+        CriarCautela criarCautela = new CriarCautela(null);
+        if(id <= 0){
+            throw new IllegalArgumentException("ID não pode se menor que zero");
+        }
+        Cautela cautela = criarCautela.cautelaRepositorio.buscarPorId(id);
+        return cautela;
+    }
+
+    private void salvar() {
         this.cautela.getItemPatrimoniado().setLocal(this.cautela.getDestino());
         this.cautelaRepositorio.salvar(this.cautela);
-        this.cautela.setId(this.cautelaRepositorio.idCautela(cautela));
 
-        // TODO RESOLVER DEPOIS
         PatrimoniadoManager patrimoniadoManager = new PatrimoniadoManager();
         patrimoniadoManager.atualizar(this.cautela.getItemPatrimoniado());
     }
