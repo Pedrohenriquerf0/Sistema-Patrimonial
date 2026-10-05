@@ -1,108 +1,14 @@
 /* =========================================================
    CONFIGURAÇÃO GERAL
    ========================================================= */
-
-.root {
-    -fx-font-family: "Segoe UI";
-    -fx-background-color: #0b1726;
-}
-
-
-/* =========================================================
-   MENU LATERAL
-   ========================================================= */
-
-.sidebar {
-    -fx-background-color: #0d1b2a;
-    -fx-border-color: #172b40;
-    -fx-border-width: 0 1px 0 0;
-}
-
-
-/* LOGO */
-
-.logo-small {
-    -fx-text-fill: #8fa4b8;
-    -fx-font-size: 13px;
-    -fx-font-weight: bold;
-}
-
-.logo {
-    -fx-text-fill: white;
-    -fx-font-size: 20px;
-    -fx-font-weight: bold;
-    -fx-padding: 0 0 25px 0;
-}
-
-
-/* TÍTULO DO MENU */
-
-.menu-title {
-    -fx-text-fill: #71869b;
-    -fx-font-size: 11px;
-    -fx-font-weight: bold;
-    -fx-padding: 0 0 5px 8px;
-}
-
-
-/* BOTÕES DO MENU */
-
-.menu-button {
-    -fx-background-color: transparent;
-    -fx-text-fill: #b5c4d4;
-
-    -fx-font-size: 14px;
-    -fx-font-weight: normal;
-
-    -fx-alignment: CENTER_LEFT;
-
-    -fx-background-radius: 7px;
-
-    -fx-border-radius: 7px;
-
-    -fx-cursor: hand;
-
-    -fx-padding: 12px 10px 12px 12px;
-}
-
-
-/* HOVER */
-
-.menu-button:hover {
-    -fx-background-color: #162b40;
-    -fx-text-fill: white;
-}
-
-
-/* MENU ATIVO */
-
-.menu-button-active {
-    -fx-background-color: #159447;
-    -fx-text-fill: white;
-
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-
-    -fx-alignment: CENTER_LEFT;
-
-    -fx-background-radius: 7px;
-
-    -fx-cursor: hand;
-
-    -fx-padding: 12px 10px 12px 12px;
-}
-
-.menu-button-active:hover {
-    -fx-background-color: #19a650;
-}
-
+@import "global.css";
 
 /* =========================================================
    ÁREA PRINCIPAL
    ========================================================= */
 
 .content {
-    -fx-background-color: #0b1726;
+    -fx-background-color: #f8fafc;
 }
 
 
@@ -111,13 +17,13 @@
    ========================================================= */
 
 .title {
-    -fx-text-fill: white;
+    -fx-text-fill: #0f172a;
     -fx-font-size: 28px;
     -fx-font-weight: bold;
 }
 
 .subtitle {
-    -fx-text-fill: #8195a9;
+    -fx-text-fill: #64748b;
     -fx-font-size: 14px;
 }
 
@@ -127,11 +33,11 @@
    ========================================================= */
 
 .search-card {
-    -fx-background-color: #122337;
+    -fx-background-color: #ffffff;
 
     -fx-background-radius: 10px;
 
-    -fx-border-color: #203a53;
+    -fx-border-color: #e2e8f0;
     -fx-border-width: 1px;
     -fx-border-radius: 10px;
 
@@ -142,17 +48,17 @@
 /* CAMPO DE PESQUISA */
 
 .search-field {
-    -fx-background-color: #172b40;
+    -fx-background-color: #f8fafc;
 
-    -fx-text-fill: white;
+    -fx-text-fill: #1e293b;
 
-    -fx-prompt-text-fill: #71869b;
+    -fx-prompt-text-fill: #94a3b8;
 
     -fx-font-size: 14px;
 
     -fx-background-radius: 7px;
 
-    -fx-border-color: #2b4964;
+    -fx-border-color: #cbd5e1;
     -fx-border-width: 1px;
     -fx-border-radius: 7px;
 
@@ -160,14 +66,15 @@
 }
 
 .search-field:focused {
-    -fx-border-color: #1caf57;
+    -fx-border-color: #38bdf8; /* Detalhe azul suave no foco */
+    -fx-background-color: #ffffff;
 }
 
 
 /* BOTÃO PESQUISAR */
 
 .button-search {
-    -fx-background-color: #1769aa;
+    -fx-background-color: #0284c7; /* Azul primário moderado */
 
     -fx-text-fill: white;
 
@@ -182,11 +89,11 @@
 }
 
 .button-search:hover {
-    -fx-background-color: #1c7bc7;
+    -fx-background-color: #0369a1;
 }
 
 .button-search:pressed {
-    -fx-background-color: #12568d;
+    -fx-background-color: #075985;
 }
 
 
@@ -195,11 +102,11 @@
    ========================================================= */
 
 .table-card {
-    -fx-background-color: #122337;
+    -fx-background-color: #ffffff;
 
     -fx-background-radius: 10px;
 
-    -fx-border-color: #203a53;
+    -fx-border-color: #e2e8f0;
     -fx-border-width: 1px;
     -fx-border-radius: 10px;
 
@@ -210,7 +117,7 @@
 /* TÍTULO DA TABELA */
 
 .section-title {
-    -fx-text-fill: white;
+    -fx-text-fill: #0f172a;
 
     -fx-font-size: 16px;
 
@@ -225,7 +132,7 @@
 .patrimonio-table {
     -fx-background-color: transparent;
 
-    -fx-border-color: #203a53;
+    -fx-border-color: #e2e8f0;
     -fx-border-width: 1px;
     -fx-border-radius: 7px;
 
@@ -236,7 +143,7 @@
 /* CABEÇALHO */
 
 .patrimonio-table .column-header-background {
-    -fx-background-color: #172d43;
+    -fx-background-color: #f1f5f9; /* Fundo suave do cabeçalho */
 
     -fx-background-radius: 7px 7px 0 0;
 }
@@ -245,13 +152,13 @@
 .patrimonio-table .column-header {
     -fx-background-color: transparent;
 
-    -fx-border-color: #203a53;
+    -fx-border-color: #e2e8f0;
     -fx-border-width: 0 1px 0 0;
 }
 
 
 .patrimonio-table .column-header .label {
-    -fx-text-fill: #9eb1c4;
+    -fx-text-fill: #475569;
 
     -fx-font-size: 12px;
 
@@ -262,35 +169,35 @@
 /* LINHAS */
 
 .patrimonio-table .table-row-cell {
-    -fx-background-color: #122337;
+    -fx-background-color: #ffffff;
 
-    -fx-border-color: transparent transparent #1b344b transparent;
+    -fx-border-color: transparent transparent #f1f5f9 transparent;
 
-    -fx-text-fill: #d8e2ec;
+    -fx-text-fill: #334155;
 }
 
 
 .patrimonio-table .table-row-cell:hover {
-    -fx-background-color: #18324b;
+    -fx-background-color: #f8fafc; /* Destaque sutil ao passar o mouse */
 }
 
 
 /* LINHA SELECIONADA */
 
 .patrimonio-table .table-row-cell:selected {
-    -fx-background-color: #145b3a;
+    -fx-background-color: #e0f2fe; /* Azul pastel suave na seleção */
 }
 
 
 .patrimonio-table .table-row-cell:selected .text {
-    -fx-fill: white;
+    -fx-fill: #0369a1; /* Texto azul escuro para manter bom contraste */
 }
 
 
 /* CÉLULAS */
 
 .patrimonio-table .table-cell {
-    -fx-text-fill: #d8e2ec;
+    -fx-text-fill: #334155;
 
     -fx-font-size: 13px;
 
@@ -304,24 +211,21 @@
    SCROLLBAR
    ========================================================= */
 
-.scroll-bar:vertical {
-    -fx-background-color: #122337;
-}
-
+.scroll-bar:vertical,
 .scroll-bar:horizontal {
-    -fx-background-color: #122337;
+    -fx-background-color: #f8fafc;
 }
 
 
 .scroll-bar .thumb {
-    -fx-background-color: #34516b;
+    -fx-background-color: #cbd5e1;
 
     -fx-background-radius: 5px;
 }
 
 
 .scroll-bar .thumb:hover {
-    -fx-background-color: #466b88;
+    -fx-background-color: #94a3b8;
 }
 
 

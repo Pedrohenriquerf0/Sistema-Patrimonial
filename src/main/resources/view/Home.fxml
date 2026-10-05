@@ -14,7 +14,7 @@
 <AnchorPane
         prefHeight="768.0"
         prefWidth="1366.0"
-        stylesheets="@/css/style.css"
+        stylesheets="@/css/home.css"
         xmlns="http://javafx.com/javafx/21"
         xmlns:fx="http://javafx.com/fxml/1"
         fx:controller="sys.patrimonio.view.controller.ControllerHome">
@@ -25,38 +25,7 @@
 
             <!-- MENU LATERAL -->
             <left>
-
-                <VBox prefWidth="230.0" spacing="10.0" styleClass="sidebar">
-
-                    <padding>
-                        <Insets bottom="20.0" left="15.0" right="15.0" top="20.0"/>
-                    </padding>
-
-                    <!-- TÍTULO -->
-                    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="logo"
-                           text="SISTEMA DE PATRIMÔNIO"/>
-
-                    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="menu-title" text="MENU"/>
-
-                    <Button maxWidth="1.7976931348623157E308" styleClass="menu-button" text="⌂   Início"/>
-
-                    <Button maxWidth="1.7976931348623157E308" styleClass="menu-button" text="+   Cadastrar Patrimônio"
-                            onAction="#Cadastrar_Patrimônio"/>
-
-                    <Button maxWidth="1.7976931348623157E308" styleClass="menu-button" text="☷   Listar Patrimônio"/>
-
-                    <Button maxWidth="1.7976931348623157E308" styleClass="menu-button" text="⌖   Localidades"/>
-
-                    <Button maxWidth="1.7976931348623157E308" styleClass="menu-button" text="◆   Categorias"/>
-
-                    <Button maxWidth="1.7976931348623157E308" styleClass="menu-button" text="◆   Tipos de Ativo"/>
-
-                    <Button maxWidth="1.7976931348623157E308" styleClass="menu-button" text="▥   Relatórios"/>
-
-                    <Button maxWidth="1.7976931348623157E308" styleClass="menu-button" text="⚙   Configurações"/>
-
-                </VBox>
-
+                <fx:include source="/view/sidebar.fxml"/>
             </left>
 
 

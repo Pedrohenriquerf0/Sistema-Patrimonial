@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="768.0"
+            prefWidth="1366.0"
+            stylesheets="@/css/home.css"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="sys.patrimonio.view.controller.ControllerCadastrarPatriminio">
+    <children>
+        <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                    AnchorPane.topAnchor="0.0">
+            <!-- MENU LATERAL -->
+            <left>
+                <fx:include source="/view/sidebar.fxml"/>
+            </left>
+        </BorderPane>
+    </children>
+</AnchorPane>

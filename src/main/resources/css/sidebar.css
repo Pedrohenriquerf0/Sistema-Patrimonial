@@ -1,0 +1,72 @@
+@import "global.css";
+/* =========================================================
+   MENU LATERAL
+   ========================================================= */
+
+.sidebar {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e2e8f0;
+    -fx-border-width: 0 1px 0 0;
+}
+
+/* LOGO */
+
+.logo-small {
+    -fx-text-fill: #0284c7; /* Azul sutil */
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.logo {
+    -fx-text-fill: #0f172a; /* Texto escuro */
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 25px 0;
+}
+
+/* TÍTULO DO MENU */
+
+.menu-title {
+    -fx-text-fill: #94a3b8;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 5px 8px;
+}
+
+/* BOTÕES DO MENU */
+
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #475569;
+    -fx-font-size: 14px;
+    -fx-font-weight: normal;
+    -fx-alignment: CENTER_LEFT;
+    -fx-background-radius: 7px;
+    -fx-border-radius: 7px;
+    -fx-cursor: hand;
+    -fx-padding: 12px 10px 12px 12px;
+}
+
+/* HOVER DO MENU */
+
+.menu-button:hover {
+    -fx-background-color: #f1f5f9;
+    -fx-text-fill: #0284c7;
+}
+
+/* MENU ATIVO */
+
+.menu-button-active {
+    -fx-background-color: #e0f2fe; /* Azul pastel claro */
+    -fx-text-fill: #0369a1;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+    -fx-background-radius: 7px;
+    -fx-cursor: hand;
+    -fx-padding: 12px 10px 12px 12px;
+}
+
+.menu-button-active:hover {
+    -fx-background-color: #bae6fd;
+}

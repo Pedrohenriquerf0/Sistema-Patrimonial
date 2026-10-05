@@ -1,0 +1,25 @@
+/* =========================================================
+   CONFIGURAÇÃO GERAL
+   ========================================================= */
+
+.root {
+    -fx-font-family: "Segoe UI";
+    -fx-background-color: #f8fafc; /* Branco gelo bem suave */
+}
+
+.content {
+    -fx-background-color: #f8fafc;
+}
+
+/* TÍTULOS GERAIS */
+
+.title {
+    -fx-text-fill: #0f172a;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+}
+
+.subtitle {
+    -fx-text-fill: #64748b;
+    -fx-font-size: 14px;
+}

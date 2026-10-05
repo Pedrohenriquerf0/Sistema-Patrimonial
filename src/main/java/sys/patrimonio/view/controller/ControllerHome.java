@@ -1,17 +1,10 @@
 package sys.patrimonio.view.controller;
 
 import javafx.fxml.FXML;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import sys.patrimonio.model.Item;
 
-import java.io.InputStream;
 
 
 public class ControllerHome {
@@ -31,22 +24,5 @@ public class ControllerHome {
         }
     }
 
-    @FXML
-    private void Cadastrar_Patrimônio(ActionEvent event){
-        try (InputStream fxmlStream = getClass().getClassLoader().getResourceAsStream("view/Adicionar.fxml")){
-            if (fxmlStream == null) {
-                throw new RuntimeException("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/Home.fxml está correto.");
-            }
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            Parent parent = fxmlLoader.load(fxmlStream);
-            Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(parent));
-            stage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
 
 }
