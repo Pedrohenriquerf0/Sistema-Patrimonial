@@ -33,7 +33,7 @@ public class ControllerSidebar {
 
     @FXML
     private void cadastrarPatrimônio(ActionEvent event){
-        try (InputStream fxmlStream = getClass().getClassLoader().getResourceAsStream("view/CadastrarPatriminio.fxml")){
+        try (InputStream fxmlStream = getClass().getClassLoader().getResourceAsStream("view/CadastrarPatrimonio.fxml")){
             if (fxmlStream == null) {
                 throw new RuntimeException("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/Home.fxml está correto.");
             }
