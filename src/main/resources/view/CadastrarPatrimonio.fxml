@@ -7,43 +7,40 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 
+            <!-- MEDIDAS DA TELA -->
 <AnchorPane prefHeight="768.0"
             prefWidth="1366.0"
             stylesheets="@/css/home.css"
             xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="sys.patrimonio.view.controller.ControllerCadastrarPatriminio">
+            fx:controller="sys.patrimonio.view.controller.ControllerCadastrarPatrimonio">
     <children>
 
 
         <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                     AnchorPane.topAnchor="0.0">
-            <!-- MENU LATERAL -->
+
             <left>
                 <fx:include source="/view/sidebar.fxml"/>
             </left>
 
             <!-- ÁREA PRINCIPAL -->
             <center>
-
                 <VBox spacing="20.0" styleClass="content">
 
                     <padding>
                         <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>
                     </padding>
 
-
                     <!-- CABEÇALHO -->
-
                     <VBox spacing="5.0">
-
-                        <Label styleClass="title" text="Patrimônios"/>
-
-                        <Label styleClass="subtitle" text="Consulte e gerencie os patrimônios cadastrados no sistema."/>
-
+                        <Label styleClass="title" text="Cadastrar Patrimônio" />
+                        <Label styleClass="subtitle" text="Preencha os dados abaixo para registrar um novo ativo no sistema." />
                     </VBox>
-                </VBox>
 
+
+
+                </VBox>
             </center>
         </BorderPane>
     </children>

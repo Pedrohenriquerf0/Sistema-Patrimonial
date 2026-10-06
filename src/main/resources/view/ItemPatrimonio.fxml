@@ -1,14 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="sys.patrimonio.view.controller.ControllerItemPatrimonio"
-            prefHeight="400.0" prefWidth="600.0">
+<VBox spacing="20.0" styleClass="content" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sys.patrimonio.view.controller.ControllerCadastrarPatrimonio">
+    <padding>
+        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+    </padding>
 
-</AnchorPane>
+    <!-- CABEÇALHO -->
+    <VBox spacing="4.0">
+        <Label styleClass="title" text="Cadastrar Patrimônio" />
+        <Label styleClass="subtitle" text="Preencha os dados abaixo para registrar um novo ativo no sistema." />
+    </VBox>
+
+    <!-- CARD PRINCIPAL -->
+    <VBox spacing="20.0" styleClass="card">
+        <padding>
+            <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+        </padding>
+
+        <HBox spacing="25.0">
+            <!-- COLUNA DA ESQUERDA: MOLDURA DA IMAGEM -->
+            <VBox alignment="TOP_CENTER" spacing="12.0">
+                <Label styleClass="form-label" text="Foto do Item" />
+
+                <!-- MOLDURA PARA A IMAGEM -->
+                <StackPane styleClass="image-frame">
+                    <!-- MENSAGEM PADRÃO QUANDO NÃO HÁ IMAGEM -->
+                    <Label fx:id="lblPlaceholder" styleClass="image-placeholder-text" text="Nenhuma imagem&#10;selecionada" textAlignment="CENTER" />
+
+                    <!-- IMAGEM CARREGADA -->
+                    <ImageView fx:id="imgPatrimonio" fitHeight="170.0" fitWidth="170.0" preserveRatio="true" />
+                </StackPane>
+
+                <!-- BOTÕES DA IMAGEM -->
+                <HBox spacing="8.0" alignment="CENTER">
+                    <Button onAction="#selecionarImagem" styleClass="btn-secondary" text="📷 Carregar" />
+                    <Button onAction="#removerImagem" styleClass="btn-secondary-danger" text="🗑" />
+                </HBox>
+            </VBox>
+
+            <!-- COLUNA DA DIREITA: FORMULÁRIO DE DADOS -->
+            <GridPane hgap="15.0" vgap="15.0" HBox.hgrow="ALWAYS">
+                <!-- Linha 0: Nome e Código -->
+                <VBox spacing="5.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0">
+                    <Label styleClass="form-label" text="Nome do Item *" />
+                    <TextField promptText="Ex: Notebook Dell Vostro 15" styleClass="input-field" />
+                </VBox>
+
+                <VBox spacing="5.0" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                    <Label styleClass="form-label" text="Nº de Tombamento / Tag *" />
+                    <TextField promptText="PAT-2024-001" styleClass="input-field" />
+                </VBox>
+
+                <!-- Linha 1: Categoria, Tipo e Localidade -->
+                <VBox spacing="5.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <Label styleClass="form-label" text="Categoria *" />
+                    <ComboBox maxWidth="1.7976931348623157E308" promptText="Selecione..." styleClass="combo-box" />
+                </VBox>
+
+                <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <Label styleClass="form-label" text="Tipo de Ativo" />
+                    <ComboBox maxWidth="1.7976931348623157E308" promptText="Selecione..." styleClass="combo-box" />
+                </VBox>
+
+                <VBox spacing="5.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                    <Label styleClass="form-label" text="Localidade / Setor *" />
+                    <ComboBox maxWidth="1.7976931348623157E308" promptText="Selecione..." styleClass="combo-box" />
+                </VBox>
+
+                <!-- Linha 2: Valor, Data e Nota Fiscal -->
+                <VBox spacing="5.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                    <Label styleClass="form-label" text="Valor de Aquisição (R$)" />
+                    <TextField promptText="0,00" styleClass="input-field" />
+                </VBox>
+
+                <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <Label styleClass="form-label" text="Data de Compra" />
+                    <DatePicker maxWidth="1.7976931348623157E308" styleClass="date-picker" />
+                </VBox>
+
+                <VBox spacing="5.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                    <Label styleClass="form-label" text="Nº Nota Fiscal" />
+                    <TextField promptText="000.123.456" styleClass="input-field" />
+                </VBox>
+
+                <!-- Linha 3: Observações -->
+                <VBox spacing="5.0" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="3">
+                    <Label styleClass="form-label" text="Observações / Detalhes" />
+                    <TextArea prefRowCount="3" promptText="Informações adicionais sobre o estado do item..." styleClass="text-area" />
+                </VBox>
+            </GridPane>
+        </HBox>
+
+        <!-- BOTÕES DE AÇÃO -->
+        <HBox alignment="CENTER_RIGHT" spacing="12.0">
+            <Button styleClass="btn-secondary" text="Limpar Campos" />
+            <Button styleClass="btn-primary" text="Salvar Patrimônio" />
+        </HBox>
+    </VBox>
+</VBox>

@@ -18,14 +18,15 @@ public class AppLauncher extends Application {
     public void start(Stage homeStage) {
 
         try {
-            PatrimoniadoRepositorio patrimoniadoRepositorio = new PatrimoniadoDAO(new ConnectionFactory());
-            ConsumoRepositorio consumoRepositorio = new ConsumoDAO(new ConnectionFactory());
-            CautelaRepositorio cautelaRepositorio = new CautelaDAO(new ConnectionFactory());
-            MovimentacaoRepositorio movimentacaoRepositorio = new MovimentacaoDAO(new ConnectionFactory());
+            ConnectionFactory connectionFactory = new ConnectionFactory();
+            PatrimoniadoRepositorio patrimoniadoRepositorio = new PatrimoniadoDAO(connectionFactory);
+            ConsumoRepositorio consumoRepositorio = new ConsumoDAO(connectionFactory);
+            CautelaRepositorio cautelaRepositorio = new CautelaDAO(connectionFactory);
+            MovimentacaoRepositorio movimentacaoRepositorio = new MovimentacaoDAO(connectionFactory);
 
             AppContext.inicializar(cautelaRepositorio, movimentacaoRepositorio, consumoRepositorio, patrimoniadoRepositorio);
 
-        } catch (AppContextInicializacaoException e){
+        } catch (RuntimeException e){
             throw new AppContextInicializacaoException("Falha ao conectar com o banco de dados", e);
         }
 

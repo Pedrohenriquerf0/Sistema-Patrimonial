@@ -29,6 +29,9 @@ public abstract class Item {
     }
 
     public void setQuantidade(int quantidade) {
+        if (quantidade < 0) {
+            throw new IllegalArgumentException("Quantidade não pode ser negativa");
+        }
         this.quantidade = quantidade;
     }
 
