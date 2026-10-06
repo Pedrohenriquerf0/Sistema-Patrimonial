@@ -52,7 +52,7 @@ public class MovimentacaoDAO implements MovimentacaoRepositorio {
                         .filter(s -> !s.isBlank()).map(TipoMovimentacao::valueOf).orElse(null);
 
                 MovimentacaoItemConsumo novamovimentacao = new MovimentacaoItemConsumo(destino,
-                        resultSet.getString("emissor"), data, itemConsumo, tipoMovimentacao, resultSet.getLong("id"));
+                        resultSet.getString("emissor"), data, itemConsumo, tipoMovimentacao, resultSet.getInt("quantidade"), resultSet.getLong("id"));
 
                 return novamovimentacao;
             }
@@ -88,7 +88,7 @@ public class MovimentacaoDAO implements MovimentacaoRepositorio {
                         .filter(s -> !s.isBlank()).map(TipoMovimentacao::valueOf).orElse(null);
 
                 MovimentacaoItemConsumo novamovimentacao = new MovimentacaoItemConsumo(destino,
-                        resultSet.getString("emissor"), data, itemConsumo, tipoMovimentacao, resultSet.getLong("id"));
+                        resultSet.getString("emissor"), data, itemConsumo, tipoMovimentacao, resultSet.getInt("quantidade"), resultSet.getLong("id"));
 
                 consumoList.add(novamovimentacao);
             }
@@ -103,8 +103,8 @@ public class MovimentacaoDAO implements MovimentacaoRepositorio {
     public void salvar(MovimentacaoItemConsumo obj) {
         String sql = """
                 INSERT INTO movimentacao_consumo
-                (item_consumo_id, tipo_movimentacao, destino, emissor)
-                VALUES (?, ?, ?, ?)
+                (item_consumo_id, tipo_movimentacao, destino, quantidade, emissor)
+                VALUES (?, ?, ?, ?, ?)
                 """;
 
         try (Connection connection = this.connectionFactory.getConnection();
@@ -113,7 +113,8 @@ public class MovimentacaoDAO implements MovimentacaoRepositorio {
             statement.setLong(1, obj.getItemConsumo().getId());
             statement.setString(2, String.valueOf(obj.getTipoMovimentacao()));
             statement.setString(3, String.valueOf(obj.getDestino()));
-            statement.setString(4, obj.getEmissor());
+            statement.setInt(4, obj.getQuantidade());
+            statement.setString(5, obj.getEmissor());
 
             statement.executeUpdate();
 

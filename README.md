@@ -16,8 +16,8 @@ Em desenvolvimento. A lógica de negócio principal já está funcional via linh
 * ✅ Remoção de itens
 * ✅ Criação de cautela (registro de responsabilidade sobre equipamento)
 * ✅ Movimentação de item de consumo
-* 🔄 Interface gráfica com JavaFX — em desenvolvimento
-* 🔄 Persistência de dados com MariaDB — em implementação 50% finalizada, faltando somente cautela e movimentação
+* ✅ Persistência de dados com MariaDB Finalizada
+* 🔄 Interface gráfica com JavaFX — começando desevolvemento
 
 ---
 
