@@ -21,7 +21,7 @@ public abstract class Item {
         this.entrada = LocalDate.now();
         this.categoria = categoria;
         this.foto = caminhoFoto;
-        this.quantidade = quantidade;
+        this.setQuantidade(quantidade);
     }
 
     public int getQuantidade() {

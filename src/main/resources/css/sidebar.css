@@ -9,13 +9,6 @@
     -fx-border-width: 0 1px 0 0;
 }
 
-/* LOGO */
-
-.logo-small {
-    -fx-text-fill: #0284c7; /* Azul sutil */
-    -fx-font-size: 13px;
-    -fx-font-weight: bold;
-}
 
 .logo {
     -fx-text-fill: #0f172a; /* Texto escuro */

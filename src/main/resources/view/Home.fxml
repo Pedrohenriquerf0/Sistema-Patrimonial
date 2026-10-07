@@ -44,7 +44,6 @@
                     <VBox spacing="5.0">
 
                         <Label styleClass="title" text="Patrimônios"/>
-
                         <Label styleClass="subtitle" text="Consulte e gerencie os patrimônios cadastrados no sistema."/>
 
                     </VBox>
