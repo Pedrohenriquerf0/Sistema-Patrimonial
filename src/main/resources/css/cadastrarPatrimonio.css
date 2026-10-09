@@ -1,0 +1,23 @@
+@import "global.css";
+
+.table-card {
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+    -fx-border-color: -cor-card-borda;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-padding: 18px;
+}
+
+.area-foto {
+    -fx-background-color: -cor-area-foto;
+    -fx-border-color: -cor-borda;
+    -fx-border-style: dashed;
+    -fx-border-width: 2;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+}
+
+.area-foto .label {
+    -fx-text-fill: -cor-texto-suave;
+}

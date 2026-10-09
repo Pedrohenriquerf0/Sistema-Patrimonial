@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -10,17 +12,18 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane
-        prefHeight="768.0"
-        prefWidth="1366.0"
-        stylesheets="@/css/home.css"
-        xmlns="http://javafx.com/javafx/21"
-        xmlns:fx="http://javafx.com/fxml/1"
-        fx:controller="sys.patrimonio.view.controller.ControllerCadastrarPatrimonio">
+<?import javafx.scene.layout.StackPane?>
+<AnchorPane prefHeight="768.0"
+            prefWidth="1366.0"
+            stylesheets="@/css/cadastrarPatrimonio.css"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="sys.patrimonio.view.controller.ControllerCadastrarPatrimonio">
+
     <children>
-
-
-        <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+        <BorderPane AnchorPane.bottomAnchor="0.0"
+                    AnchorPane.leftAnchor="0.0"
+                    AnchorPane.rightAnchor="0.0"
                     AnchorPane.topAnchor="0.0">
 
             <left>
@@ -32,37 +35,169 @@
                 <VBox spacing="20.0" styleClass="content">
 
                     <padding>
-                        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>
+                        <Insets bottom="30.0"
+                                left="30.0"
+                                right="30.0"
+                                top="30.0"/>
                     </padding>
 
                     <!-- CABEÇALHO -->
                     <VBox spacing="5.0">
-                        <Label styleClass="title" text="Cadastrar Patrimônio"/>
+                        <Label styleClass="title"
+                               text="Cadastrar Patrimônio"/>
+
                         <Label styleClass="subtitle"
                                text="Preencha os dados abaixo para registrar um novo ativo no sistema."/>
                     </VBox>
-                    <VBox styleClass="table-card" VBox.vgrow="ALWAYS">
 
-                        <GridPane prefHeight="649.0" prefWidth="1082.0">
+                    <!-- CARTÃO DO FORMULÁRIO -->
+                    <VBox styleClass="table-card"
+                          VBox.vgrow="ALWAYS">
+
+                        <!-- INICIO -->
+                        <GridPane hgap="20.0"
+                                  vgap="20.0"
+                                  VBox.vgrow="ALWAYS">
+
+                            <!-- COLUNAS -->
                             <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="530.0" minWidth="10.0"
-                                                   prefWidth="341.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="795.0" minWidth="10.0"
-                                                   prefWidth="382.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="795.0" minWidth="10.0"
-                                                   prefWidth="382.0"/>
+                                <ColumnConstraints percentWidth="33.33"
+                                                   hgrow="ALWAYS"/>
+                                <ColumnConstraints percentWidth="33.33"
+                                                   hgrow="ALWAYS"/>
+                                <ColumnConstraints percentWidth="33.34"
+                                                   hgrow="ALWAYS"/>
                             </columnConstraints>
+
+                            <!-- LINHAS -->
                             <rowConstraints>
-                                <RowConstraints maxHeight="325.0" minHeight="10.0" prefHeight="231.0"
-                                                vgrow="SOMETIMES"/>
-                                <RowConstraints maxHeight="274.0" minHeight="0.0" prefHeight="223.0" vgrow="SOMETIMES"/>
-                                <RowConstraints maxHeight="195.0" minHeight="0.0" prefHeight="180.0" vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="150.0"
+                                                vgrow="ALWAYS"/>
+                                <RowConstraints minHeight="100.0"
+                                                vgrow="ALWAYS"/>
+                                <RowConstraints minHeight="100.0"
+                                                vgrow="ALWAYS"/>
                             </rowConstraints>
+
                             <children>
-                                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"
-                                           GridPane.halignment="CENTER" GridPane.valignment="CENTER"/>
+
+                                <!-- IMAGEM: COLUNA 0, LINHA 0 -->
+                                <VBox spacing="12.0"
+                                      alignment="CENTER"
+                                      GridPane.columnIndex="0"
+                                      GridPane.rowIndex="0">
+
+                                    <StackPane fx:id="areaFoto" styleClass="area-foto"
+                                               minWidth="280" minHeight="280" prefWidth="280" prefHeight="280"
+                                               maxWidth="280" maxHeight="280">
+                                        <Label fx:id="lblSemFoto" text="Sem foto"/>
+                                        <ImageView fx:id="imagemPatrimonio"
+                                                   fitWidth="272" fitHeight="272"
+                                                   preserveRatio="true" pickOnBounds="true"/>
+                                    </StackPane>
+
+                                    <Button fx:id="botaoAlterarImagem"
+                                            text="Escolher foto"
+
+                                            mnemonicParsing="false"/>
+                                </VBox>
+
+                                <!-- NOME: COLUNA 1, LINHA 0 -->
+                                <VBox spacing="8.0"
+                                      GridPane.columnIndex="1"
+                                      GridPane.rowIndex="0">
+
+                                    <Label text="Nome do patrimônio"/>
+
+                                    <TextField fx:id="campoNome"
+                                               promptText="Digite o nome"
+                                               prefHeight="41.0"
+                                               maxWidth="Infinity"/>
+                                </VBox>
+
+                                <!-- TOMBO: COLUNA 2, LINHA 0 -->
+                                <VBox spacing="8.0"
+                                      GridPane.columnIndex="2"
+                                      GridPane.rowIndex="0">
+
+                                    <Label text="Número do tombo"/>
+
+                                    <TextField fx:id="campoTombo"
+                                               promptText="Digite o tombo"
+                                               prefHeight="41.0"
+                                               maxWidth="Infinity"/>
+                                </VBox>
+
+                                <!-- NÚMERO DE SÉRIE: COLUNA 0, LINHA 1 -->
+                                <VBox spacing="8.0"
+                                      GridPane.columnIndex="0"
+                                      GridPane.rowIndex="1">
+
+                                    <Label text="Número de série"/>
+
+                                    <TextField fx:id="campoNumeroSerie"
+                                               promptText="Digite o número de série"
+                                               prefHeight="41.0"
+                                               maxWidth="Infinity"/>
+                                </VBox>
+
+                                <!-- CATEGORIA: COLUNA 1, LINHA 1 -->
+                                <VBox spacing="8.0"
+                                      GridPane.columnIndex="1"
+                                      GridPane.rowIndex="1">
+
+                                    <Label text="Categoria"/>
+
+                                    <TextField fx:id="campoCategoria"
+                                               promptText="Digite a categoria"
+                                               prefHeight="41.0"
+                                               maxWidth="Infinity"/>
+                                </VBox>
+
+                                <!-- QUANTIDADE: COLUNA 2, LINHA 1 -->
+                                <VBox spacing="8.0"
+                                      GridPane.columnIndex="2"
+                                      GridPane.rowIndex="1">
+
+                                    <Label text="Quantidade"/>
+
+                                    <TextField fx:id="campoQuantidade"
+                                               promptText="Digite a quantidade"
+                                               prefHeight="41.0"
+                                               maxWidth="Infinity"/>
+                                </VBox>
+
+                                <!-- LOCALIDADE: COLUNA 0, LINHA 2 -->
+                                <VBox spacing="8.0"
+                                      GridPane.columnIndex="0"
+                                      GridPane.rowIndex="2">
+
+                                    <Label text="Localidade"/>
+
+                                    <TextField fx:id="campoLocalidade"
+                                               promptText="Digite a localidade"
+                                               prefHeight="41.0"
+                                               maxWidth="Infinity"/>
+                                </VBox>
+
+                                <!-- DESCRIÇÃO: COLUNAS 1 E 2, LINHA 2 -->
+                                <VBox spacing="8.0"
+                                      GridPane.columnIndex="1"
+                                      GridPane.rowIndex="2"
+                                      GridPane.columnSpan="2">
+
+                                    <Label text="Descrição"/>
+
+                                    <TextField fx:id="campoDescricao"
+                                               promptText="Digite a descrição"
+                                               prefHeight="41.0"
+                                               maxWidth="Infinity"/>
+                                </VBox>
+
                             </children>
                         </GridPane>
+
+                        <!-- FINAL -->
                     </VBox>
                 </VBox>
             </center>

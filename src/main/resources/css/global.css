@@ -1,25 +1,40 @@
-/* =========================================================
-   CONFIGURAÇÃO GERAL
-   ========================================================= */
-
 .root {
+    /* ===== PALETA ===== */
+    -cor-fundo: #F2F4F8;
+    -cor-sidebar: #1B2433;
+    -cor-sidebar-ativo: #2B3B5C;
+    -cor-sidebar-texto: #B8C2D6;
+    -cor-card-borda: #E1E6EF;
+    -cor-borda: #CBD3E1;
+    -cor-texto: #1B2433;
+    -cor-texto-label: #45526B;
+    -cor-texto-suave: #55617A;
+    -cor-campo-travado: #EEF1F6;
+    -cor-area-foto: #F8F9FC;
+    -cor-primaria: #1F4FD8;
+    -cor-primaria-clara: #E3EBFF;
+
+    /* controles nativos (ComboBox, DatePicker...) seguem a cor de destaque */
+    -fx-accent: -cor-primaria;
+    -fx-focus-color: -cor-primaria;
+
     -fx-font-family: "Segoe UI";
-    -fx-background-color: #f8fafc; /* Branco gelo bem suave */
+    -fx-background-color: -cor-fundo;
 }
 
 .content {
-    -fx-background-color: #f8fafc;
+    -fx-background-color: -cor-fundo;
 }
 
 /* TÍTULOS GERAIS */
 
 .title {
-    -fx-text-fill: #0f172a;
+    -fx-text-fill: -cor-texto;
     -fx-font-size: 28px;
     -fx-font-weight: bold;
 }
 
 .subtitle {
-    -fx-text-fill: #64748b;
+    -fx-text-fill: -cor-texto-suave;
     -fx-font-size: 14px;
 }
