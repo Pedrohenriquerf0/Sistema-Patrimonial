@@ -51,5 +51,3 @@ Em desenvolvimento. A lógica de negócio principal já está funcional via linh
 ## 🗺️ Próximos passos
 
 * Finalizar interface gráfica com JavaFX.
-* Concluir integração com MariaDB para persistência de dados.
-* Adicionar relatórios de movimentação e cautela.

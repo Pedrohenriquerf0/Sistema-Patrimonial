@@ -40,7 +40,7 @@
 
                 <!-- CABEÇALHO (o texto muda conforme o tipo, pelo controller) -->
                 <VBox spacing="5.0">
-                    <Label fx:id="labelTitulo" styleClass="title" text="Cadastrar Patrimônio"/>
+                    <Label fx:id="labelTitulo" styleClass="title" text="Cadastrar Patrimônio de Consumo"/>
                     <Label fx:id="labelSubtitulo" styleClass="subtitle"
                            text="Preencha os dados abaixo para registrar um novo ativo no sistema."/>
                 </VBox>
@@ -62,9 +62,9 @@
                                            preserveRatio="true" pickOnBounds="true"/>
                             </StackPane>
 
-                            <Button fx:id="botaoEscolherFoto" styleClass="button-secundario"
+                            <Button  styleClass="button-secundario"
                                     text="Escolher foto" maxWidth="Infinity"
-                                    mnemonicParsing="false" />
+                                    mnemonicParsing="false" onAction="#btt_buscarFoto"/>
                         </VBox>
 
                         <!-- COLUNA DOS CAMPOS: 2 colunas de 50% -->
@@ -81,7 +81,7 @@
                             </VBox>
 
                             <!-- Linha 1, mesma célula do tombo: só consumo (um dos dois fica visível) -->
-                            <VBox fx:id="boxQuantidade" spacing="8.0" GridPane.rowIndex="1" GridPane.columnIndex="0">
+                            <VBox  spacing="8.0" GridPane.rowIndex="1" GridPane.columnIndex="0">
                                 <Label styleClass="form-label" text="Quantidade"/>
                                 <TextField fx:id="campoQuantidade" promptText="Digite a quantidade" prefHeight="41.0"/>
                             </VBox>
@@ -117,9 +117,9 @@
                     <!-- BOTÕES -->
                     <HBox spacing="12.0" alignment="CENTER_RIGHT">
                         <Button fx:id="botaoCancelar" prefHeight="40.0" prefWidth="110.0"
-                                styleClass="button-cancelar" text="Cancelar"/>
+                                styleClass="button-cancelar" text="Cancelar" onAction="#btt_cancelar"/>
                         <Button fx:id="botaoSalvar" prefHeight="40.0" prefWidth="110.0"
-                                styleClass="button-salvar" text="Salvar" />
+                                styleClass="button-salvar" text="Salvar" onAction="#btt_salvar"/>
                     </HBox>
                 </VBox>
             </VBox>
