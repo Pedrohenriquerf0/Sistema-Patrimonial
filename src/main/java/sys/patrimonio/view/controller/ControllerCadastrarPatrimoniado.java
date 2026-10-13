@@ -2,15 +2,36 @@ package sys.patrimonio.view.controller;
 
 
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.event.ActionEvent;
+import sys.patrimonio.model.Localidade;
+import sys.patrimonio.model.Status;
 
 import java.io.File;
 
 public class ControllerCadastrarPatrimoniado {
+
+    @FXML
+    private TextField campoNome;
+    @FXML
+    private TextField campoTombo;
+    @FXML
+    private TextField campoNumeroSerie;
+    @FXML
+    private TextField campoCategoria;
+    @FXML
+    private ComboBox<Localidade> comboLocalidade;
+    @FXML
+    private ComboBox<Status> comboStatus;
+    @FXML
+    private TextArea campoDescricao;
+
     @FXML
     private ImageView imagemPatrimonio;
 
@@ -20,7 +41,7 @@ public class ControllerCadastrarPatrimoniado {
     private File arquivoImagemSelecionado;
 
     @FXML
-    private void btt_buscarFoto(ActionEvent event){
+    private void btt_buscarFoto(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Selecionar Foto do Patrimônio");
 
@@ -39,13 +60,14 @@ public class ControllerCadastrarPatrimoniado {
     }
 
     @FXML
-    private void btt_cancelar(ActionEvent event){
+    private void btt_cancelar(ActionEvent event) {
 
     }
 
     @FXML
-    private void btt_salvar(ActionEvent event){
-
+    private void btt_salvar(ActionEvent event) {
+        String nome = campoNome.getText();
+        System.out.println(nome);
     }
 
 }

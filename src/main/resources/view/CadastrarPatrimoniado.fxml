@@ -40,8 +40,8 @@
 
                 <!-- CABEÇALHO (o texto muda conforme o tipo, pelo controller) -->
                 <VBox spacing="5.0">
-                    <Label fx:id="labelTitulo" styleClass="title" text="Cadastrar Patrimônio Permanente  "/>
-                    <Label fx:id="labelSubtitulo" styleClass="subtitle"
+                    <Label  styleClass="title" text="Cadastrar Patrimônio Permanente  "/>
+                    <Label  styleClass="subtitle"
                            text="Preencha os dados abaixo para registrar um novo ativo no sistema."/>
                 </VBox>
 
