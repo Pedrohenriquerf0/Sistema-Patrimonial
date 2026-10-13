@@ -1,4 +1,5 @@
 @import "global.css";
+/* CARTÃO DO FORMULÁRIO */
 
 .table-card {
     -fx-background-color: white;
@@ -8,6 +9,18 @@
     -fx-border-radius: 10px;
     -fx-padding: 18px;
 }
+
+
+/* RÓTULOS DOS CAMPOS */
+
+.form-label {
+    -fx-text-fill: -cor-texto-label;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+
+/* MOLDURA DA FOTO */
 
 .area-foto {
     -fx-background-color: -cor-area-foto;
@@ -20,4 +33,69 @@
 
 .area-foto .label {
     -fx-text-fill: -cor-texto-suave;
+}
+
+
+/* CAMPO TRAVADO (somente leitura) */
+
+.campo-travado {
+    -fx-background-color: -cor-campo-travado;
+    -fx-text-fill: -cor-texto-suave;
+}
+
+
+/* DESCRIÇÃO */
+
+.text-area {
+    -fx-background-color: white;
+    -fx-background-radius: 5px;
+    -fx-border-color: -cor-borda;
+    -fx-border-radius: 5px;
+}
+
+/* o TextArea tem uma área interna com fundo próprio; sem isto os cantos ficam estranhos */
+.text-area .content {
+    -fx-background-color: white;
+    -fx-background-radius: 5px;
+}
+
+
+/* BOTÃO SALVAR */
+
+.button-salvar {
+    -fx-background-color: -cor-primaria;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 7px;
+    -fx-border-radius: 7px;
+    -fx-cursor: hand;
+}
+
+.button-salvar:hover {
+    -fx-background-color: derive(-cor-primaria, -15%);
+}
+
+.button-salvar:pressed {
+    -fx-background-color: derive(-cor-primaria, -25%);
+}
+
+
+/* BOTÕES SECUNDÁRIOS (Cancelar, Escolher foto) */
+
+.button-cancelar,
+.button-secundario {
+    -fx-background-color: white;
+    -fx-text-fill: -cor-texto;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-border-color: -cor-borda;
+    -fx-background-radius: 7px;
+    -fx-border-radius: 7px;
+    -fx-cursor: hand;
+}
+
+.button-cancelar:hover,
+.button-secundario:hover {
+    -fx-background-color: -cor-campo-travado;
 }

@@ -28,8 +28,11 @@
             onAction="#voltarHome"/>
 
 
-    <Button maxWidth="1.7976931348623157E308" styleClass="menu-button" text="+   Cadastrar Patrimônio"
-            onAction="#cadastrarPatrimônio"/>
+    <Button maxWidth="1.7976931348623157E308" styleClass="menu-button" text="+   Cadastrar Patrimôniado"
+            onAction="#cadastrarPatrimôniado"/>
+
+    <Button maxWidth="1.7976931348623157E308" styleClass="menu-button" text="+   Cadastrar Consumo"
+            onAction="#cadastrarConsumo"/>
 
     <Button maxWidth="1.7976931348623157E308" styleClass="menu-button" text="☷   Listar Patrimônio" />
 

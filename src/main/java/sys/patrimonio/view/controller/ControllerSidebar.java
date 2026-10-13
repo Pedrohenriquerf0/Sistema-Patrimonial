@@ -32,8 +32,26 @@ public class ControllerSidebar {
 
 
     @FXML
-    private void cadastrarPatrimônio(ActionEvent event){
-        try (InputStream fxmlStream = getClass().getClassLoader().getResourceAsStream("view/CadastrarPatrimonio.fxml")){
+    private void cadastrarPatrimôniado(ActionEvent event){
+        try (InputStream fxmlStream = getClass().getClassLoader().getResourceAsStream("view/CadastrarPatrimoniado.fxml")){
+            if (fxmlStream == null) {
+                throw new RuntimeException("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/Home.fxml está correto.");
+            }
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            Parent parent = fxmlLoader.load(fxmlStream);
+            Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(parent));
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @FXML
+    private void cadastrarConsumo(ActionEvent event){
+        try (InputStream fxmlStream = getClass().getClassLoader().getResourceAsStream("view/CadastrarConsumo.fxml")){
             if (fxmlStream == null) {
                 throw new RuntimeException("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/Home.fxml está correto.");
             }
