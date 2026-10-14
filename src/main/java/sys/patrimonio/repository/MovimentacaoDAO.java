@@ -3,6 +3,8 @@ package sys.patrimonio.repository;
 
 import sys.patrimonio.config.AppContext;
 import sys.patrimonio.config.ConnectionFactory;
+import sys.patrimonio.exceptions.DataAccessException;
+import sys.patrimonio.exceptions.PersistenciaException;
 import sys.patrimonio.model.ItemConsumo;
 import sys.patrimonio.model.Localidade;
 import sys.patrimonio.model.MovimentacaoItemConsumo;
@@ -25,7 +27,7 @@ public class MovimentacaoDAO implements MovimentacaoRepositorio {
     }
 
     @Override
-    public MovimentacaoItemConsumo buscarPorId(Long aLong) {
+    public MovimentacaoItemConsumo buscarPorId(Long id) {
         ConsumoRepositorio consumoRepositorio = AppContext.getConsumoRepositorio();
         String sql =  """
                 SELECT * FROM movimentacao_consumo
@@ -35,7 +37,7 @@ public class MovimentacaoDAO implements MovimentacaoRepositorio {
         try (Connection connection = this.connectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
-            statement.setLong(1, aLong);
+            statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
 
            if(resultSet.next()) {
@@ -57,7 +59,7 @@ public class MovimentacaoDAO implements MovimentacaoRepositorio {
                 return novamovimentacao;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataAccessException("Erro ao buscar movimentação por ID: " + id, e);
         }
         return null;
     }
@@ -94,9 +96,8 @@ public class MovimentacaoDAO implements MovimentacaoRepositorio {
             }
             return consumoList;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataAccessException("Erro ao listar todas as movimentações.", e);
         }
-        return consumoList;
     }
 
     @Override
@@ -126,7 +127,7 @@ public class MovimentacaoDAO implements MovimentacaoRepositorio {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new PersistenciaException("Erro ao salvar a movimentação", e);
         }
 
     }

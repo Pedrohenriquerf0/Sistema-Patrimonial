@@ -2,6 +2,8 @@ package sys.patrimonio.repository;
 
 import sys.patrimonio.config.AppContext;
 import sys.patrimonio.config.ConnectionFactory;
+import sys.patrimonio.exceptions.DataAccessException;
+import sys.patrimonio.exceptions.PersistenciaException;
 import sys.patrimonio.model.Cautela;
 import sys.patrimonio.model.ItemPatrimoniado;
 import sys.patrimonio.model.Localidade;
@@ -21,7 +23,7 @@ public class CautelaDAO implements CautelaRepositorio {
     }
 
     @Override
-    public Cautela buscarPorId(Long aLong) {
+    public Cautela buscarPorId(Long id) {
         PatrimoniadoRepositorio patrimoniadoRepositorio = AppContext.getPatrimoniadoRepositorio();
         String sql = """
                 SELECT * FROM cautelas
@@ -31,7 +33,7 @@ public class CautelaDAO implements CautelaRepositorio {
         try (Connection connection = this.connectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
-            statement.setLong(1, aLong);
+            statement.setLong(1, id);
 
             ResultSet resultSet = statement.executeQuery();
 
@@ -57,7 +59,7 @@ public class CautelaDAO implements CautelaRepositorio {
                 return cautela;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataAccessException("Erro ao buscar cautela por ID: " + id, e);
         }
         return null;
     }
@@ -90,7 +92,7 @@ public class CautelaDAO implements CautelaRepositorio {
                 ItemPatrimoniado itemPatrimoniado = patrimoniadoRepositorio.buscarPorId(resultSet.getString("tombo_item"));
 
                 Cautela novaCautela = new Cautela(destinoLocal, resultSet.getLong("id"),
-                        resultSet.getString("observacoes"), origemLocal,itemPatrimoniado
+                        resultSet.getString("observacoes"), origemLocal, itemPatrimoniado
                         , resultSet.getDate("criado_em").toLocalDate(), resultSet.getString("emissor"));
 
                 cautelaList.add(novaCautela);
@@ -98,10 +100,8 @@ public class CautelaDAO implements CautelaRepositorio {
             return cautelaList;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataAccessException("Erro ao listar todas as cautelas.", e);
         }
-
-        return cautelaList;
     }
 
     @Override
@@ -132,7 +132,7 @@ public class CautelaDAO implements CautelaRepositorio {
 
             System.out.println("Cautela criada com sucesso");
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new PersistenciaException("Erro ao salvar a cautela", e);
         }
     }
 }

@@ -2,14 +2,35 @@ package sys.patrimonio.view.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import sys.patrimonio.model.ItemConsumo;
+import sys.patrimonio.model.Localidade;
+import sys.patrimonio.model.Status;
+import sys.patrimonio.service.ConsumoManager;
 
 import java.io.File;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
 
-public class ControllerCadastrarConsumo {
+public class ControllerCadastrarConsumo  implements Initializable {
+    @FXML
+    private TextField campoNome;
+    @FXML
+    private TextField campoCategoria;
+    @FXML
+    private TextField campoQuantidade;
+    @FXML
+    private ComboBox<Localidade> comboLocalidade;
+    @FXML
+    private ComboBox<Status> comboStatus;
+    @FXML
+    private TextArea campoDescricao;
+
     @FXML
     private ImageView imagemPatrimonio;
 
@@ -38,12 +59,77 @@ public class ControllerCadastrarConsumo {
     }
 
     @FXML
-    private void btt_cancelar(ActionEvent event){
+    private void btt_limpar(ActionEvent event){
+        campoNome.clear();
+        campoQuantidade.clear();
+        campoDescricao.clear();
+        campoCategoria.clear();
+        comboLocalidade.getSelectionModel().clearSelection();
+        comboStatus.getSelectionModel().clearSelection();
+        imagemPatrimonio.setImage(null);
+        labelSemFoto.setVisible(true);
 
+        this.atualizarCombox();
     }
 
     @FXML
     private void btt_salvar(ActionEvent event){
+        // TODO VOU IMPLEMENTAR UMA VALIDAÇÃO ANTES DE ATRIBUIR OS VALORES
+        String nome = campoNome.getText();
+        int quantidade = Integer.parseInt(campoQuantidade.getText());
+        String categoria = campoCategoria.getText();
+        String descricao = campoDescricao.getText();
+        Localidade localidade = comboLocalidade.getValue();
+        Status status = comboStatus.getValue();
 
+        // TODO VOU IMPLEMENTAR UMA VALIDAÇÃO ANTES DE SALVAR
+        ItemConsumo consumo = new ItemConsumo(nome, quantidade,descricao, localidade,categoria, status, arquivoImagemSelecionado.getPath());
+        ConsumoManager consumoManager = new ConsumoManager();
+        consumoManager.salvar(consumo);
+        this.btt_limpar(event);
+
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+        UnaryOperator<TextFormatter.Change> filtroNumerico = change -> {
+            String novoTexto = change.getControlNewText();
+
+            // Expressão regular: "\\d*" significa "zero ou mais dígitos de 0 a 9"
+            if (novoTexto.matches("\\d*")) {
+                return change; // Permite a alteração
+            }
+            return null; // Rejeita a digitação! O caractere nem entra no campo
+        };
+        // Aplica o filtro no seu campo (ex: número de patrimônio ou quantidade)
+        campoQuantidade.setTextFormatter(new TextFormatter<>(filtroNumerico));
+
+        comboLocalidade.getItems().setAll(Localidade.values());
+        comboStatus.getItems().setAll(Status.values());
+
+    }
+
+
+    protected void atualizarCombox() {
+        comboStatus.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(Status item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(comboStatus.getPromptText());
+                }
+            }
+        });
+
+        comboLocalidade.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(Localidade item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(comboLocalidade.getPromptText());
+                }
+            }
+        });
     }
 }

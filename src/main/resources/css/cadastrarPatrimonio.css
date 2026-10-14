@@ -81,9 +81,9 @@
 }
 
 
-/* BOTÕES SECUNDÁRIOS (Cancelar, Escolher foto) */
+/* BOTÕES SECUNDÁRIOS (limpar, Escolher foto) */
 
-.button-cancelar,
+.button-limpar,
 .button-secundario {
     -fx-background-color: white;
     -fx-text-fill: -cor-texto;
@@ -95,7 +95,7 @@
     -fx-cursor: hand;
 }
 
-.button-cancelar:hover,
+.button-limpar:hover,
 .button-secundario:hover {
     -fx-background-color: -cor-campo-travado;
 }
