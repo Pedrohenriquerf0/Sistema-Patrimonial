@@ -3,7 +3,7 @@ package sys.patrimonio.repository;
 
 import sys.patrimonio.config.AppContext;
 import sys.patrimonio.config.ConnectionFactory;
-import sys.patrimonio.exceptions.DataAccessException;
+import sys.patrimonio.exceptions.ConsultaException;
 import sys.patrimonio.exceptions.PersistenciaException;
 import sys.patrimonio.model.ItemConsumo;
 import sys.patrimonio.model.Localidade;
@@ -29,7 +29,7 @@ public class MovimentacaoDAO implements MovimentacaoRepositorio {
     @Override
     public MovimentacaoItemConsumo buscarPorId(Long id) {
         ConsumoRepositorio consumoRepositorio = AppContext.getConsumoRepositorio();
-        String sql =  """
+        String sql = """
                 SELECT * FROM movimentacao_consumo
                 WHERE id = ?
                 """;
@@ -40,7 +40,7 @@ public class MovimentacaoDAO implements MovimentacaoRepositorio {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
 
-           if(resultSet.next()) {
+            if (resultSet.next()) {
                 ItemConsumo itemConsumo = consumoRepositorio.buscarPorId(resultSet.getLong("item_consumo_id"));
 
                 LocalDate data = resultSet.getDate("criado_em").toLocalDate();
@@ -59,7 +59,7 @@ public class MovimentacaoDAO implements MovimentacaoRepositorio {
                 return novamovimentacao;
             }
         } catch (SQLException e) {
-            throw new DataAccessException("Erro ao buscar movimentação por ID: " + id, e);
+            throw new ConsultaException("Erro ao buscar movimentação por ID: " + id, e);
         }
         return null;
     }
@@ -96,7 +96,7 @@ public class MovimentacaoDAO implements MovimentacaoRepositorio {
             }
             return consumoList;
         } catch (SQLException e) {
-            throw new DataAccessException("Erro ao listar todas as movimentações.", e);
+            throw new ConsultaException("Erro ao listar todas as movimentações.", e);
         }
     }
 

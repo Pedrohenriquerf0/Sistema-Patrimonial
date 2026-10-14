@@ -2,7 +2,7 @@ package sys.patrimonio.repository;
 
 import sys.patrimonio.config.AppContext;
 import sys.patrimonio.config.ConnectionFactory;
-import sys.patrimonio.exceptions.DataAccessException;
+import sys.patrimonio.exceptions.ConsultaException;
 import sys.patrimonio.exceptions.PersistenciaException;
 import sys.patrimonio.model.Cautela;
 import sys.patrimonio.model.ItemPatrimoniado;
@@ -59,7 +59,7 @@ public class CautelaDAO implements CautelaRepositorio {
                 return cautela;
             }
         } catch (SQLException e) {
-            throw new DataAccessException("Erro ao buscar cautela por ID: " + id, e);
+            throw new ConsultaException("Erro ao buscar cautela por ID: " + id, e);
         }
         return null;
     }
@@ -100,7 +100,7 @@ public class CautelaDAO implements CautelaRepositorio {
             return cautelaList;
 
         } catch (SQLException e) {
-            throw new DataAccessException("Erro ao listar todas as cautelas.", e);
+            throw new ConsultaException("Erro ao listar todas as cautelas.", e);
         }
     }
 
