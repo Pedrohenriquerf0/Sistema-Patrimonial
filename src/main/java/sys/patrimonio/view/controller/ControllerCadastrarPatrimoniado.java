@@ -15,6 +15,8 @@ import sys.patrimonio.service.PatrimoniadoManager;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ControllerCadastrarPatrimoniado implements Initializable {
@@ -63,6 +65,12 @@ public class ControllerCadastrarPatrimoniado implements Initializable {
 
     @FXML
     private void btt_limpar(ActionEvent event) {
+        if (Alertas.confimar("Deseja Limpar?")) {
+            limpar();
+        }
+    }
+
+    private void limpar(){
         campoNome.clear();
         campoTombo.clear();
         campoNumeroSerie.clear();
@@ -76,23 +84,43 @@ public class ControllerCadastrarPatrimoniado implements Initializable {
         this.atualizarCombox();
     }
 
+    private boolean validarFormulario() {
+        List<String> faltando = new ArrayList<>();
+
+        if (campoNome.getText().isBlank()) faltando.add("Nome");
+        if (campoTombo.getText().isBlank()) faltando.add("Número do tombo");
+        if (campoNumeroSerie.getText().isBlank()) faltando.add("Número de série");
+        if (campoCategoria.getText().isBlank()) faltando.add("Categoria");
+        if (comboLocalidade.getValue() == null) faltando.add("Localidade");
+        if (comboStatus.getValue() == null) faltando.add("Status");
+        if (arquivoImagemSelecionado == null) faltando.add("Foto");
+        if (campoDescricao.getText() == null) faltando.add("Descrição");
+
+        if (!faltando.isEmpty()) {
+            Alertas.aviso("Preencha: " + String.join(", ", faltando) + ".");
+            return false;
+        }
+        return true;
+    }
+
     @FXML
     private void btt_salvar(ActionEvent event) {
-        // TODO VOU IMPLEMENTAR UMA VALIDAÇÃO ANTES DE ATRIBUIR OS VALORES
-        String nome = campoNome.getText();
-        String tombo = campoTombo.getText();
-        String numeroSerie = campoNumeroSerie.getText();
-        String categoria = campoCategoria.getText();
-        String descricao = campoDescricao.getText();
-        Localidade localidade = comboLocalidade.getValue();
-        Status status = comboStatus.getValue();
 
-        // TODO VOU IMPLEMENTAR UMA VALIDAÇÃO ANTES DE SALVAR
-        ItemPatrimoniado patrimoniado = new ItemPatrimoniado(nome,tombo,numeroSerie,descricao,localidade,categoria,status,arquivoImagemSelecionado.getPath());
-        PatrimoniadoManager patrimoniadoManager = new PatrimoniadoManager();
-        patrimoniadoManager.salvar(patrimoniado);
+        if (validarFormulario()) {
+            String nome = campoNome.getText();
+            String tombo = campoTombo.getText();
+            String numeroSerie = campoNumeroSerie.getText();
+            String categoria = campoCategoria.getText();
+            String descricao = campoDescricao.getText();
+            Localidade localidade = comboLocalidade.getValue();
+            Status status = comboStatus.getValue();
+            ItemPatrimoniado patrimoniado = new ItemPatrimoniado(nome, tombo, numeroSerie, descricao, localidade, categoria, status, arquivoImagemSelecionado.getPath());
+            PatrimoniadoManager patrimoniadoManager = new PatrimoniadoManager();
+            patrimoniadoManager.salvar(patrimoniado);
 
-        this.btt_limpar(event);
+            Alertas.aviso("Salvo com sucesso");
+            limpar();
+        }
 
     }
 

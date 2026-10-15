@@ -14,6 +14,8 @@ import sys.patrimonio.service.ConsumoManager;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 
@@ -60,6 +62,12 @@ public class ControllerCadastrarConsumo  implements Initializable {
 
     @FXML
     private void btt_limpar(ActionEvent event){
+        if (Alertas.confimar("Deseja Limpar?")) {
+            limpar();
+        }
+    }
+
+    private void limpar(){
         campoNome.clear();
         campoQuantidade.clear();
         campoDescricao.clear();
@@ -72,22 +80,40 @@ public class ControllerCadastrarConsumo  implements Initializable {
         this.atualizarCombox();
     }
 
+    private boolean validarFormulario() {
+        List<String> faltando = new ArrayList<>();
+
+        if (campoNome.getText().isBlank()) faltando.add("Nome");
+        if (campoQuantidade.getText().isBlank() && Integer.getInteger(campoQuantidade.getText()) <= 0) faltando.add("quantidade");
+        if (campoCategoria.getText().isBlank()) faltando.add("Categoria");
+        if (comboLocalidade.getValue() == null) faltando.add("Localidade");
+        if (comboStatus.getValue() == null) faltando.add("Status");
+        if (arquivoImagemSelecionado == null) faltando.add("Foto");
+        if (campoDescricao.getText() == null) faltando.add("Descrição");
+
+        if (!faltando.isEmpty()) {
+            Alertas.aviso("Preencha: " + String.join(", ", faltando) + ".");
+            return false;
+        }
+        return true;
+    }
     @FXML
     private void btt_salvar(ActionEvent event){
-        // TODO VOU IMPLEMENTAR UMA VALIDAÇÃO ANTES DE ATRIBUIR OS VALORES
-        String nome = campoNome.getText();
-        int quantidade = Integer.parseInt(campoQuantidade.getText());
-        String categoria = campoCategoria.getText();
-        String descricao = campoDescricao.getText();
-        Localidade localidade = comboLocalidade.getValue();
-        Status status = comboStatus.getValue();
+        if(validarFormulario()){
+            String nome = campoNome.getText();
+            int quantidade = Integer.parseInt(campoQuantidade.getText());
+            String categoria = campoCategoria.getText();
+            String descricao = campoDescricao.getText();
+            Localidade localidade = comboLocalidade.getValue();
+            Status status = comboStatus.getValue();
 
-        // TODO VOU IMPLEMENTAR UMA VALIDAÇÃO ANTES DE SALVAR
-        ItemConsumo consumo = new ItemConsumo(nome, quantidade,descricao, localidade,categoria, status, arquivoImagemSelecionado.getPath());
-        ConsumoManager consumoManager = new ConsumoManager();
-        consumoManager.salvar(consumo);
-        this.btt_limpar(event);
+            ItemConsumo consumo = new ItemConsumo(nome, quantidade,descricao, localidade,categoria, status, arquivoImagemSelecionado.getPath());
+            ConsumoManager consumoManager = new ConsumoManager();
+            consumoManager.salvar(consumo);
 
+            Alertas.aviso("Salvo com Sucesso");
+            limpar();
+        }
     }
 
     @Override

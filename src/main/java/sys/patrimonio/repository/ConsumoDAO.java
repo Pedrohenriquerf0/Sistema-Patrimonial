@@ -1,9 +1,10 @@
 package sys.patrimonio.repository;
 
 import sys.patrimonio.config.ConnectionFactory;
+import sys.patrimonio.exceptions.ConsultaException;
 import sys.patrimonio.exceptions.PatrimonioExistenteException;
+import sys.patrimonio.exceptions.PersistenciaException;
 import sys.patrimonio.model.ItemConsumo;
-import sys.patrimonio.model.ItemPatrimoniado;
 import sys.patrimonio.model.Localidade;
 import sys.patrimonio.model.Status;
 import sys.patrimonio.util.Convert;
@@ -46,7 +47,7 @@ public class ConsumoDAO implements ConsumoRepositorio {
         } catch (SQLIntegrityConstraintViolationException e) {
             throw new PatrimonioExistenteException("Patrimonio ja cadastrado");
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new PersistenciaException("Erro ao salvar a cautela", e);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -87,7 +88,7 @@ public class ConsumoDAO implements ConsumoRepositorio {
 
             return consumoList;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new ConsultaException("Erro ao listar todos os Patrimonios.", e);
         } catch (IOException e){
             e.printStackTrace();
         }
@@ -124,7 +125,7 @@ public class ConsumoDAO implements ConsumoRepositorio {
 
             System.out.println("Item atualizado com sucesso");
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new PersistenciaException("Não foi possível concluir a operação", e);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -166,7 +167,7 @@ public class ConsumoDAO implements ConsumoRepositorio {
                 return itemConsumo;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new ConsultaException("Erro ao buscar Patrimonio por ID: " + aLong, e);
         } catch (IOException e){
             e.printStackTrace();
         }
@@ -210,7 +211,7 @@ public class ConsumoDAO implements ConsumoRepositorio {
             }
             return consumoList;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new ConsultaException("Erro ao buscar Patrimonio por Nome: " + nome, e);
         } catch (IOException e){
             e.printStackTrace();
         }
@@ -233,7 +234,7 @@ public class ConsumoDAO implements ConsumoRepositorio {
 
             System.out.println("Excluido com sucesso");
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new PersistenciaException("Erro ao excluir o patrimônio, ID: " + aLong, e);
         }
     }
 
