@@ -1,6 +1,5 @@
 package sys.patrimonio.repository;
 
-
 import sys.patrimonio.config.AppContext;
 import sys.patrimonio.config.ConnectionFactory;
 import sys.patrimonio.exceptions.ConsultaException;
@@ -38,35 +37,49 @@ public class MovimentacaoDAO implements MovimentacaoRepositorio {
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setLong(1, id);
-            ResultSet resultSet = statement.executeQuery();
 
-            if (resultSet.next()) {
-                ItemConsumo itemConsumo = consumoRepositorio.buscarPorId(resultSet.getLong("item_consumo_id"));
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    ItemConsumo itemConsumo =
+                            consumoRepositorio.buscarPorId(resultSet.getLong("item_consumo_id"));
 
-                LocalDate data = resultSet.getDate("criado_em").toLocalDate();
+                    LocalDate data = resultSet.getDate("criado_em").toLocalDate();
 
-                Localidade destino = Optional.ofNullable(resultSet.getString("destino"))
-                        .filter(s -> !s.isBlank())
-                        .map(Localidade::valueOf)
-                        .orElse(null);
+                    Localidade destino = Optional.ofNullable(resultSet.getString("destino"))
+                            .filter(s -> !s.isBlank())
+                            .map(Localidade::valueOf)
+                            .orElse(null);
 
-                TipoMovimentacao tipoMovimentacao = Optional.ofNullable(resultSet.getString("tipo_movimentacao"))
-                        .filter(s -> !s.isBlank()).map(TipoMovimentacao::valueOf).orElse(null);
+                    TipoMovimentacao tipoMovimentacao =
+                            Optional.ofNullable(resultSet.getString("tipo_movimentacao"))
+                                    .filter(s -> !s.isBlank())
+                                    .map(TipoMovimentacao::valueOf)
+                                    .orElse(null);
 
-                MovimentacaoItemConsumo novamovimentacao = new MovimentacaoItemConsumo(destino,
-                        resultSet.getString("emissor"), data, itemConsumo, tipoMovimentacao, resultSet.getInt("quantidade"), resultSet.getLong("id"));
-
-                return novamovimentacao;
+                    return new MovimentacaoItemConsumo(
+                            destino,
+                            resultSet.getString("emissor"),
+                            data,
+                            itemConsumo,
+                            tipoMovimentacao,
+                            resultSet.getInt("quantidade"),
+                            resultSet.getLong("id")
+                    );
+                }
             }
         } catch (SQLException e) {
-            throw new ConsultaException("Erro ao buscar movimentação por ID: " + id, e);
+            throw new ConsultaException(
+                    "Não foi possível buscar a movimentação pelo ID informado.",
+                    e
+            );
         }
+
         return null;
     }
 
     @Override
     public List<MovimentacaoItemConsumo> listarTodos() {
-        List<MovimentacaoItemConsumo> consumoList = new ArrayList<>();
+        List<MovimentacaoItemConsumo> movimentacoes = new ArrayList<>();
         ConsumoRepositorio consumoRepositorio = AppContext.getConsumoRepositorio();
         String sql = """
                 SELECT * FROM movimentacao_consumo
@@ -77,7 +90,8 @@ public class MovimentacaoDAO implements MovimentacaoRepositorio {
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
-                ItemConsumo itemConsumo = consumoRepositorio.buscarPorId(resultSet.getLong("item_consumo_id"));
+                ItemConsumo itemConsumo =
+                        consumoRepositorio.buscarPorId(resultSet.getLong("item_consumo_id"));
 
                 LocalDate data = resultSet.getDate("criado_em").toLocalDate();
 
@@ -86,17 +100,31 @@ public class MovimentacaoDAO implements MovimentacaoRepositorio {
                         .map(Localidade::valueOf)
                         .orElse(null);
 
-                TipoMovimentacao tipoMovimentacao = Optional.ofNullable(resultSet.getString("tipo_movimentacao"))
-                        .filter(s -> !s.isBlank()).map(TipoMovimentacao::valueOf).orElse(null);
+                TipoMovimentacao tipoMovimentacao =
+                        Optional.ofNullable(resultSet.getString("tipo_movimentacao"))
+                                .filter(s -> !s.isBlank())
+                                .map(TipoMovimentacao::valueOf)
+                                .orElse(null);
 
-                MovimentacaoItemConsumo novamovimentacao = new MovimentacaoItemConsumo(destino,
-                        resultSet.getString("emissor"), data, itemConsumo, tipoMovimentacao, resultSet.getInt("quantidade"), resultSet.getLong("id"));
+                MovimentacaoItemConsumo movimentacao = new MovimentacaoItemConsumo(
+                        destino,
+                        resultSet.getString("emissor"),
+                        data,
+                        itemConsumo,
+                        tipoMovimentacao,
+                        resultSet.getInt("quantidade"),
+                        resultSet.getLong("id")
+                );
 
-                consumoList.add(novamovimentacao);
+                movimentacoes.add(movimentacao);
             }
-            return consumoList;
+
+            return movimentacoes;
         } catch (SQLException e) {
-            throw new ConsultaException("Erro ao listar todas as movimentações.", e);
+            throw new ConsultaException(
+                    "Não foi possível listar as movimentações.",
+                    e
+            );
         }
     }
 
@@ -109,7 +137,10 @@ public class MovimentacaoDAO implements MovimentacaoRepositorio {
                 """;
 
         try (Connection connection = this.connectionFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement statement = connection.prepareStatement(
+                     sql,
+                     PreparedStatement.RETURN_GENERATED_KEYS
+             )) {
 
             statement.setLong(1, obj.getItemConsumo().getId());
             statement.setString(2, String.valueOf(obj.getTipoMovimentacao()));
@@ -119,17 +150,18 @@ public class MovimentacaoDAO implements MovimentacaoRepositorio {
 
             statement.executeUpdate();
 
-            //TODO TALVEZ NAO VOU USA, MAS DEPOIS EU TIRO
-            ResultSet resultSet = statement.getGeneratedKeys();
-            if (resultSet.next()) {
-                long idGerado = resultSet.getLong(1);
-                obj.setId(idGerado);
+            // O ID gerado é atribuído ao objeto para permitir sua utilização posterior.
+            try (ResultSet resultSet = statement.getGeneratedKeys()) {
+                if (resultSet.next()) {
+                    long idGerado = resultSet.getLong(1);
+                    obj.setId(idGerado);
+                }
             }
-
         } catch (SQLException e) {
-            throw new PersistenciaException("Erro ao salvar a movimentação", e);
+            throw new PersistenciaException(
+                    "Não foi possível salvar a movimentação.",
+                    e
+            );
         }
-
     }
-
 }

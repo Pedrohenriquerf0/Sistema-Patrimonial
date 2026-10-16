@@ -2,7 +2,6 @@ package sys.patrimonio.repository;
 
 import sys.patrimonio.config.ConnectionFactory;
 import sys.patrimonio.exceptions.ConsultaException;
-import sys.patrimonio.exceptions.PatrimonioExistenteException;
 import sys.patrimonio.exceptions.PersistenciaException;
 import sys.patrimonio.model.ItemConsumo;
 import sys.patrimonio.model.Localidade;
@@ -24,13 +23,13 @@ public class ConsumoDAO implements ConsumoRepositorio {
     @Override
     public void salvar(ItemConsumo objeto) {
         String sql = """
-                INSERT INTO  item_consumo
+                INSERT INTO item_consumo
                 (quantidade, data_entrada, nome, descricao, localidade, status, categoria, foto)
                 VALUES (?,?,?,?,?,?,?,?)
                 """;
+
         try (Connection connection = this.connectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-
 
             statement.setInt(1, objeto.getQuantidade());
             statement.setDate(2, Date.valueOf(objeto.getEntrada()));
@@ -46,23 +45,22 @@ public class ConsumoDAO implements ConsumoRepositorio {
         } catch (SQLIntegrityConstraintViolationException e) {
             if (e.getErrorCode() == 1062) {
                 throw new PersistenciaException(
-                        "Já existe um item de consumo com uma chave duplicada.",
+                        "Já existe um item de consumo com um valor único duplicado.",
                         e
                 );
             }
 
             throw new PersistenciaException(
-                    "Violação de integridade ao salvar o item de consumo.",
+                    "Não foi possível salvar o item de consumo devido a uma violação de integridade.",
                     e
             );
         } catch (SQLException | IOException e) {
-            throw new PersistenciaException("Erro ao salvar o Consumo", e);
+            throw new PersistenciaException("Não foi possível salvar o item de consumo.", e);
         }
     }
 
     @Override
-    public List<ItemConsumo> listar() {// TODO implementação para inventario ou relatorio
-
+    public List<ItemConsumo> listar() {
         List<ItemConsumo> consumoList = new ArrayList<>();
         String sql = """
                 SELECT * FROM item_consumo
@@ -73,29 +71,25 @@ public class ConsumoDAO implements ConsumoRepositorio {
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
-                String caminhoFoto = Convert.bytesToPaths(resultSet.getBytes("foto"), resultSet.getString("nome"));
+                String caminhoFoto = Convert.bytesToPaths(
+                        resultSet.getBytes("foto"), resultSet.getString("nome"));
 
-                ItemConsumo itemConsumo =
-                        new ItemConsumo(
-                                resultSet.getString("nome"),
-                                resultSet.getInt("quantidade"),
-                                resultSet.getString("descricao"),
-                                Localidade.valueOf(
-                                        resultSet.getString("localidade")
-                                ),
-                                resultSet.getString("categoria"),
-                                Status.valueOf(
-                                        resultSet.getString("status")
-                                ),
-                                caminhoFoto
-                        );
+                ItemConsumo itemConsumo = new ItemConsumo(
+                        resultSet.getString("nome"),
+                        resultSet.getInt("quantidade"),
+                        resultSet.getString("descricao"),
+                        Localidade.valueOf(resultSet.getString("localidade")),
+                        resultSet.getString("categoria"),
+                        Status.valueOf(resultSet.getString("status")),
+                        caminhoFoto
+                );
                 itemConsumo.setId(resultSet.getLong("id"));
                 consumoList.add(itemConsumo);
             }
 
             return consumoList;
         } catch (SQLException | IOException e) {
-            throw new ConsultaException("Erro ao listar todos os Itens de Consumo.", e);
+            throw new ConsultaException("Não foi possível listar os itens de consumo.", e);
         }
     }
 
@@ -106,7 +100,7 @@ public class ConsumoDAO implements ConsumoRepositorio {
                 SET nome = ?,
                     quantidade = ?,
                     descricao = ?,
-                    localidade= ?,
+                    localidade = ?,
                     status = ?,
                     categoria = ?,
                     foto = ?
@@ -128,7 +122,7 @@ public class ConsumoDAO implements ConsumoRepositorio {
             statement.executeUpdate();
 
         } catch (SQLException | IOException e) {
-            throw new PersistenciaException("Não foi possível concluir a Atualização do item de consumo", e);
+            throw new PersistenciaException("Não foi possível atualizar o item de consumo.", e);
         }
     }
 
@@ -144,32 +138,28 @@ public class ConsumoDAO implements ConsumoRepositorio {
 
             statement.setLong(1, aLong);
 
-            ResultSet resultSet = statement.executeQuery();
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    String caminhoFoto = Convert.bytesToPaths(
+                            resultSet.getBytes("foto"), resultSet.getString("nome"));
 
-            if (resultSet.next()) {
-                String caminhoFoto = Convert.bytesToPaths(resultSet.getBytes("foto"), resultSet.getString("nome"));
-
-                ItemConsumo itemConsumo =
-                        new ItemConsumo(
-                                resultSet.getString("nome"),
-                                resultSet.getInt("quantidade"),
-                                resultSet.getString("descricao"),
-                                Localidade.valueOf(
-                                        resultSet.getString("localidade")
-                                ),
-                                resultSet.getString("categoria"),
-                                Status.valueOf(
-                                        resultSet.getString("status")
-                                ),
-                                caminhoFoto
-                        );
-                itemConsumo.setId(resultSet.getLong("id"));
-
-                return itemConsumo;
+                    ItemConsumo itemConsumo = new ItemConsumo(
+                            resultSet.getString("nome"),
+                            resultSet.getInt("quantidade"),
+                            resultSet.getString("descricao"),
+                            Localidade.valueOf(resultSet.getString("localidade")),
+                            resultSet.getString("categoria"),
+                            Status.valueOf(resultSet.getString("status")),
+                            caminhoFoto
+                    );
+                    itemConsumo.setId(resultSet.getLong("id"));
+                    return itemConsumo;
+                }
             }
         } catch (SQLException | IOException e) {
-            throw new ConsultaException("Erro ao buscar Consumo de ID: " + aLong, e);
+            throw new ConsultaException("Não foi possível buscar o item de consumo pelo ID informado.", e);
         }
+
         return null;
     }
 
@@ -186,31 +176,27 @@ public class ConsumoDAO implements ConsumoRepositorio {
 
             statement.setString(1, "%" + nome + "%");
 
-            ResultSet resultSet = statement.executeQuery();
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    String caminhoFoto = Convert.bytesToPaths(
+                            resultSet.getBytes("foto"), resultSet.getString("nome"));
 
-            while (resultSet.next()) {
-                String caminhoFoto = Convert.bytesToPaths(resultSet.getBytes("foto"), resultSet.getString("nome"));
-
-                ItemConsumo itemConsumo =
-                        new ItemConsumo(
-                                resultSet.getString("nome"),
-                                resultSet.getInt("quantidade"),
-                                resultSet.getString("descricao"),
-                                Localidade.valueOf(
-                                        resultSet.getString("localidade")
-                                ),
-                                resultSet.getString("categoria"),
-                                Status.valueOf(
-                                        resultSet.getString("status")
-                                ),
-                                caminhoFoto
-                        );
-                itemConsumo.setId(resultSet.getLong("id"));
-                consumoList.add(itemConsumo);
+                    ItemConsumo itemConsumo = new ItemConsumo(
+                            resultSet.getString("nome"),
+                            resultSet.getInt("quantidade"),
+                            resultSet.getString("descricao"),
+                            Localidade.valueOf(resultSet.getString("localidade")),
+                            resultSet.getString("categoria"),
+                            Status.valueOf(resultSet.getString("status")),
+                            caminhoFoto
+                    );
+                    itemConsumo.setId(resultSet.getLong("id"));
+                    consumoList.add(itemConsumo);
+                }
             }
             return consumoList;
         } catch (SQLException | IOException e) {
-            throw new ConsultaException("Erro ao buscar Consumo de Nome: " + nome, e);
+            throw new ConsultaException("Não foi possível buscar itens de consumo pelo nome informado.", e);
         }
     }
 
@@ -229,8 +215,7 @@ public class ConsumoDAO implements ConsumoRepositorio {
             statement.executeUpdate();
 
         } catch (SQLException e) {
-            throw new PersistenciaException("Erro ao excluir o Consumo de ID: " + aLong, e);
+            throw new PersistenciaException("Não foi possível excluir o item de consumo.", e);
         }
     }
-
 }

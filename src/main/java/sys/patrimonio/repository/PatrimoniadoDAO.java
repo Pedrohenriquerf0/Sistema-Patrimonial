@@ -1,6 +1,5 @@
 package sys.patrimonio.repository;
 
-
 import sys.patrimonio.config.ConnectionFactory;
 import sys.patrimonio.exceptions.ConsultaException;
 import sys.patrimonio.exceptions.PatrimonioExistenteException;
@@ -22,7 +21,6 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
         this.connectionFactory = connectionFactory;
     }
 
-
     @Override
     public void salvar(ItemPatrimoniado objeto) {
         String sql = """
@@ -32,7 +30,6 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
                 """;
         try (Connection connection = this.connectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-
 
             statement.setString(1, objeto.getTombo());
             statement.setString(2, objeto.getNumeroSerie());
@@ -57,7 +54,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
                     "Não foi possível salvar o patrimônio.", e
             );
         } catch (SQLException | IOException e) {
-            throw new PersistenciaException("Erro ao salvar o Patriminiado", e);
+            throw new PersistenciaException("Não foi possível salvar o patrimônio.", e);
         }
     }
 
@@ -96,7 +93,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
 
             return patrimoniadoList;
         } catch (SQLException | IOException e) {
-            throw new ConsultaException("Erro ao listar todos os Patrimonios.", e);
+            throw new ConsultaException("Não foi possível listar os patrimônios.", e);
         }
     }
 
@@ -127,7 +124,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
             statement.executeUpdate();
 
         } catch (SQLException | IOException e) {
-            throw new PersistenciaException("Não foi possível concluir a Atualização do item Patrimoniado.", e);
+            throw new PersistenciaException("Não foi possível atualizar o patrimônio.", e);
         }
     }
 
@@ -168,7 +165,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
                 return itemPatrimoniado;
             }
         } catch (SQLException | IOException e) {
-            throw new ConsultaException("Erro ao buscar Patrimonio por ID: " + tombo, e);
+            throw new ConsultaException("Não foi possível buscar o patrimônio pelo tombo informado.", e);
         }
         return null;
     }
@@ -210,7 +207,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
             }
             return patrimoniadoList;
         } catch (SQLException | IOException e) {
-            throw new ConsultaException("Erro ao buscar Patrimonio por Nome: " + nome, e);
+            throw new ConsultaException("Não foi possível buscar patrimônios pelo nome informado.", e);
         }
     }
 
@@ -228,9 +225,8 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
             statement.setString(1, tombo);
             statement.executeUpdate();
 
-
         } catch (SQLException e) {
-            throw new PersistenciaException("Erro ao excluir o Patrimônio, ID: " + tombo, e);
+            throw new PersistenciaException("Não foi possível excluir o patrimônio.", e);
         }
     }
 
@@ -270,9 +266,8 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
                 return itemPatrimoniado;
             }
         } catch (SQLException | IOException e) {
-            throw new ConsultaException("Erro ao buscar Patrimonio por Numero de serie: " + numeroSerie, e);
+            throw new ConsultaException("Não foi possível buscar o patrimônio pelo número de série informado.", e);
         }
         return null;
     }
 }
-

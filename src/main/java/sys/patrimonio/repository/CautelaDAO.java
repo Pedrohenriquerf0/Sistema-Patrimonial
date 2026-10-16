@@ -35,32 +35,39 @@ public class CautelaDAO implements CautelaRepositorio {
 
             statement.setLong(1, id);
 
-            ResultSet resultSet = statement.executeQuery();
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    Localidade origemLocal = Optional.ofNullable(resultSet.getString("origem"))
+                            .filter(s -> !s.isBlank())
+                            .map(Localidade::valueOf)
+                            .orElse(null);
 
-            if (resultSet.next()) {
+                    Localidade destinoLocal = Optional.ofNullable(resultSet.getString("destino"))
+                            .filter(s -> !s.isBlank())
+                            .map(Localidade::valueOf)
+                            .orElse(null);
 
-                Localidade origemLocal = Optional.ofNullable(resultSet.getString("origem"))
-                        .filter(s -> !s.isBlank())
-                        .map(Localidade::valueOf)
-                        .orElse(null);
+                    ItemPatrimoniado itemPatrimoniado =
+                            patrimoniadoRepositorio.buscarPorId(resultSet.getString("tombo_item"));
 
-
-                Localidade destinoLocal = Optional.ofNullable(resultSet.getString("destino"))
-                        .filter(s -> !s.isBlank())
-                        .map(Localidade::valueOf)
-                        .orElse(null);
-
-
-                ItemPatrimoniado itemPatrimoniado = patrimoniadoRepositorio.buscarPorId(resultSet.getString("tombo_item"));
-
-                Cautela cautela = new Cautela(destinoLocal, resultSet.getLong("id"), resultSet.getString("observacoes"), origemLocal, itemPatrimoniado, resultSet.getDate("criado_em").toLocalDate(), resultSet.getString("emissor"));
-
-
-                return cautela;
+                    return new Cautela(
+                            destinoLocal,
+                            resultSet.getLong("id"),
+                            resultSet.getString("observacoes"),
+                            origemLocal,
+                            itemPatrimoniado,
+                            resultSet.getDate("criado_em").toLocalDate(),
+                            resultSet.getString("emissor")
+                    );
+                }
             }
         } catch (SQLException e) {
-            throw new ConsultaException("Erro ao buscar cautela por ID: " + id, e);
+            throw new ConsultaException(
+                    "Não foi possível buscar a cautela pelo ID informado.",
+                    e
+            );
         }
+
         return null;
     }
 
@@ -77,30 +84,38 @@ public class CautelaDAO implements CautelaRepositorio {
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
-
                 Localidade origemLocal = Optional.ofNullable(resultSet.getString("origem"))
                         .filter(s -> !s.isBlank())
                         .map(Localidade::valueOf)
                         .orElse(null);
-
 
                 Localidade destinoLocal = Optional.ofNullable(resultSet.getString("destino"))
                         .filter(s -> !s.isBlank())
                         .map(Localidade::valueOf)
                         .orElse(null);
 
-                ItemPatrimoniado itemPatrimoniado = patrimoniadoRepositorio.buscarPorId(resultSet.getString("tombo_item"));
+                ItemPatrimoniado itemPatrimoniado =
+                        patrimoniadoRepositorio.buscarPorId(resultSet.getString("tombo_item"));
 
-                Cautela novaCautela = new Cautela(destinoLocal, resultSet.getLong("id"),
-                        resultSet.getString("observacoes"), origemLocal, itemPatrimoniado
-                        , resultSet.getDate("criado_em").toLocalDate(), resultSet.getString("emissor"));
+                Cautela novaCautela = new Cautela(
+                        destinoLocal,
+                        resultSet.getLong("id"),
+                        resultSet.getString("observacoes"),
+                        origemLocal,
+                        itemPatrimoniado,
+                        resultSet.getDate("criado_em").toLocalDate(),
+                        resultSet.getString("emissor")
+                );
 
                 cautelaList.add(novaCautela);
             }
-            return cautelaList;
 
+            return cautelaList;
         } catch (SQLException e) {
-            throw new ConsultaException("Erro ao listar todas as cautelas.", e);
+            throw new ConsultaException(
+                    "Não foi possível listar as cautelas.",
+                    e
+            );
         }
     }
 
@@ -122,16 +137,18 @@ public class CautelaDAO implements CautelaRepositorio {
             statement.setString(4, obj.getObservacoes().orElse(null));
             statement.setString(5, String.valueOf(obj.getOrigem()));
 
-            ResultSet resultado = statement.executeQuery();
-
-            if (resultado.next()) {
-                long id = resultado.getLong("id");
-                LocalDate criadoEm = resultado.getDate("criado_em").toLocalDate();
-                obj.setId(Processo.IDFormatada(id, criadoEm.getYear()));
+            try (ResultSet resultado = statement.executeQuery()) {
+                if (resultado.next()) {
+                    long id = resultado.getLong("id");
+                    LocalDate criadoEm = resultado.getDate("criado_em").toLocalDate();
+                    obj.setId(Processo.IDFormatada(id, criadoEm.getYear()));
+                }
             }
-
         } catch (SQLException e) {
-            throw new PersistenciaException("Erro ao salvar a cautela", e);
+            throw new PersistenciaException(
+                    "Não foi possível salvar a cautela.",
+                    e
+            );
         }
     }
 }
