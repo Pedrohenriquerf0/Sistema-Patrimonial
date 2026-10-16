@@ -49,7 +49,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
         } catch (SQLIntegrityConstraintViolationException e) {
             if (e.getErrorCode() == 1062) {
                 throw new PatrimonioExistenteException(
-                        "Já existe um patrimônio com esse tombo."
+                        "Já existe um patrimônio com um valor único duplicado.", e
                 );
             }
 
@@ -127,7 +127,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
             statement.executeUpdate();
 
         } catch (SQLException | IOException e) {
-            throw new PersistenciaException("Não foi possível concluir a Atualização do " + objeto.getTombo(), e);
+            throw new PersistenciaException("Não foi possível concluir a Atualização do item Patrimoniado.", e);
         }
     }
 
