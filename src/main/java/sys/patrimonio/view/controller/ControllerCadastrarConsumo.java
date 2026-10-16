@@ -93,7 +93,7 @@ public class ControllerCadastrarConsumo implements Initializable {
         if (comboLocalidade.getValue() == null) faltando.add("Localidade");
         if (comboStatus.getValue() == null) faltando.add("Status");
         if (arquivoImagemSelecionado == null) faltando.add("Foto");
-        if (campoDescricao.getText() == null) faltando.add("Descrição");
+        if (campoDescricao.getText().isBlank()) faltando.add("Descrição");
 
         if (!faltando.isEmpty()) {
             Alertas.aviso("Preencha: " + String.join(", ", faltando) + ".");
