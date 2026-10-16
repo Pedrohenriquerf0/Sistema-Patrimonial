@@ -18,6 +18,8 @@ public class PatrimoniadoManager {
         if (patrimoniado == null) {
             throw new IllegalArgumentException("Item patrimoniado não pode ser nulo");
         }
+
+        validar(patrimoniado);
         patrimoniadoRepositorio.atualizar(patrimoniado);
     }
 
@@ -25,6 +27,8 @@ public class PatrimoniadoManager {
         if(patrimoniado == null){
             throw new IllegalArgumentException("item Patrimoniado não pode ser nulo");
         }
+
+        validar(patrimoniado);
         patrimoniadoRepositorio.salvar(patrimoniado);
     }
 
@@ -56,5 +60,31 @@ public class PatrimoniadoManager {
         }
         return patrimoniadoRepositorio.buscarPorNS(numeroSerie);
     };
+
+    private void validar(ItemPatrimoniado item) {
+        if (item.getNome() == null || item.getNome().isBlank())
+            throw new IllegalArgumentException("Nome é obrigatório.");
+
+        if (item.getTombo() == null || item.getTombo().isBlank())
+            throw new IllegalArgumentException("Tombo é obrigatório.");
+
+        if (item.getNumeroSerie() == null || item.getNumeroSerie().isBlank())
+            throw new IllegalArgumentException("Número de série é obrigatório.");
+
+        if (item.getDescricao() == null || item.getDescricao().isBlank())
+            throw new IllegalArgumentException("Descrição é obrigatória.");
+
+        if (item.getFoto() == null || item.getFoto().isBlank())
+            throw new IllegalArgumentException("Foto é obrigatória.");
+
+        if (item.getLocal() == null)
+            throw new IllegalArgumentException("Localidade é obrigatória.");
+
+        if (item.getStatus() == null)
+            throw new IllegalArgumentException("Status é obrigatório.");
+
+        if (item.getCategoria() == null || item.getCategoria().isBlank())
+            throw new IllegalArgumentException("Categoria é obrigatória.");
+    }
 
 }

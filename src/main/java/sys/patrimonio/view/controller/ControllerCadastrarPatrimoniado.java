@@ -4,9 +4,7 @@ package sys.patrimonio.view.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.FileChooser;
 import javafx.event.ActionEvent;
 import sys.patrimonio.exceptions.PatrimonioExistenteException;
 import sys.patrimonio.exceptions.PersistenciaException;
@@ -14,6 +12,8 @@ import sys.patrimonio.model.ItemPatrimoniado;
 import sys.patrimonio.model.Localidade;
 import sys.patrimonio.model.Status;
 import sys.patrimonio.service.PatrimoniadoManager;
+import sys.patrimonio.util.ComboBoxHelper;
+import sys.patrimonio.util.SeletorFoto;
 
 import java.io.File;
 import java.net.URL;
@@ -22,7 +22,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ControllerCadastrarPatrimoniado implements Initializable {
-
+    @FXML
+    private ControllerSidebar sidebarController;
     @FXML
     private TextField campoNome;
     @FXML
@@ -48,20 +49,12 @@ public class ControllerCadastrarPatrimoniado implements Initializable {
 
     @FXML
     private void btt_buscarFoto(ActionEvent event) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Selecionar Foto do Patrimônio");
-
-        fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Imagens (*.png, *.jpg, *.jpeg)", "*.png", "*.jpg", "*.jpeg")
-        );
-
-        File file = fileChooser.showOpenDialog(imagemPatrimonio.getScene().getWindow());
+        File file = SeletorFoto.escolher(imagemPatrimonio.getScene().getWindow());
 
         if (file != null) {
             arquivoImagemSelecionado = file;
-            Image image = new Image(file.toURI().toString(), 272, 272, true, true);
-            imagemPatrimonio.setImage(image);
-            labelSemFoto.setVisible(false); // Esconde o texto de aviso
+            imagemPatrimonio.setImage(SeletorFoto.carregarReduzida(file,272));
+            labelSemFoto.setVisible(false);
         }
     }
 
@@ -82,8 +75,10 @@ public class ControllerCadastrarPatrimoniado implements Initializable {
         comboStatus.getSelectionModel().clearSelection();
         imagemPatrimonio.setImage(null);
         labelSemFoto.setVisible(true);
+        arquivoImagemSelecionado = null;
+        imagemPatrimonio.setImage(null);
 
-        this.atualizarCombox();
+        ComboBoxHelper.atualizarCombox(comboLocalidade, comboStatus);
     }
 
     private boolean validarFormulario() {
@@ -139,31 +134,8 @@ public class ControllerCadastrarPatrimoniado implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        comboLocalidade.getItems().setAll(Localidade.values());
-        comboStatus.getItems().setAll(Status.values());
-
-    }
-
-
-    protected void atualizarCombox() {
-        comboStatus.setButtonCell(new ListCell<>() {
-            @Override
-            protected void updateItem(Status item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(comboStatus.getPromptText());
-                }
-            }
-        });
-
-        comboLocalidade.setButtonCell(new ListCell<>() {
-            @Override
-            protected void updateItem(Localidade item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(comboLocalidade.getPromptText());
-                }
-            }
-        });
+        sidebarController.ativarCadastroPatrimonio();
+        ComboBoxHelper.carregarLocalidade(comboLocalidade);
+        ComboBoxHelper.carregarStatus(comboStatus);
     }
 }

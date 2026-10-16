@@ -40,8 +40,8 @@
 
                 <!-- CABEÇALHO (o texto muda conforme o tipo, pelo controller) -->
                 <VBox spacing="5.0">
-                    <Label  styleClass="title" text="Cadastrar Patrimônio Permanente  "/>
-                    <Label  styleClass="subtitle"
+                    <Label styleClass="title" text="Cadastrar Patrimônio Permanente  "/>
+                    <Label styleClass="subtitle"
                            text="Preencha os dados abaixo para registrar um novo ativo no sistema."/>
                 </VBox>
 
@@ -88,7 +88,8 @@
 
                             <VBox spacing="8.0" GridPane.rowIndex="1" GridPane.columnIndex="1">
                                 <Label styleClass="form-label" text="Número de série"/>
-                                <TextField fx:id="campoNumeroSerie" promptText="Digite o número de série" prefHeight="41.0"/>
+                                <TextField fx:id="campoNumeroSerie" promptText="Digite o número de série"
+                                           prefHeight="41.0"/>
                             </VBox>
 
                             <!-- Linha 2 -->

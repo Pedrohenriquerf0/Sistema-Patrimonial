@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.InputStream;
+import java.util.List;
 
 public class ControllerSidebar {
     @FXML
@@ -73,6 +74,19 @@ public class ControllerSidebar {
             e.printStackTrace();
         }
 
+    }
+
+    public void ativarHome()               { ativar(btt_home); }
+    public void ativarCadastroPatrimonio() { ativar(btt_CadastrarPatrimoniado); }
+    public void ativarCadastroConsumo()    { ativar(btt_CadastrarConsumo); }
+
+    private void ativar(Button ativo) {
+        for (Button b : List.of(btt_home, btt_CadastrarPatrimoniado, btt_CadastrarConsumo)) {
+            b.getStyleClass().remove("menu-button-active");
+            if (!b.getStyleClass().contains("menu-button")) b.getStyleClass().add("menu-button");
+        }
+        ativo.getStyleClass().remove("menu-button");
+        ativo.getStyleClass().add("menu-button-active");
     }
 
 }

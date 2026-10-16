@@ -130,7 +130,6 @@ public class CautelaDAO implements CautelaRepositorio {
                 obj.setId(Processo.IDFormatada(id, criadoEm.getYear()));
             }
 
-            System.out.println("Cautela criada com sucesso");
         } catch (SQLException e) {
             throw new PersistenciaException("Erro ao salvar a cautela", e);
         }

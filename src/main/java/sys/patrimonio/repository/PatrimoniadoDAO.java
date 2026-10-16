@@ -46,13 +46,19 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
 
             statement.executeUpdate();
 
-            System.out.println(objeto.toString() + "salvo com sucesso"); // TODO vai ser criado uma metodo que chama uma telinha de aviso
         } catch (SQLIntegrityConstraintViolationException e) {
-            throw new PatrimonioExistenteException("Patrimonio ja cadastrado");
-        } catch (SQLException e) {
+            if (e.getErrorCode() == 1062) {
+                throw new PatrimonioExistenteException(
+                        "Já existe um patrimônio com esse tombo."
+                );
+            }
+
+            throw new PersistenciaException(
+                    "Violação de integridade ao salvar o patrimônio.",
+                    e
+            );
+        } catch (SQLException | IOException e) {
             throw new PersistenciaException("Erro ao salvar o Patriminiado", e);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -90,12 +96,9 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
             }
 
             return patrimoniadoList;
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             throw new ConsultaException("Erro ao listar todos os Patrimonios.", e);
-        } catch (IOException e){
-            e.printStackTrace();
         }
-        return patrimoniadoList;
     }
 
     @Override
@@ -124,11 +127,8 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
 
             statement.executeUpdate();
 
-            System.out.println("Item atualizado com sucesso");
-        } catch (SQLException e) {
-            throw new PersistenciaException("Não foi possível concluir a Atualização", e);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (SQLException | IOException e) {
+            throw new PersistenciaException("Não foi possível concluir a Atualização do " + objeto.getTombo(), e);
         }
     }
 
@@ -136,9 +136,9 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
     public ItemPatrimoniado buscarPorId(String tombo) {
 
         String sql = """
-            SELECT * FROM item_patrimoniado
-            WHERE tombo = ?
-            """;
+                SELECT * FROM item_patrimoniado
+                WHERE tombo = ?
+                """;
 
         try (Connection connection = this.connectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -168,21 +168,19 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
 
                 return itemPatrimoniado;
             }
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             throw new ConsultaException("Erro ao buscar Patrimonio por ID: " + tombo, e);
-        } catch (IOException e){
-            e.printStackTrace();
         }
         return null;
     }
 
     @Override
     public List<ItemPatrimoniado> buscarPorNome(String nome) {
-        List<ItemPatrimoniado> patrimoniadoList =new ArrayList<>();
+        List<ItemPatrimoniado> patrimoniadoList = new ArrayList<>();
         String sql = """
-            SELECT * FROM item_patrimoniado
-            WHERE nome LIKE ?
-            """;
+                SELECT * FROM item_patrimoniado
+                WHERE nome LIKE ?
+                """;
 
         try (Connection connection = this.connectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -212,12 +210,9 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
                 patrimoniadoList.add(itemPatrimoniado);
             }
             return patrimoniadoList;
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             throw new ConsultaException("Erro ao buscar Patrimonio por Nome: " + nome, e);
-        } catch (IOException e){
-            e.printStackTrace();
         }
-        return patrimoniadoList;
     }
 
     @Override
@@ -234,7 +229,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
             statement.setString(1, tombo);
             statement.executeUpdate();
 
-            System.out.println("Excluido com sucesso");
+
         } catch (SQLException e) {
             throw new PersistenciaException("Erro ao excluir o Patrimônio, ID: " + tombo, e);
         }
@@ -243,9 +238,9 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
     @Override
     public ItemPatrimoniado buscarPorNS(String numeroSerie) {
         String sql = """
-            SELECT * FROM item_patrimoniado
-            WHERE numero_serie = ?
-            """;
+                SELECT * FROM item_patrimoniado
+                WHERE numero_serie = ?
+                """;
 
         try (Connection connection = this.connectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -275,10 +270,8 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
 
                 return itemPatrimoniado;
             }
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             throw new ConsultaException("Erro ao buscar Patrimonio por Numero de serie: " + numeroSerie, e);
-        } catch (IOException e){
-            e.printStackTrace();
         }
         return null;
     }

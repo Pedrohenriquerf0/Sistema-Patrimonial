@@ -43,13 +43,20 @@ public class ConsumoDAO implements ConsumoRepositorio {
 
             statement.executeUpdate();
 
-            System.out.println("salvo com sucesso"); // TODO vai ser criado uma metodo que chama uma telinha de aviso
         } catch (SQLIntegrityConstraintViolationException e) {
-            throw new PatrimonioExistenteException("Patrimonio ja cadastrado");
-        } catch (SQLException e) {
+            if (e.getErrorCode() == 1062) {
+                throw new PersistenciaException(
+                        "Já existe um item de consumo com uma chave duplicada.",
+                        e
+                );
+            }
+
+            throw new PersistenciaException(
+                    "Violação de integridade ao salvar o item de consumo.",
+                    e
+            );
+        } catch (SQLException | IOException e) {
             throw new PersistenciaException("Erro ao salvar o Consumo", e);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -87,12 +94,9 @@ public class ConsumoDAO implements ConsumoRepositorio {
             }
 
             return consumoList;
-        } catch (SQLException e) {
-            throw new ConsultaException("Erro ao listar todos os Patrimonios.", e);
-        } catch (IOException e){
-            e.printStackTrace();
+        } catch (SQLException | IOException e) {
+            throw new ConsultaException("Erro ao listar todos os Itens de Consumo.", e);
         }
-        return consumoList;
     }
 
     @Override
@@ -123,20 +127,17 @@ public class ConsumoDAO implements ConsumoRepositorio {
 
             statement.executeUpdate();
 
-            System.out.println("Item atualizado com sucesso");
-        } catch (SQLException e) {
-            throw new PersistenciaException("Não foi possível concluir a Atualização", e);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (SQLException | IOException e) {
+            throw new PersistenciaException("Não foi possível concluir a Atualização do item de consumo", e);
         }
     }
 
     @Override
     public ItemConsumo buscarPorId(Long aLong) {
         String sql = """
-            SELECT * FROM item_consumo
-            WHERE id = ?
-            """;
+                SELECT * FROM item_consumo
+                WHERE id = ?
+                """;
 
         try (Connection connection = this.connectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -166,10 +167,8 @@ public class ConsumoDAO implements ConsumoRepositorio {
 
                 return itemConsumo;
             }
-        } catch (SQLException e) {
-            throw new ConsultaException("Erro ao buscar Patrimonio por ID: " + aLong, e);
-        } catch (IOException e){
-            e.printStackTrace();
+        } catch (SQLException | IOException e) {
+            throw new ConsultaException("Erro ao buscar Consumo de ID: " + aLong, e);
         }
         return null;
     }
@@ -178,9 +177,9 @@ public class ConsumoDAO implements ConsumoRepositorio {
     public List<ItemConsumo> buscarPorNome(String nome) {
         List<ItemConsumo> consumoList = new ArrayList<>();
         String sql = """
-            SELECT * FROM item_consumo
-            WHERE nome LIKE ?
-            """;
+                SELECT * FROM item_consumo
+                WHERE nome LIKE ?
+                """;
 
         try (Connection connection = this.connectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -210,12 +209,9 @@ public class ConsumoDAO implements ConsumoRepositorio {
                 consumoList.add(itemConsumo);
             }
             return consumoList;
-        } catch (SQLException e) {
-            throw new ConsultaException("Erro ao buscar Patrimonio por Nome: " + nome, e);
-        } catch (IOException e){
-            e.printStackTrace();
+        } catch (SQLException | IOException e) {
+            throw new ConsultaException("Erro ao buscar Consumo de Nome: " + nome, e);
         }
-        return consumoList;
     }
 
     @Override
@@ -232,9 +228,8 @@ public class ConsumoDAO implements ConsumoRepositorio {
             statement.setLong(1, aLong);
             statement.executeUpdate();
 
-            System.out.println("Excluido com sucesso");
         } catch (SQLException e) {
-            throw new PersistenciaException("Erro ao excluir o Patrimônio, ID: " + aLong, e);
+            throw new PersistenciaException("Erro ao excluir o Consumo de ID: " + aLong, e);
         }
     }
 

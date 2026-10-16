@@ -4,15 +4,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.FileChooser;
 import sys.patrimonio.exceptions.PatrimonioExistenteException;
 import sys.patrimonio.exceptions.PersistenciaException;
 import sys.patrimonio.model.ItemConsumo;
 import sys.patrimonio.model.Localidade;
 import sys.patrimonio.model.Status;
 import sys.patrimonio.service.ConsumoManager;
+import sys.patrimonio.util.ComboBoxHelper;
+import sys.patrimonio.util.SeletorFoto;
 
 import java.io.File;
 import java.net.URL;
@@ -22,7 +22,8 @@ import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 
 public class ControllerCadastrarConsumo implements Initializable {
-
+    @FXML
+    private ControllerSidebar sidebarController;
     @FXML
     private TextField campoNome;
     @FXML
@@ -46,20 +47,12 @@ public class ControllerCadastrarConsumo implements Initializable {
 
     @FXML
     private void btt_buscarFoto(ActionEvent event) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Selecionar Foto do Patrimônio");
-
-        fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Imagens (*.png, *.jpg, *.jpeg)", "*.png", "*.jpg", "*.jpeg")
-        );
-
-        File file = fileChooser.showOpenDialog(imagemPatrimonio.getScene().getWindow());
+        File file = SeletorFoto.escolher(imagemPatrimonio.getScene().getWindow());
 
         if (file != null) {
             arquivoImagemSelecionado = file;
-            Image image = new Image(file.toURI().toString(), 272, 272, true, true);
-            imagemPatrimonio.setImage(image);
-            labelSemFoto.setVisible(false); // Esconde o texto de aviso
+            imagemPatrimonio.setImage(SeletorFoto.carregarReduzida(file,272));
+            labelSemFoto.setVisible(false);
         }
     }
 
@@ -79,16 +72,30 @@ public class ControllerCadastrarConsumo implements Initializable {
         comboStatus.getSelectionModel().clearSelection();
         imagemPatrimonio.setImage(null);
         labelSemFoto.setVisible(true);
+        arquivoImagemSelecionado = null;
+        imagemPatrimonio.setImage(null);
 
-        this.atualizarCombox();
+        ComboBoxHelper.atualizarCombox(comboLocalidade, comboStatus);
     }
 
     private boolean validarFormulario() {
         List<String> faltando = new ArrayList<>();
-        String quantidade = campoQuantidade.getText();
+        String textoQuantidade = campoQuantidade.getText();
 
         if (campoNome.getText().isBlank()) faltando.add("Nome");
-        if (quantidade.isBlank() || Integer.parseInt(quantidade) <= 0) faltando.add("quantidade");
+        if (textoQuantidade == null || textoQuantidade.isBlank()) {
+            faltando.add("Quantidade");
+        } else {
+            try {
+                int quantidade = Integer.parseInt(textoQuantidade);
+
+                if (quantidade <= 0) {
+                    faltando.add("Quantidade maior que zero");
+                }
+            } catch (NumberFormatException e) {
+                faltando.add("Quantidade válida");
+            }
+        }
         if (campoCategoria.getText().isBlank()) faltando.add("Categoria");
         if (comboLocalidade.getValue() == null) faltando.add("Localidade");
         if (comboStatus.getValue() == null) faltando.add("Status");
@@ -133,43 +140,22 @@ public class ControllerCadastrarConsumo implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        sidebarController.ativarCadastroConsumo();
+
         UnaryOperator<TextFormatter.Change> filtroNumerico = change -> {
             String novoTexto = change.getControlNewText();
 
             // Expressão regular: "\\d*" significa "zero ou mais dígitos de 0 a 9"
-            if (novoTexto.matches("\\d*")) {
+            if (novoTexto.matches("\\d{0,9}")) {
                 return change; // Permite a alteração
             }
-            return null; // Rejeita a digitação! O caractere nem entra no campo
+            return null; // Rejeita a digitação! O caractere nem entra no    campo
         };
         // Aplica o filtro no seu campo (ex: número de patrimônio ou quantidade)
         campoQuantidade.setTextFormatter(new TextFormatter<>(filtroNumerico));
 
-        comboLocalidade.getItems().setAll(Localidade.values());
-        comboStatus.getItems().setAll(Status.values());
+        ComboBoxHelper.carregarLocalidade(comboLocalidade);
+        ComboBoxHelper.carregarStatus(comboStatus);
 
-    }
-
-
-    protected void atualizarCombox() {
-        comboStatus.setButtonCell(new ListCell<>() {
-            @Override
-            protected void updateItem(Status item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(comboStatus.getPromptText());
-                }
-            }
-        });
-
-        comboLocalidade.setButtonCell(new ListCell<>() {
-            @Override
-            protected void updateItem(Localidade item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(comboLocalidade.getPromptText());
-                }
-            }
-        });
     }
 }
