@@ -7,6 +7,8 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import sys.patrimonio.exceptions.PatrimonioExistenteException;
+import sys.patrimonio.exceptions.PersistenciaException;
 import sys.patrimonio.model.ItemConsumo;
 import sys.patrimonio.model.Localidade;
 import sys.patrimonio.model.Status;
@@ -19,7 +21,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 
-public class ControllerCadastrarConsumo  implements Initializable {
+public class ControllerCadastrarConsumo implements Initializable {
+
     @FXML
     private TextField campoNome;
     @FXML
@@ -42,7 +45,7 @@ public class ControllerCadastrarConsumo  implements Initializable {
     private File arquivoImagemSelecionado;
 
     @FXML
-    private void btt_buscarFoto(ActionEvent event){
+    private void btt_buscarFoto(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Selecionar Foto do Patrimônio");
 
@@ -54,20 +57,20 @@ public class ControllerCadastrarConsumo  implements Initializable {
 
         if (file != null) {
             arquivoImagemSelecionado = file;
-            Image image = new Image(file.toURI().toString());
+            Image image = new Image(file.toURI().toString(), 272, 272, true, true);
             imagemPatrimonio.setImage(image);
             labelSemFoto.setVisible(false); // Esconde o texto de aviso
         }
     }
 
     @FXML
-    private void btt_limpar(ActionEvent event){
-        if (Alertas.confimar("Deseja Limpar?")) {
+    private void btt_limpar(ActionEvent event) {
+        if (Alertas.confirmar("Deseja Limpar?")) {
             limpar();
         }
     }
 
-    private void limpar(){
+    private void limpar() {
         campoNome.clear();
         campoQuantidade.clear();
         campoDescricao.clear();
@@ -82,9 +85,10 @@ public class ControllerCadastrarConsumo  implements Initializable {
 
     private boolean validarFormulario() {
         List<String> faltando = new ArrayList<>();
+        String quantidade = campoQuantidade.getText();
 
         if (campoNome.getText().isBlank()) faltando.add("Nome");
-        if (campoQuantidade.getText().isBlank() && Integer.getInteger(campoQuantidade.getText()) <= 0) faltando.add("quantidade");
+        if (quantidade.isBlank() || Integer.parseInt(quantidade) <= 0) faltando.add("quantidade");
         if (campoCategoria.getText().isBlank()) faltando.add("Categoria");
         if (comboLocalidade.getValue() == null) faltando.add("Localidade");
         if (comboStatus.getValue() == null) faltando.add("Status");
@@ -97,9 +101,10 @@ public class ControllerCadastrarConsumo  implements Initializable {
         }
         return true;
     }
+
     @FXML
-    private void btt_salvar(ActionEvent event){
-        if(validarFormulario()){
+    private void btt_salvar(ActionEvent event) {
+        if (validarFormulario()) {
             String nome = campoNome.getText();
             int quantidade = Integer.parseInt(campoQuantidade.getText());
             String categoria = campoCategoria.getText();
@@ -107,12 +112,21 @@ public class ControllerCadastrarConsumo  implements Initializable {
             Localidade localidade = comboLocalidade.getValue();
             Status status = comboStatus.getValue();
 
-            ItemConsumo consumo = new ItemConsumo(nome, quantidade,descricao, localidade,categoria, status, arquivoImagemSelecionado.getPath());
+            ItemConsumo consumo = new ItemConsumo(nome, quantidade, descricao, localidade, categoria, status, arquivoImagemSelecionado.getPath());
             ConsumoManager consumoManager = new ConsumoManager();
-            consumoManager.salvar(consumo);
 
-            Alertas.aviso("Salvo com Sucesso");
-            limpar();
+            try {
+                consumoManager.salvar(consumo);
+                Alertas.informacao("Salvo com Sucesso");
+                limpar();
+            } catch (PatrimonioExistenteException e) {
+                Alertas.aviso("Já existe um Patrimonio com esse tombo.");
+            } catch (IllegalArgumentException e) {
+                Alertas.aviso(e.getMessage());
+            } catch (PersistenciaException e) {
+                e.printStackTrace();
+                Alertas.erro("Não foi possível salvar. Tente novamente.");
+            }
         }
     }
 

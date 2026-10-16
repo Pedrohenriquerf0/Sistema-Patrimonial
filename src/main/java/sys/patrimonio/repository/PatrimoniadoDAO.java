@@ -50,7 +50,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
         } catch (SQLIntegrityConstraintViolationException e) {
             throw new PatrimonioExistenteException("Patrimonio ja cadastrado");
         } catch (SQLException e) {
-            throw new PersistenciaException("Erro ao salvar a cautela", e);
+            throw new PersistenciaException("Erro ao salvar o Patriminiado", e);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -126,7 +126,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
 
             System.out.println("Item atualizado com sucesso");
         } catch (SQLException e) {
-            throw new PersistenciaException("Não foi possível concluir a operação", e);
+            throw new PersistenciaException("Não foi possível concluir a Atualização", e);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -236,7 +236,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
 
             System.out.println("Excluido com sucesso");
         } catch (SQLException e) {
-            throw new PersistenciaException("Erro ao excluir o patrimônio, ID: " + tombo, e);
+            throw new PersistenciaException("Erro ao excluir o Patrimônio, ID: " + tombo, e);
         }
     }
 

@@ -24,14 +24,14 @@
     <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="menu-title" text="MENU"/>
 
     <!-- BOTÕES NAVEGAÇÃO -->
-    <Button maxWidth="1.7976931348623157E308" styleClass="menu-button" text="⌂   Início"
+    <Button fx:id="btt_home" maxWidth="1.7976931348623157E308" styleClass="menu-button" text="⌂   Início"
             onAction="#voltarHome"/>
 
 
-    <Button maxWidth="1.7976931348623157E308" styleClass="menu-button" text="+   Cadastrar Patrimôniado"
-            onAction="#cadastrarPatrimôniado"/>
+    <Button fx:id="btt_CadastrarPatrimoniado" maxWidth="1.7976931348623157E308" styleClass="menu-button" text="+   Cadastrar Patrimôniado"
+            onAction="#cadastrarPatrimoniado"/>
 
-    <Button maxWidth="1.7976931348623157E308" styleClass="menu-button" text="+   Cadastrar Consumo"
+    <Button fx:id="btt_CadastrarConsumo" maxWidth="1.7976931348623157E308" styleClass="menu-button" text="+   Cadastrar Consumo"
             onAction="#cadastrarConsumo"/>
 
     <Button maxWidth="1.7976931348623157E308" styleClass="menu-button" text="☷   Listar Patrimônio" />

@@ -21,7 +21,7 @@ public class Alertas {
         alert.showAndWait();
     }
 
-    public static boolean confimar(String mensagem){
+    public static boolean confirmar(String mensagem){
         ButtonType sim = new ButtonType("Sim", ButtonBar.ButtonData.OK_DONE);
         ButtonType nao = new ButtonType("Não", ButtonBar.ButtonData.CANCEL_CLOSE);
 
@@ -29,5 +29,13 @@ public class Alertas {
         alerta.setHeaderText(null);
 
         return alerta.showAndWait().filter(botao -> botao == sim).isPresent();
+    }
+
+    public static void informacao(String mensagem){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Informação");
+        alert.setHeaderText(null);
+        alert.setContentText(mensagem);
+        alert.showAndWait();
     }
 }

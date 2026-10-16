@@ -6,11 +6,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.InputStream;
 
 public class ControllerSidebar {
+    @FXML
+    private Button btt_home;
+    @FXML
+    private Button btt_CadastrarPatrimoniado;
+    @FXML
+    private Button btt_CadastrarConsumo;
+
     @FXML
     private void voltarHome(ActionEvent event){
         try (InputStream fxmlStream = getClass().getClassLoader().getResourceAsStream("view/Home.fxml")){
@@ -32,7 +40,7 @@ public class ControllerSidebar {
 
 
     @FXML
-    private void cadastrarPatrimôniado(ActionEvent event){
+    private void cadastrarPatrimoniado(ActionEvent event){
         try (InputStream fxmlStream = getClass().getClassLoader().getResourceAsStream("view/CadastrarPatrimoniado.fxml")){
             if (fxmlStream == null) {
                 throw new RuntimeException("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/Home.fxml está correto.");

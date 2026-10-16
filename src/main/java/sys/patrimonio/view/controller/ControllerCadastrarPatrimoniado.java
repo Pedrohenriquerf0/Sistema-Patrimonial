@@ -8,6 +8,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.event.ActionEvent;
+import sys.patrimonio.exceptions.PatrimonioExistenteException;
+import sys.patrimonio.exceptions.PersistenciaException;
 import sys.patrimonio.model.ItemPatrimoniado;
 import sys.patrimonio.model.Localidade;
 import sys.patrimonio.model.Status;
@@ -57,7 +59,7 @@ public class ControllerCadastrarPatrimoniado implements Initializable {
 
         if (file != null) {
             arquivoImagemSelecionado = file;
-            Image image = new Image(file.toURI().toString());
+            Image image = new Image(file.toURI().toString(), 272, 272, true, true);
             imagemPatrimonio.setImage(image);
             labelSemFoto.setVisible(false); // Esconde o texto de aviso
         }
@@ -65,12 +67,12 @@ public class ControllerCadastrarPatrimoniado implements Initializable {
 
     @FXML
     private void btt_limpar(ActionEvent event) {
-        if (Alertas.confimar("Deseja Limpar?")) {
+        if (Alertas.confirmar("Deseja Limpar?")) {
             limpar();
         }
     }
 
-    private void limpar(){
+    private void limpar() {
         campoNome.clear();
         campoTombo.clear();
         campoNumeroSerie.clear();
@@ -114,12 +116,23 @@ public class ControllerCadastrarPatrimoniado implements Initializable {
             String descricao = campoDescricao.getText();
             Localidade localidade = comboLocalidade.getValue();
             Status status = comboStatus.getValue();
+
             ItemPatrimoniado patrimoniado = new ItemPatrimoniado(nome, tombo, numeroSerie, descricao, localidade, categoria, status, arquivoImagemSelecionado.getPath());
             PatrimoniadoManager patrimoniadoManager = new PatrimoniadoManager();
-            patrimoniadoManager.salvar(patrimoniado);
 
-            Alertas.aviso("Salvo com sucesso");
-            limpar();
+            try {
+                patrimoniadoManager.salvar(patrimoniado);
+                Alertas.aviso("Salvo com sucesso");
+                limpar();
+            } catch (PatrimonioExistenteException e) {
+                Alertas.aviso("Já existe um Patrimonio com esse tombo.");
+            } catch (IllegalArgumentException e) {
+                Alertas.aviso(e.getMessage());
+            } catch (PersistenciaException e) {
+                e.printStackTrace();
+                Alertas.erro("Não foi possível salvar. Tente novamente.");
+            }
+
         }
 
     }

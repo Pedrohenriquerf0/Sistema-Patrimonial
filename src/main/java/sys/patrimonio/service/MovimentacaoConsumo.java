@@ -30,8 +30,8 @@ public class MovimentacaoConsumo {
         ConsumoManager consumoManager = new ConsumoManager();
         ItemConsumo itemConsumo = consumoManager.buscarPorID(item.getId());
 
-        if (quantidade > itemConsumo.getQuantidade()) {
-            throw new SaldoInsuficienteException("Saida maior que o estoque");  // TODO - criar exceptions para esse tipo
+        if (quantidade > itemConsumo.getQuantidade() || quantidade <= 0) {
+            throw new SaldoInsuficienteException("Saida maior que o estoque, nem menor que zero");  // TODO - criar exceptions para esse tipo
         }
         itemConsumo.setQuantidade(itemConsumo.getQuantidade()- quantidade);
         consumoManager.atualizar(itemConsumo);

@@ -47,7 +47,7 @@ public class ConsumoDAO implements ConsumoRepositorio {
         } catch (SQLIntegrityConstraintViolationException e) {
             throw new PatrimonioExistenteException("Patrimonio ja cadastrado");
         } catch (SQLException e) {
-            throw new PersistenciaException("Erro ao salvar a cautela", e);
+            throw new PersistenciaException("Erro ao salvar o Consumo", e);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -125,7 +125,7 @@ public class ConsumoDAO implements ConsumoRepositorio {
 
             System.out.println("Item atualizado com sucesso");
         } catch (SQLException e) {
-            throw new PersistenciaException("Não foi possível concluir a operação", e);
+            throw new PersistenciaException("Não foi possível concluir a Atualização", e);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -234,7 +234,7 @@ public class ConsumoDAO implements ConsumoRepositorio {
 
             System.out.println("Excluido com sucesso");
         } catch (SQLException e) {
-            throw new PersistenciaException("Erro ao excluir o patrimônio, ID: " + aLong, e);
+            throw new PersistenciaException("Erro ao excluir o Patrimônio, ID: " + aLong, e);
         }
     }
 
