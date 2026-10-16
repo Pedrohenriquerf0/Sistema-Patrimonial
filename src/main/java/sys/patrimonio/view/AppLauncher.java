@@ -10,6 +10,7 @@ import sys.patrimonio.config.AppContext;
 import sys.patrimonio.config.ConnectionFactory;
 import sys.patrimonio.exceptions.AppContextInicializacaoException;
 import sys.patrimonio.repository.*;
+import sys.patrimonio.view.controller.Alertas;
 
 import java.io.InputStream;
 
@@ -27,6 +28,7 @@ public class AppLauncher extends Application {
             AppContext.inicializar(cautelaRepositorio, movimentacaoRepositorio, consumoRepositorio, patrimoniadoRepositorio);
 
         } catch (RuntimeException e){
+            Alertas.erro("Falha ao conectar com o banco de dados");
             throw new AppContextInicializacaoException("Falha ao conectar com o banco de dados", e);
         }
 
@@ -47,7 +49,7 @@ public class AppLauncher extends Application {
             homeStage.show();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            Alertas.erro("Erro ao iniciar a aplicação: ");
             throw new RuntimeException("Erro ao iniciar a aplicação: " + e.getMessage());
         }
     }

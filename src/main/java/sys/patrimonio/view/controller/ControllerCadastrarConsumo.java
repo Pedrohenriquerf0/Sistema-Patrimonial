@@ -75,7 +75,7 @@ public class ControllerCadastrarConsumo implements Initializable {
         arquivoImagemSelecionado = null;
         imagemPatrimonio.setImage(null);
 
-        ComboBoxHelper.atualizarCombox(comboLocalidade, comboStatus);
+        ComboBoxHelper.configurarCelulasComboBox(comboLocalidade, comboStatus);
     }
 
     private boolean validarFormulario() {

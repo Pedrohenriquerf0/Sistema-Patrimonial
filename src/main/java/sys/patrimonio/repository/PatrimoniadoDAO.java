@@ -54,8 +54,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
             }
 
             throw new PersistenciaException(
-                    "Violação de integridade ao salvar o patrimônio.",
-                    e
+                    "Não foi possível salvar o patrimônio.", e
             );
         } catch (SQLException | IOException e) {
             throw new PersistenciaException("Erro ao salvar o Patriminiado", e);

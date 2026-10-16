@@ -16,13 +16,15 @@ public final class ComboBoxHelper {
     }
 
 
-    public static void atualizarCombox(ComboBox<Localidade> localidadeComboBox, ComboBox<Status> statusComboBox) {
+    public static void configurarCelulasComboBox(ComboBox<Localidade> localidadeComboBox, ComboBox<Status> statusComboBox) {
         statusComboBox.setButtonCell(new ListCell<>() {
             @Override
             protected void updateItem(Status item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
                     setText(statusComboBox.getPromptText());
+                }else{
+                    setText(item.toString());
                 }
             }
         });
@@ -33,6 +35,8 @@ public final class ComboBoxHelper {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
                     setText(localidadeComboBox.getPromptText());
+                }else{
+                    setText(item.toString());
                 }
             }
         });
