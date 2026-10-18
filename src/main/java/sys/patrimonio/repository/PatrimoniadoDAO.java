@@ -88,6 +88,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
                                 ),
                                 caminhoFoto
                         );
+                itemPatrimoniado.setEntrada(resultSet.getDate("data_entrada").toLocalDate());
                 patrimoniadoList.add(itemPatrimoniado);
             }
 
@@ -161,7 +162,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
                                 ),
                                 caminhoFoto
                         );
-
+                itemPatrimoniado.setEntrada(resultSet.getDate("data_entrada").toLocalDate());
                 return itemPatrimoniado;
             }
         } catch (SQLException | IOException e) {
@@ -203,6 +204,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
                                 ),
                                 caminhoFoto
                         );
+                itemPatrimoniado.setEntrada(resultSet.getDate("data_entrada").toLocalDate());
                 patrimoniadoList.add(itemPatrimoniado);
             }
             return patrimoniadoList;
@@ -262,6 +264,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
                                 ),
                                 caminhoFoto
                         );
+                itemPatrimoniado.setEntrada(resultSet.getDate("data_entrada").toLocalDate());
 
                 return itemPatrimoniado;
             }
