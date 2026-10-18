@@ -1,7 +1,5 @@
 package sys.patrimonio.model;
 
-import sys.patrimonio.exceptions.SaldoInsuficienteException;
-
 import java.util.Objects;
 
 public class ItemConsumo extends Item {

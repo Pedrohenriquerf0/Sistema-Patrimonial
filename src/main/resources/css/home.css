@@ -103,6 +103,8 @@
     -fx-text-fill: -cor-texto-label;
     -fx-font-size: 12px;
     -fx-font-weight: bold;
+    -fx-alignment: CENTER;
+    -fx-text-alignment: CENTER;
 }
 
 /* LINHAS */
@@ -130,7 +132,7 @@
 .patrimonio-table .table-cell {
     -fx-text-fill: -cor-texto;
     -fx-font-size: 13px;
-    -fx-alignment: CENTER_LEFT;
+    -fx-alignment: CENTER;
     -fx-border-color: transparent;
 }
 

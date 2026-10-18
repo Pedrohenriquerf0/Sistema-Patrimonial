@@ -35,6 +35,7 @@ public abstract class Item {
         this.quantidade = quantidade;
     }
 
+
     public void setEntrada(LocalDate entrada) {
         this.entrada = entrada;
     }

@@ -5,7 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public final class Convert {
+public final class Converter {
     public static byte[] pathsToBytes(String caminoFoto) throws IOException {
         return Files.readAllBytes(Path.of(caminoFoto));
     }

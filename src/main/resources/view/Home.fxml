@@ -57,7 +57,7 @@
                                    promptText="Pesquisar por nome, tombo ou número de série..."
                                    styleClass="search-field" HBox.hgrow="ALWAYS"/>
 
-                        <Button fx:id="btt_pesquisa" onAction="#pesquisaPatrimonio" prefHeight="40.0" prefWidth="110.0"
+                        <Button onAction="#pesquisaPatrimonio" prefHeight="40.0" prefWidth="110.0"
                                 styleClass="button-search" text="Pesquisar"/>
 
                     </HBox>
@@ -73,21 +73,19 @@
 
                             <columns>
 
-                                <TableColumn prefWidth="100.0" text="FOTO"/>
+                                <TableColumn fx:id="colunaFoto"  prefWidth="150.0" text="FOTO"/>
 
-                                <TableColumn prefWidth="250.0" text="MATERIAL"/>
+                                <TableColumn fx:id="colunaNome" prefWidth="150.0" text="MATERIAL"/>
 
-                                <TableColumn prefWidth="130.0" text="TOMBO"/>
+                                <TableColumn fx:id="colunaID" prefWidth="130.0" text="TOMBO"/>
 
-                                <TableColumn prefWidth="180.0" text="Nº SÉRIE"/>
+                                <TableColumn fx:id="colunaCategoria" prefWidth="160.0" text="CATEGORIA"/>
 
-                                <TableColumn prefWidth="160.0" text="CATEGORIA"/>
+                                <TableColumn fx:id="colunastatus" prefWidth="160.0" text="Status"/>
 
-                                <TableColumn prefWidth="160.0" text="TIPO DE ATIVO"/>
+                                <TableColumn fx:id="colunaLocalidade" prefWidth="180.0" text="LOCALIDADE"/>
 
-                                <TableColumn prefWidth="180.0" text="LOCALIDADE"/>
-
-                                <TableColumn prefWidth="100.0" text="QUANTIDADE"/>
+                                <TableColumn fx:id="colunaQuant" prefWidth="100.0" text="QUANTIDADE"/>
 
                             </columns>
 
