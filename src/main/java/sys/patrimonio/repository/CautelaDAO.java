@@ -121,29 +121,72 @@ public class CautelaDAO implements CautelaRepositorio {
 
     @Override
     public void salvar(Cautela obj) {
+        PatrimoniadoRepositorio patrimoniadoRepositorio =
+                AppContext.getPatrimoniadoRepositorio();
+
         String sql = """
                 INSERT INTO cautelas
-                (tombo_item, destino, emissor, observacoes, origem)
+                    (tombo_item, destino, emissor, observacoes, origem)
                 VALUES (?, ?, ?, ?, ?)
                 RETURNING id, criado_em
                 """;
 
-        try (Connection connection = this.connectionFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (Connection connection = this.connectionFactory.getConnection()) {
+            connection.setAutoCommit(false);
 
-            statement.setString(1, obj.getItemPatrimoniado().getTombo());
-            statement.setString(2, String.valueOf(obj.getDestino()));
-            statement.setString(3, obj.getEmissor());
-            statement.setString(4, obj.getObservacoes().orElse(null));
-            statement.setString(5, String.valueOf(obj.getOrigem()));
+            try {
+                try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                    statement.setString(1, obj.getItemPatrimoniado().getTombo());
+                    statement.setString(2, String.valueOf(obj.getDestino()));
+                    statement.setString(3, obj.getEmissor());
+                    statement.setString(4, obj.getObservacoes().orElse(null));
+                    statement.setString(5, String.valueOf(obj.getOrigem()));
 
-            try (ResultSet resultado = statement.executeQuery()) {
-                if (resultado.next()) {
-                    long id = resultado.getLong("id");
-                    LocalDate criadoEm = resultado.getDate("criado_em").toLocalDate();
-                    obj.setId(Processo.IDFormatada(id, criadoEm.getYear()));
+                    try (ResultSet resultSet = statement.executeQuery()) {
+                        if (!resultSet.next()) {
+                            throw new SQLException(
+                                    "Não foi possível obter o ID da cautela."
+                            );
+                        }
+
+                        long idGerado = resultSet.getLong("id");
+                        Date dataCriacao = resultSet.getDate("criado_em");
+
+                        if (dataCriacao == null) {
+                            throw new SQLException(
+                                    "A data de criação da cautela não foi retornada."
+                            );
+                        }
+
+                        LocalDate criadoEm = dataCriacao.toLocalDate();
+
+                        obj.setId(Processo.IDFormatada(
+                                idGerado,
+                                criadoEm.getYear()
+                        ));
+                    }
                 }
+
+                patrimoniadoRepositorio.atualizarLocal(
+                        connection,
+                        obj.getItemPatrimoniado()
+                );
+
+                connection.commit();
+
+            } catch (Exception e) {
+                try {
+                    connection.rollback();
+                } catch (SQLException rollbackException) {
+                    e.addSuppressed(rollbackException);
+                }
+
+                throw new PersistenciaException(
+                        "Não foi possível salvar a cautela.",
+                        e
+                );
             }
+
         } catch (SQLException e) {
             throw new PersistenciaException(
                     "Não foi possível salvar a cautela.",

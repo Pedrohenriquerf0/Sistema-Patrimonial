@@ -1,15 +1,20 @@
 package sys.patrimonio.view.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+import sys.patrimonio.model.Item;
 import sys.patrimonio.model.ItemPatrimoniado;
-import sys.patrimonio.util.SeletorFoto;
-
-import java.io.File;
+import sys.patrimonio.util.PatrimonioLoader;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -43,21 +48,8 @@ public class ControllerItemPatrimoniado implements Initializable {
 
     public void tranferiDados(ItemPatrimoniado patrimoniado) {
         this.patrimoniado = patrimoniado;
-        carregarDados();
-    }
-
-    private void carregarDados() {
-        campoNome.setText(patrimoniado.getNome());
-        campoTombo.setText(patrimoniado.getTombo());
-        campoNumeroSerie.setText(patrimoniado.getNumeroSerie());
-        campoCategoria.setText(patrimoniado.getCategoria());
-        campoLocalidade.setText(String.valueOf(patrimoniado.getLocal()));
-        campoStatus.setText(String.valueOf(patrimoniado.getStatus()));
-        campoDescricao.setText(patrimoniado.getDescricao());
-        campoQuantidade.setText(Integer.toString(patrimoniado.getQuantidade()));
-        campoEntrada.setText(String.valueOf(patrimoniado.getEntrada()));
-        imagemPatrimonio.setImage(SeletorFoto.carregarReduzida(new File(patrimoniado.getFoto()), 272));
-        labelSemFoto.setVisible(false);
+        PatrimonioLoader.carregarDados(patrimoniado, campoNome, campoTombo, campoNumeroSerie, campoCategoria, campoLocalidade,
+                campoStatus, campoDescricao, campoQuantidade, campoEntrada, imagemPatrimonio, labelSemFoto);
     }
 
     @Override
@@ -71,7 +63,27 @@ public class ControllerItemPatrimoniado implements Initializable {
     }
 
     @FXML
-    private void btt_cautela(){
+    private void btt_cautela(ActionEvent event){
+        abrirDetalhes(patrimoniado,  event);
+    }
 
+    private void abrirDetalhes(Item item, ActionEvent event) {
+        if (item instanceof ItemPatrimoniado patrimonio) {
+            try (InputStream fxmlStream = getClass().getClassLoader().getResourceAsStream("view/CriarCautela.fxml")){
+                if (fxmlStream == null) {
+                    throw new RuntimeException("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/CriarCautela.fxml está correto.");
+                }
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                Parent parent = fxmlLoader.load(fxmlStream);
+                ControllerCriarCautela controller = fxmlLoader.getController();
+                controller.tranferiDados(patrimonio);
+                Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(new Scene(parent));
+                stage.show();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

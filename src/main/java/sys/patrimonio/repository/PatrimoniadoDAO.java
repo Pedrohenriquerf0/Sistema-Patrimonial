@@ -273,4 +273,22 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
         }
         return null;
     }
+
+    @Override
+    public void atualizarLocal(Connection connection, ItemPatrimoniado objeto) throws SQLException{
+        String sql = """
+                UPDATE item_patrimoniado
+                SET localidade= ?
+                WHERE tombo = ?
+                """;
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, String.valueOf(objeto.getLocal()));
+            statement.setString(2, objeto.getTombo());
+
+            statement.executeUpdate();
+
+        }
+    }
 }

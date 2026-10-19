@@ -17,40 +17,36 @@ public class MovimentacaoConsumo {
         this.movimentacaoRepositorio = AppContext.getMovimentacaoRepositorio();
     }
 
-    public MovimentacaoItemConsumo buscarPorID(long id){
+    public MovimentacaoItemConsumo buscarPorID(long id) {
         return this.movimentacaoRepositorio.buscarPorId(id);
     }
 
 
-    public List<MovimentacaoItemConsumo> listarTodos(){
+    public List<MovimentacaoItemConsumo> listarTodos() {
         return this.movimentacaoRepositorio.listarTodos();
     }
 
     public void registrarSaida(ItemConsumo item, int quantidade, Localidade destino) {
-        ConsumoManager consumoManager = new ConsumoManager();
-        ItemConsumo itemConsumo = consumoManager.buscarPorID(item.getId());
+        ItemConsumo itemConsumo = new ConsumoManager().buscarPorID(item.getId());
 
         if (quantidade > itemConsumo.getQuantidade() || quantidade <= 0) {
             throw new SaldoInsuficienteException("Saida maior que o estoque, nem menor que zero");  // TODO - criar exceptions para esse tipo
         }
-        itemConsumo.setQuantidade(itemConsumo.getQuantidade()- quantidade);
-        consumoManager.atualizar(itemConsumo);
-
-        MovimentacaoItemConsumo movimentacaoSaida = new MovimentacaoItemConsumo(destino, item, quantidade, TipoMovimentacao.SAIDA);
-        this.movimentacaoRepositorio.salvar(movimentacaoSaida);
+        item.setQuantidade(itemConsumo.getQuantidade() - quantidade);
+        this.salvar(new MovimentacaoItemConsumo(destino, item, quantidade, TipoMovimentacao.SAIDA));
     }
 
     public void registrarEntrada(ItemConsumo item, int quantidade) {
-        ConsumoManager consumoManager = new ConsumoManager();
-        ItemConsumo itemConsumo = consumoManager.buscarPorID(item.getId());
+        ItemConsumo itemConsumo = new ConsumoManager().buscarPorID(item.getId());
 
-        if (quantidade <=0) {
-            throw new IllegalArgumentException("quantidade tem que ser positiva");  // TODO - criar exceptions para esse tipo
+        if (quantidade <= 0) {
+            throw new IllegalArgumentException( "A quantidade deve ser positiva.");  // TODO - criar exceptions para esse tipo
         }
-        itemConsumo.setQuantidade(itemConsumo.getQuantidade() + quantidade);
-        consumoManager.atualizar(itemConsumo);
+        item.setQuantidade(itemConsumo.getQuantidade() + quantidade);
+        this.salvar(new MovimentacaoItemConsumo(Localidade.PATRIMONIO, item, quantidade, TipoMovimentacao.ENTRADA)); // POR QUE LOCALIDADE.PATRIMONI? ASSIM QUE UM ITEM CHEGAR ELE VAI DIRETO PRO PATRIMONI ANSTE DE SER DISTRIBUIDO
+    }
 
-        MovimentacaoItemConsumo movimentacaoEntrada = new MovimentacaoItemConsumo(Localidade.PATRIMONIO, item, quantidade, TipoMovimentacao.ENTRADA); // POR QUE LOCALIDADE.PATRIMONI? ASSIM QUE UM ITEM CHEGAR ELE VAI DIRETO PRO PATRIMONI ANSTE DE SER DISTRIBUIDO
-        this.movimentacaoRepositorio.salvar(movimentacaoEntrada);
+    private void salvar(MovimentacaoItemConsumo movimentacaoItemConsumo) {
+        this.movimentacaoRepositorio.salvar(movimentacaoItemConsumo);
     }
 }

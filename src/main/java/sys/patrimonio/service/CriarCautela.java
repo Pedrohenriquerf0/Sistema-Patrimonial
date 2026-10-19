@@ -45,9 +45,6 @@ public class CriarCautela {
     private void salvar() {
         this.cautela.getItemPatrimoniado().setLocal(this.cautela.getDestino());
         this.cautelaRepositorio.salvar(this.cautela);
-
-        PatrimoniadoManager patrimoniadoManager = new PatrimoniadoManager();
-        patrimoniadoManager.atualizar(this.cautela.getItemPatrimoniado());
     }
 
     public void visualizarCautela() {

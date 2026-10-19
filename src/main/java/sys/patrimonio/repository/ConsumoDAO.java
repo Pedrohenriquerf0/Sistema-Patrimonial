@@ -124,7 +124,10 @@ public class ConsumoDAO implements ConsumoRepositorio {
         } catch (SQLException | IOException e) {
             throw new PersistenciaException("Não foi possível atualizar o item de consumo.", e);
         }
+
     }
+
+
 
     @Override
     public ItemConsumo buscarPorId(Long aLong) {
@@ -218,4 +221,27 @@ public class ConsumoDAO implements ConsumoRepositorio {
             throw new PersistenciaException("Não foi possível excluir o item de consumo.", e);
         }
     }
+
+    @Override
+    public void atualizarQuantidade(Connection connection, ItemConsumo objeto) throws SQLException, IOException {
+        String sql = """
+            UPDATE item_consumo
+            SET quantidade = ?,
+            WHERE id = ?
+            """;
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, objeto.getQuantidade());
+            statement.setLong(2, objeto.getId());
+
+            int linhasAfetadas = statement.executeUpdate();
+
+            if (linhasAfetadas != 1) {
+                throw new SQLException(
+                        "O item de consumo não foi encontrado para atualização."
+                );
+            }
+        }
+    }
 }
+

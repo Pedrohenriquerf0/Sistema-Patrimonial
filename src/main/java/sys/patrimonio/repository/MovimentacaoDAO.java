@@ -129,39 +129,72 @@ public class MovimentacaoDAO implements MovimentacaoRepositorio {
     }
 
     @Override
+
     public void salvar(MovimentacaoItemConsumo obj) {
+        ConsumoRepositorio consumoRepositorio =
+                AppContext.getConsumoRepositorio();
+
         String sql = """
-                INSERT INTO movimentacao_consumo
-                (item_consumo_id, tipo_movimentacao, destino, quantidade, emissor)
-                VALUES (?, ?, ?, ?, ?)
-                """;
+            INSERT INTO movimentacao_consumo
+            (item_consumo_id, tipo_movimentacao, destino, quantidade, emissor)
+            VALUES (?, ?, ?, ?, ?)
+            """;
 
-        try (Connection connection = this.connectionFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(
-                     sql,
-                     PreparedStatement.RETURN_GENERATED_KEYS
-             )) {
+        try (Connection connection = this.connectionFactory.getConnection()) {
+            connection.setAutoCommit(false);
 
-            statement.setLong(1, obj.getItemConsumo().getId());
-            statement.setString(2, String.valueOf(obj.getTipoMovimentacao()));
-            statement.setString(3, String.valueOf(obj.getDestino()));
-            statement.setInt(4, obj.getQuantidade());
-            statement.setString(5, obj.getEmissor());
+            try {
+                long idGerado;
 
-            statement.executeUpdate();
+                try (PreparedStatement statement = connection.prepareStatement(
+                        sql,
+                        PreparedStatement.RETURN_GENERATED_KEYS)) {
 
-            // O ID gerado é atribuído ao objeto para permitir sua utilização posterior.
-            try (ResultSet resultSet = statement.getGeneratedKeys()) {
-                if (resultSet.next()) {
-                    long idGerado = resultSet.getLong(1);
-                    obj.setId(idGerado);
+                    statement.setLong(1, obj.getItemConsumo().getId());
+                    statement.setString(
+                            2, String.valueOf(obj.getTipoMovimentacao()));
+                    statement.setString(
+                            3, String.valueOf(obj.getDestino()));
+                    statement.setInt(4, obj.getQuantidade());
+                    statement.setString(5, obj.getEmissor());
+
+                    statement.executeUpdate();
+
+                    try (ResultSet resultSet = statement.getGeneratedKeys()) {
+                        if (!resultSet.next()) {
+                            throw new SQLException(
+                                    "Não foi possível obter o ID da movimentação.");
+                        }
+
+                        idGerado = resultSet.getLong(1);
+                    }
                 }
+                consumoRepositorio.atualizarQuantidade(
+                        connection,
+                        obj.getItemConsumo()
+                );
+
+                // Confirma as duas operações.
+                connection.commit();
+
+                obj.setId(idGerado);
+
+            } catch (Exception e) {
+                try {
+                    connection.rollback();
+                } catch (SQLException rollbackException) {
+                    e.addSuppressed(rollbackException);
+                }
+
+                throw e;
             }
-        } catch (SQLException e) {
+
+        } catch (Exception e) {
             throw new PersistenciaException(
                     "Não foi possível salvar a movimentação.",
                     e
             );
         }
     }
+
 }
