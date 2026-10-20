@@ -8,6 +8,7 @@ import sys.patrimonio.repository.ConsumoRepositorio;
 import sys.patrimonio.repository.PatrimoniadoRepositorio;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 public class PatrimonioPesquisaService {
@@ -21,44 +22,45 @@ public class PatrimonioPesquisaService {
         this.patrimoniadoRepositorio = AppContext.getPatrimoniadoRepositorio();
     }
 
-    public List<Item> pesquisa(){
+    public List<Item> pesquisa() {
 
-        if(pesquisa.matches("\\d+")){
+        if (pesquisa.matches("\\d+")) {
             return pesquisaConsumoID().stream().map(item -> (Item) item).toList();
-        }else if(pesquisa.chars().anyMatch(Character::isDigit)){
-            if(pesquisa.length() <= 10){
+        } else if (pesquisa.chars().anyMatch(Character::isDigit)) {
+            if (pesquisa.length() <= 10) {
                 return pesquisaPatrimoniadoTombo().stream().map(item -> (Item) item).toList();
-            }else if(pesquisa.length() <= 15){
+            } else if (pesquisa.length() <= 15) {
                 return pesquisaPatrimoniadoNS().stream().map(item -> (Item) item).toList();
             }
         }
 
-        return Stream.concat(pesquisaConsumoNome().stream(), pesquisaPatrimoniaddoNome().stream())
-                .map(item ->  (Item) item).toList();
+        return Stream.concat(pesquisaConsumoNome().stream(), pesquisaPatrimoniadoNome().stream())
+                .map(item -> (Item) item).toList();
     }
 
-    private List<ItemConsumo> pesquisaConsumoNome(){
+    private List<ItemConsumo> pesquisaConsumoNome() {
         return consumoRepositorio.buscarPorNome(pesquisa);
     }
 
-    private List<ItemConsumo> pesquisaConsumoID(){
+    private List<ItemConsumo> pesquisaConsumoID() {
         Long id = Long.parseLong(pesquisa);
-        return List.of(consumoRepositorio.buscarPorId(id));
+        Optional<ItemConsumo> consumoResultado = Optional.ofNullable(consumoRepositorio.buscarPorId(id));
+        return consumoResultado.map(List::of).orElseGet(List::of);
     }
 
-    private List<ItemPatrimoniado> pesquisaPatrimoniaddoNome(){
+    private List<ItemPatrimoniado> pesquisaPatrimoniadoNome() {
         return patrimoniadoRepositorio.buscarPorNome(pesquisa);
     }
 
-    private List<ItemPatrimoniado> pesquisaPatrimoniadoTombo(){
-        return List.of(patrimoniadoRepositorio.buscarPorId(pesquisa));
+    private List<ItemPatrimoniado> pesquisaPatrimoniadoTombo() {
+        Optional<ItemPatrimoniado> patrimoniadoResultado = Optional.ofNullable(patrimoniadoRepositorio.buscarPorId(pesquisa));
+        return patrimoniadoResultado.map(List::of).orElseGet(List::of);
     }
 
-    private List<ItemPatrimoniado> pesquisaPatrimoniadoNS(){
-        return List.of(patrimoniadoRepositorio.buscarPorNS(pesquisa));
+    private List<ItemPatrimoniado> pesquisaPatrimoniadoNS() {
+        Optional<ItemPatrimoniado> patrimoniadoResultado = Optional.ofNullable(patrimoniadoRepositorio.buscarPorNS(pesquisa));
+        return patrimoniadoResultado.map(List::of).orElseGet(List::of);
     }
-
-
 
 
 }
