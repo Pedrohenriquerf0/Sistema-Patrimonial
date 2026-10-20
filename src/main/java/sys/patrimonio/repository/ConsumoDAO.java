@@ -226,7 +226,7 @@ public class ConsumoDAO implements ConsumoRepositorio {
     public void atualizarQuantidade(Connection connection, ItemConsumo objeto) throws SQLException, IOException {
         String sql = """
             UPDATE item_consumo
-            SET quantidade = ?,
+            SET quantidade = ?
             WHERE id = ?
             """;
 

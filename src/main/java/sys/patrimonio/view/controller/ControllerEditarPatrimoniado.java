@@ -128,7 +128,6 @@ public class ControllerEditarPatrimoniado  {
             } catch (IllegalArgumentException e) {
                 Alertas.aviso(e.getMessage());
             } catch (PersistenciaException e) {
-                e.printStackTrace();
                 Alertas.erro("Não foi possível salvar. Tente novamente.");
             }
 
