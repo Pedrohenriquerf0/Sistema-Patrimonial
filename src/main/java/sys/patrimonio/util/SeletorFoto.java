@@ -1,13 +1,16 @@
 package sys.patrimonio.util;
 
+
 import javafx.stage.FileChooser;
 import javafx.scene.image.Image;
 import javafx.stage.Window;
 
 import java.io.File;
 
+
 public final class SeletorFoto {
-    private SeletorFoto() {}
+    private SeletorFoto() {
+    }
 
     public static File escolher(Window dono) {
         FileChooser chooser = new FileChooser();
@@ -20,4 +23,6 @@ public final class SeletorFoto {
     public static Image carregarReduzida(File arquivo, int lado) {
         return new Image(arquivo.toURI().toString(), lado, lado, true, true);
     }
+
+
 }

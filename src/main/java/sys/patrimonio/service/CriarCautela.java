@@ -33,9 +33,9 @@ public class CriarCautela {
         return new CriarCautela(cautela);
     }
 
-    public static Cautela buscarPorID(long id){
+    public static Cautela buscarPorID(long id) {
         CriarCautela criarCautela = new CriarCautela(null);
-        if(id <= 0){
+        if (id <= 0) {
             throw new IllegalArgumentException("ID não pode se menor que zero");
         }
         Cautela cautela = criarCautela.cautelaRepositorio.buscarPorId(id);
@@ -47,46 +47,42 @@ public class CriarCautela {
         this.cautelaRepositorio.salvar(this.cautela);
     }
 
-    public void visualizarCautela() {
+    public void visualizarCautela() throws IOException {
 
-        try {
-            InputStream caminhoTemplate = getClass().getClassLoader().getResourceAsStream("cautelaTemplate.html");
 
-            if (caminhoTemplate == null) {
-                throw new RuntimeException("Template não encontrado dentro do JAR");
-            }
-            String htmlCautela = new String(caminhoTemplate.readAllBytes(), StandardCharsets.UTF_8);
-            htmlCautela = htmlCautela.replace("{{idcautela}}", this.cautela.getId());
-            htmlCautela = htmlCautela.replace("{{departamentoorigem}}", String.valueOf(this.cautela.getOrigem()));
-            htmlCautela = htmlCautela.replace("{{departamentodestino}}", String.valueOf(cautela.getDestino()));
-            htmlCautela = htmlCautela.replace("{{data}}", String.valueOf(this.cautela.getData()));
-            htmlCautela = htmlCautela.replace("{{emissorcautela}}", cautela.getEmissor());
-            htmlCautela = htmlCautela.replace("{{obs}}", cautela.getObservacoes().orElse("-"));
-            htmlCautela = htmlCautela.replace("{{quantidade}}", String.valueOf(cautela.getItemPatrimoniado().getQuantidade()));
-            htmlCautela = htmlCautela.replace("{{descricao}}", Processo.descricaoFormatada(cautela));
-            htmlCautela = htmlCautela.replace("{{nome}}", cautela.getItemPatrimoniado().getNome());
-            htmlCautela = htmlCautela.replace("{{tombo}}", cautela.getItemPatrimoniado().getTombo());
-            htmlCautela = htmlCautela.replace("{{status}}", String.valueOf(cautela.getItemPatrimoniado().getStatus()));
-            htmlCautela = htmlCautela.replace("{{foto}}", cautela.getItemPatrimoniado().getFoto());
-            abriCautela(htmlCautela);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        InputStream caminhoTemplate = getClass().getClassLoader().getResourceAsStream("cautelaTemplate.html");
+
+        if (caminhoTemplate == null) {
+            throw new RuntimeException("Template não encontrado dentro do JAR");
         }
+        String htmlCautela = new String(caminhoTemplate.readAllBytes(), StandardCharsets.UTF_8);
+        htmlCautela = htmlCautela.replace("{{idcautela}}", this.cautela.getId());
+        htmlCautela = htmlCautela.replace("{{departamentoorigem}}", String.valueOf(this.cautela.getOrigem()));
+        htmlCautela = htmlCautela.replace("{{departamentodestino}}", String.valueOf(cautela.getDestino()));
+        htmlCautela = htmlCautela.replace("{{data}}", String.valueOf(this.cautela.getData()));
+        htmlCautela = htmlCautela.replace("{{emissorcautela}}", cautela.getEmissor());
+        htmlCautela = htmlCautela.replace("{{obs}}", cautela.getObservacoes().orElse("-"));
+        htmlCautela = htmlCautela.replace("{{quantidade}}", String.valueOf(cautela.getItemPatrimoniado().getQuantidade()));
+        htmlCautela = htmlCautela.replace("{{descricao}}", Processo.descricaoFormatada(cautela));
+        htmlCautela = htmlCautela.replace("{{nome}}", cautela.getItemPatrimoniado().getNome());
+        htmlCautela = htmlCautela.replace("{{tombo}}", cautela.getItemPatrimoniado().getTombo());
+        htmlCautela = htmlCautela.replace("{{status}}", String.valueOf(cautela.getItemPatrimoniado().getStatus()));
+        htmlCautela = htmlCautela.replace("{{foto}}", cautela.getItemPatrimoniado().getFoto());
+        abriCautela(htmlCautela);
+
 
     }
 
-    private void abriCautela(String htmlCautela) {
+    private void abriCautela(String htmlCautela) throws IOException {
         String novoCautela = "Cautela_ID_" + this.cautela.getId();
         novoCautela = novoCautela.replace("/", "-");
-        try {
-            Path pasta = Paths.get(Processo.usuarioOS(), "Sistema de Patrimonio", "Cautelas");
-            Files.createDirectories(pasta);
-            Path arquivoFinal = pasta.resolve(novoCautela + ".html");
-            Files.writeString(arquivoFinal, htmlCautela);
-            Desktop.getDesktop().browse(arquivoFinal.toUri());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+        Path pasta = Paths.get(Processo.usuarioOS(), "Sistema de Patrimonio", "Cautelas");
+        Files.createDirectories(pasta);
+        Path arquivoFinal = pasta.resolve(novoCautela + ".html");
+        Files.writeString(arquivoFinal, htmlCautela);
+        Desktop.getDesktop().browse(arquivoFinal.toUri());
+
 
     }
 }

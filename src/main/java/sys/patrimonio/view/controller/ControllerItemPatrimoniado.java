@@ -58,16 +58,16 @@ public class ControllerItemPatrimoniado implements Initializable {
     }
 
     @FXML
-    private void btt_editar(){
-
+    private void btt_editar(ActionEvent event){
+        carregarTelaEditar(patrimoniado, event);
     }
 
     @FXML
     private void btt_cautela(ActionEvent event){
-        abrirDetalhes(patrimoniado,  event);
+        carregarTelaCautela(patrimoniado,  event);
     }
 
-    private void abrirDetalhes(Item item, ActionEvent event) {
+    private void carregarTelaCautela(Item item, ActionEvent event) {
         if (item instanceof ItemPatrimoniado patrimonio) {
             try (InputStream fxmlStream = getClass().getClassLoader().getResourceAsStream("view/CriarCautela.fxml")){
                 if (fxmlStream == null) {
@@ -82,7 +82,27 @@ public class ControllerItemPatrimoniado implements Initializable {
                 stage.show();
 
             } catch (Exception e) {
-                e.printStackTrace();
+               Alertas.erro("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/CriarCautela.fxml está correto.");
+            }
+        }
+    }
+
+    private void carregarTelaEditar(Item item, ActionEvent event) {
+        if (item instanceof ItemPatrimoniado patrimonio) {
+            try (InputStream fxmlStream = getClass().getClassLoader().getResourceAsStream("view/EditarPatrimoniado.fxml")){
+                if (fxmlStream == null) {
+                    throw new RuntimeException("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/EditarPatrimoniado.fxml está correto.");
+                }
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                Parent parent = fxmlLoader.load(fxmlStream);
+                ControllerEditarPatrimoniado controller = fxmlLoader.getController();
+                controller.tranferiDados(patrimonio);
+                Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(new Scene(parent));
+                stage.show();
+
+            } catch (Exception e) {
+               Alertas.erro("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/EditarPatrimoniado.fxml está correto.");
             }
         }
     }

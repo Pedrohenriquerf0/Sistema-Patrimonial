@@ -117,7 +117,7 @@ public class ControllerCadastrarPatrimoniado implements Initializable {
 
             try {
                 patrimoniadoManager.salvar(patrimoniado);
-                Alertas.aviso("Salvo com sucesso");
+                Alertas.informacao("Salvo com sucesso");
                 limpar();
             } catch (PatrimonioExistenteException e) {
                 Alertas.aviso("Já existe um Patrimonio com esse tombo.");

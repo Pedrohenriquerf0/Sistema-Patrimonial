@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="768.0"
+            prefWidth="1366.0"
+            stylesheets="@/css/cadastrarPatrimonio.css"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="sys.patrimonio.view.controller.ControllerEditarPatrimoniado">
+
+    <BorderPane AnchorPane.bottomAnchor="0.0"
+                AnchorPane.leftAnchor="0.0"
+                AnchorPane.rightAnchor="0.0"
+                AnchorPane.topAnchor="0.0">
+
+        <left>
+            <fx:include fx:id="sidebar" source="/view/sidebar.fxml"/>
+        </left>
+
+        <!-- ÁREA PRINCIPAL -->
+        <center>
+            <VBox spacing="20.0" styleClass="content">
+                <padding>
+                    <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>
+                </padding>
+
+                <!-- CABEÇALHO (o texto muda conforme o tipo, pelo controller) -->
+                <VBox spacing="5.0">
+                    <Label styleClass="title" text="Editar Patrimônio Permanente  "/>
+                    <Label styleClass="subtitle"
+                           text="“Atualize os dados abaixo para editar as informações do patrimônio permanente no sistema.”"/>
+                </VBox>
+
+                <!-- CARTÃO DO FORMULÁRIO -->
+                <VBox styleClass="table-card" VBox.vgrow="ALWAYS" spacing="24.0">
+
+                    <HBox spacing="40.0" VBox.vgrow="ALWAYS">
+
+                        <!-- COLUNA DA FOTO -->
+                        <VBox spacing="12.0" alignment="TOP_CENTER" minWidth="280.0" maxWidth="280.0">
+                            <StackPane fx:id="areaFoto" styleClass="area-foto"
+                                       minWidth="280" minHeight="280"
+                                       prefWidth="280" prefHeight="280"
+                                       maxWidth="280" maxHeight="280">
+                                <Label fx:id="labelSemFoto" text="Sem foto"/>
+                                <ImageView fx:id="imagemPatrimonio"
+                                           fitWidth="272" fitHeight="272"
+                                           preserveRatio="true" pickOnBounds="true"/>
+                            </StackPane>
+
+                            <Button styleClass="button-secundario"
+                                    text="Escolher foto" maxWidth="Infinity"
+                                    mnemonicParsing="false" onAction="#btt_buscarFoto"/>
+                        </VBox>
+
+                        <!-- COLUNA DOS CAMPOS: 2 colunas de 50% -->
+                        <GridPane hgap="24.0" vgap="20.0" HBox.hgrow="ALWAYS">
+                            <columnConstraints>
+                                <ColumnConstraints percentWidth="50.0"/>
+                                <ColumnConstraints percentWidth="50.0"/>
+                            </columnConstraints>
+
+                            <!-- Linha 0: nome -->
+                            <VBox spacing="8.0" GridPane.rowIndex="0" GridPane.columnSpan="2">
+                                <Label styleClass="form-label" text="Nome"/>
+                                <TextField fx:id="campoNome" promptText="Digite o nome" prefHeight="41.0"/>
+                            </VBox>
+
+                            <!-- Linha 1: só patrimoniado (tombo + série) -->
+                            <VBox spacing="8.0" GridPane.rowIndex="1" GridPane.columnIndex="0">
+                                <Label styleClass="form-label" text="Número do tombo"/>
+                                <TextField fx:id="campoTombo" promptText="Digite o tombo" prefHeight="41.0"
+                                           editable="false"
+                                           focusTraversable="false"/>
+                            </VBox>
+
+                            <VBox spacing="8.0" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                                <Label styleClass="form-label" text="Número de série"/>
+                                <TextField fx:id="campoNumeroSerie" promptText="Digite o número de série"
+                                           prefHeight="41.0" editable="false"
+                                           focusTraversable="false"/>
+                            </VBox>
+
+                            <!-- Linha 2 -->
+                            <VBox spacing="8.0" GridPane.rowIndex="2" GridPane.columnIndex="0">
+                                <Label styleClass="form-label" text="Categoria"/>
+                                <TextField fx:id="campoCategoria" promptText="Digite a categoria" prefHeight="41.0"/>
+                            </VBox>
+
+                            <VBox spacing="8.0" GridPane.rowIndex="2" GridPane.columnIndex="1">
+                                <Label styleClass="form-label" text="Localidade"/>
+                                <TextField fx:id="campoLocalidade"
+                                           promptText="Localidade"
+                                           prefHeight="41.0"
+                                           editable="false"
+                                           focusTraversable="false"/>
+                            </VBox>
+
+                            <!-- Linha 3 -->
+                            <VBox spacing="8.0" GridPane.rowIndex="3" GridPane.columnIndex="0">
+                                <Label styleClass="form-label" text="Status"/>
+                                <ComboBox fx:id="comboStatus" promptText="Selecione o status"
+                                          prefHeight="41.0" maxWidth="Infinity"/>
+                            </VBox>
+
+                            <!-- Linha 4: descrição -->
+                            <VBox spacing="8.0" GridPane.rowIndex="4" GridPane.columnSpan="2">
+                                <Label styleClass="form-label" text="Descrição"/>
+                                <TextArea fx:id="campoDescricao" promptText="Digite a descrição"
+                                          prefHeight="110.0" wrapText="true"/>
+                            </VBox>
+                        </GridPane>
+                    </HBox>
+
+                    <!-- BOTÕES -->
+                    <HBox spacing="12.0" alignment="CENTER_RIGHT">
+                        <Button fx:id="botaoCancelar" prefHeight="40.0" prefWidth="110.0"
+                                styleClass="button-limpar" text="Cancelar" onAction="#btt_cancelar"/>
+                        <Button fx:id="botaoSalvar" prefHeight="40.0" prefWidth="110.0"
+                                styleClass="button-salvar" text="Salvar" onAction="#btt_salvar"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </center>
+    </BorderPane>
+</AnchorPane>

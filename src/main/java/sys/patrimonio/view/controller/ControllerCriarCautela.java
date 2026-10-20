@@ -18,11 +18,11 @@ import sys.patrimonio.model.ItemPatrimoniado;
 import sys.patrimonio.model.Localidade;
 import sys.patrimonio.service.CriarCautela;
 import sys.patrimonio.util.ComboBoxHelper;
-import sys.patrimonio.util.DataFormatada;
 import sys.patrimonio.util.PatrimonioLoader;
-import sys.patrimonio.util.SeletorFoto;
 
 
+
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -70,7 +70,7 @@ public class ControllerCriarCautela implements Initializable {
         if (item instanceof ItemPatrimoniado patrimonio) {
             try (InputStream fxmlStream = getClass().getClassLoader().getResourceAsStream("view/ItemPatrimoniado.fxml")){
                 if (fxmlStream == null) {
-                    throw new RuntimeException("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/CriarCautela.fxml está correto.");
+                    throw new RuntimeException("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/ItemPatrimoniado.fxml está correto.");
                 }
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 Parent parent = fxmlLoader.load(fxmlStream);
@@ -81,21 +81,27 @@ public class ControllerCriarCautela implements Initializable {
                 stage.show();
 
             } catch (Exception e) {
-                e.printStackTrace();
+                Alertas.erro("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/ItemPatrimoniado.fxml está correto.");
             }
         }
     }
 
     @FXML
-    public void btt_gerar() {
-        if (validarFormulario()) {
-            Localidade destino = comboLocalDestino.getValue();
-            Localidade origem = Localidade.valueOf(campoLocalOrigem.getText());
-            String observacao = campoObservacao.getText();
-            CriarCautela cautela = CriarCautela.criarCautela(new Cautela(patrimoniado, destino, origem, observacao));
-            Alertas.informacao("Cautela Criada com sucesso!!");
-            cautela.visualizarCautela();
+    public void btt_gerar(ActionEvent event) {
+        try {
+            if (validarFormulario()) {
+                Localidade destino = comboLocalDestino.getValue();
+                Localidade origem = Localidade.valueOf(campoLocalOrigem.getText());
+                String observacao = campoObservacao.getText();
+                CriarCautela cautela = CriarCautela.criarCautela(new Cautela(patrimoniado, destino, origem, observacao));
+                Alertas.informacao("Cautela Criada com sucesso!!");
+                cautela.visualizarCautela();
+                voltarDetalhes(patrimoniado, event);
+            }
+        } catch(IOException e){
+            Alertas.erro("ERRO AO CRIAR CAUTELA.");
         }
+
     }
 
     private boolean validarFormulario() {
