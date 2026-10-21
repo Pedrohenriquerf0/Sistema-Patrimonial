@@ -2,20 +2,15 @@ package sys.patrimonio.view.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 import sys.patrimonio.model.Item;
 import sys.patrimonio.model.ItemPatrimoniado;
+import sys.patrimonio.util.LoaderTelas;
 import sys.patrimonio.util.PatrimonioLoader;
-import java.io.InputStream;
 
-public class ControllerItemPatrimoniado {
+public class ControllerItemPatrimoniado implements DataBridge {
     private ItemPatrimoniado patrimoniado;
     @FXML
     private TextField campoNome;
@@ -43,60 +38,31 @@ public class ControllerItemPatrimoniado {
     private Label labelSemFoto;
 
 
-    public void tranferiDados(ItemPatrimoniado patrimoniado) {
-        this.patrimoniado = patrimoniado;
+    @Override
+    public void tranferiDados(Item item) {
+        this.patrimoniado = (ItemPatrimoniado) item;
         PatrimonioLoader.carregarDados(patrimoniado, campoNome, campoTombo, campoNumeroSerie, campoCategoria, campoLocalidade,
                 campoStatus, campoDescricao, campoQuantidade, campoEntrada, imagemPatrimonio, labelSemFoto);
     }
 
 
     @FXML
-    private void btt_editar(ActionEvent event){
+    private void btt_editar(ActionEvent event) {
         carregarTelaEditar(patrimoniado, event);
     }
 
     @FXML
-    private void btt_cautela(ActionEvent event){
-        carregarTelaCautela(patrimoniado,  event);
+    private void btt_cautela(ActionEvent event) {
+        carregarTelaCautela(patrimoniado, event);
     }
 
     private void carregarTelaCautela(Item item, ActionEvent event) {
-        if (item instanceof ItemPatrimoniado patrimonio) {
-            try (InputStream fxmlStream = getClass().getClassLoader().getResourceAsStream("view/CriarCautela.fxml")){
-                if (fxmlStream == null) {
-                    throw new RuntimeException("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/CriarCautela.fxml está correto.");
-                }
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                Parent parent = fxmlLoader.load(fxmlStream);
-                ControllerCriarCautela controller = fxmlLoader.getController();
-                controller.tranferiDados(patrimonio);
-                Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(new Scene(parent));
-                stage.show();
-
-            } catch (Exception e) {
-               Alertas.erro("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/CriarCautela.fxml está correto.");
-            }
-        }
+        ControllerCriarCautela controllerCriarCautela = new ControllerCriarCautela();
+        LoaderTelas.loaderTela(item, event, controllerCriarCautela, "view/CriarCautela.fxml");
     }
 
     private void carregarTelaEditar(Item item, ActionEvent event) {
-        if (item instanceof ItemPatrimoniado patrimonio) {
-            try (InputStream fxmlStream = getClass().getClassLoader().getResourceAsStream("view/EditarPatrimoniado.fxml")){
-                if (fxmlStream == null) {
-                    throw new RuntimeException("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/EditarPatrimoniado.fxml está correto.");
-                }
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                Parent parent = fxmlLoader.load(fxmlStream);
-                ControllerEditarPatrimoniado controller = fxmlLoader.getController();
-                controller.tranferiDados(patrimonio);
-                Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(new Scene(parent));
-                stage.show();
-
-            } catch (Exception e) {
-               Alertas.erro("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/EditarPatrimoniado.fxml está correto.");
-            }
-        }
+        ControllerEditarPatrimoniado controllerEditarPatrimoniado = new ControllerEditarPatrimoniado();
+        LoaderTelas.loaderTela(item, event, controllerEditarPatrimoniado, "view/EditarPatrimoniado.fxml");
     }
 }

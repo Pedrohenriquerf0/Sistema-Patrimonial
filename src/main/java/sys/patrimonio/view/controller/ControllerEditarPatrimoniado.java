@@ -2,16 +2,11 @@ package sys.patrimonio.view.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 import sys.patrimonio.exceptions.PatrimonioExistenteException;
 import sys.patrimonio.exceptions.PersistenciaException;
 import sys.patrimonio.model.Item;
@@ -19,15 +14,17 @@ import sys.patrimonio.model.ItemPatrimoniado;
 import sys.patrimonio.model.Localidade;
 import sys.patrimonio.model.Status;
 import sys.patrimonio.service.PatrimoniadoManager;
+import sys.patrimonio.util.LoaderTelas;
 import sys.patrimonio.util.PatrimonioLoader;
 import sys.patrimonio.util.SeletorFoto;
 
 import java.io.File;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;;
+import java.util.List;
 
-public class ControllerEditarPatrimoniado  {
+;
+
+public class ControllerEditarPatrimoniado implements DataBridge {
     private ItemPatrimoniado patrimoniado;
     @FXML
     private TextField campoNome;
@@ -51,51 +48,38 @@ public class ControllerEditarPatrimoniado  {
     private Label labelSemFoto;
 
     private File arquivoImagemSelecionado;
+
     @FXML
-    public void btt_buscarFoto(){
+    public void btt_buscarFoto() {
         File file = SeletorFoto.escolher(imagemPatrimonio.getScene().getWindow());
 
         if (file != null) {
             arquivoImagemSelecionado = file;
-            imagemPatrimonio.setImage(SeletorFoto.carregarReduzida(file,272));
+            imagemPatrimonio.setImage(SeletorFoto.carregarReduzida(file, 272));
             labelSemFoto.setVisible(false);
         }
     }
 
     @FXML
-    public void btt_cancelar(ActionEvent event){
+    public void btt_cancelar(ActionEvent event) {
         boolean resposta = Alertas.confirmar("Deseja Cancelar?");
-        if(resposta){
+        if (resposta) {
             voltarDetalhes(patrimoniado, event);
         }
     }
 
     private void voltarDetalhes(Item item, ActionEvent event) {
-        if (item instanceof ItemPatrimoniado patrimonio) {
-            try (InputStream fxmlStream = getClass().getClassLoader().getResourceAsStream("view/ItemPatrimoniado.fxml")){
-                if (fxmlStream == null) {
-                    throw new RuntimeException("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/ItemPatrimoniado.fxml está correto.");
-                }
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                Parent parent = fxmlLoader.load(fxmlStream);
-                ControllerItemPatrimoniado controller = fxmlLoader.getController();
-                controller.tranferiDados(patrimonio);
-                Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(new Scene(parent));
-                stage.show();
-
-            } catch (Exception e) {
-                Alertas.erro("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/ItemPatrimoniado.fxml está correto.");
-            }
-        }
+        ControllerItemPatrimoniado controllerItemPatrimoniado = new ControllerItemPatrimoniado();
+        LoaderTelas.loaderTela(item, event, controllerItemPatrimoniado, "view/ItemPatrimoniado.fxml");
     }
+
     private boolean validarFormulario() {
         List<String> faltando = new ArrayList<>();
 
         if (campoNome.getText().isBlank()) faltando.add("Nome");
         if (campoCategoria.getText().isBlank()) faltando.add("Categoria");
         if (comboStatus.getValue() == null) faltando.add("Status");
-        if (arquivoImagemSelecionado == null ) faltando.add("Foto");
+        if (arquivoImagemSelecionado == null) faltando.add("Foto");
         if (campoDescricao.getText().isBlank()) faltando.add("Descrição");
 
         if (!faltando.isEmpty()) {
@@ -106,7 +90,7 @@ public class ControllerEditarPatrimoniado  {
     }
 
     @FXML
-    public void btt_salvar(ActionEvent event){
+    public void btt_salvar(ActionEvent event) {
         if (validarFormulario()) {
             String nome = campoNome.getText();
             String tombo = campoTombo.getText();
@@ -134,11 +118,11 @@ public class ControllerEditarPatrimoniado  {
         }
     }
 
-    public void tranferiDados(ItemPatrimoniado patrimoniado) {
-        this.patrimoniado = patrimoniado;
+    @Override
+    public void tranferiDados(Item item) {
+        this.patrimoniado = (ItemPatrimoniado) item;
         PatrimonioLoader.carregarDados(patrimoniado, campoNome, campoTombo, campoNumeroSerie, campoCategoria, campoLocalidade,
                 comboStatus, campoDescricao, null, null, imagemPatrimonio, labelSemFoto);
         arquivoImagemSelecionado = new File(patrimoniado.getFoto());
     }
-
 }

@@ -3,24 +3,18 @@ package sys.patrimonio.view.controller;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 import sys.patrimonio.model.Item;
 import sys.patrimonio.model.ItemConsumo;
 import sys.patrimonio.model.ItemPatrimoniado;
 import sys.patrimonio.service.PatrimonioPesquisaService;
+import sys.patrimonio.util.LoaderTelas;
 
 import java.io.File;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -98,37 +92,11 @@ public class ControllerHome implements Initializable {
 
     private void abrirDetalhes(Item item, MouseEvent event) {
         if (item instanceof ItemPatrimoniado patrimonio) {
-            try (InputStream fxmlStream = getClass().getClassLoader().getResourceAsStream("view/ItemPatrimoniado.fxml")){
-                if (fxmlStream == null) {
-                    throw new RuntimeException("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/ItemPatrimoniado.fxml está correto.");
-                }
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                Parent parent = fxmlLoader.load(fxmlStream);
-                ControllerItemPatrimoniado controller = fxmlLoader.getController();
-                controller.tranferiDados(patrimonio);
-                Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(new Scene(parent));
-                stage.show();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            ControllerItemPatrimoniado controllerItemPatrimoniado = new ControllerItemPatrimoniado();
+            LoaderTelas.loaderTela(item, event, controllerItemPatrimoniado, "view/ItemPatrimoniado.fxml");
         } else if (item instanceof ItemConsumo consumo) {
-            try (InputStream fxmlStream = getClass().getClassLoader().getResourceAsStream("view/ItemConsumo.fxml")){
-                if (fxmlStream == null) {
-                    throw new RuntimeException("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/ItemConsumo.fxml está correto.");
-                }
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                Parent parent = fxmlLoader.load(fxmlStream);
-                ControllerItemConsumo controller = fxmlLoader.getController();
-                controller.tranferiDados(consumo);
-                Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(new Scene(parent));
-                stage.show();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            ControllerItemConsumo controllerItemConsumo = new ControllerItemConsumo();
+            LoaderTelas.loaderTela(item, event, controllerItemConsumo, "view/ItemConsumo.fxml");
         }
     }
 

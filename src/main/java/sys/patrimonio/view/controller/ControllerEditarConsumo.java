@@ -2,30 +2,26 @@ package sys.patrimonio.view.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
-import sys.patrimonio.exceptions.PatrimonioExistenteException;
 import sys.patrimonio.exceptions.PersistenciaException;
-import sys.patrimonio.model.*;
+import sys.patrimonio.model.Item;
+import sys.patrimonio.model.ItemConsumo;
+import sys.patrimonio.model.Localidade;
+import sys.patrimonio.model.Status;
 import sys.patrimonio.service.ConsumoManager;
-import sys.patrimonio.service.PatrimoniadoManager;
+import sys.patrimonio.util.LoaderTelas;
 import sys.patrimonio.util.PatrimonioLoader;
 import sys.patrimonio.util.SeletorFoto;
 
 import java.io.File;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ControllerEditarConsumo {
+public class ControllerEditarConsumo implements DataBridge{
     private ItemConsumo consumo;
     @FXML
     private TextField campoNome;
@@ -71,23 +67,8 @@ public class ControllerEditarConsumo {
     }
 
     private void voltarDetalhes(Item item, ActionEvent event) {
-        if (item instanceof ItemConsumo consumo) {
-            try (InputStream fxmlStream = getClass().getClassLoader().getResourceAsStream("view/ItemConsumo.fxml")) {
-                if (fxmlStream == null) {
-                    throw new RuntimeException("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/ItemConsumo.fxml está correto.");
-                }
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                Parent parent = fxmlLoader.load(fxmlStream);
-                ControllerItemConsumo controller = fxmlLoader.getController();
-                controller.tranferiDados(consumo);
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(new Scene(parent));
-                stage.show();
-
-            } catch (Exception e) {
-                Alertas.erro("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/ItemConsumo.fxml está correto.");
-            }
-        }
+        ControllerItemConsumo controllerItemConsumo = new ControllerItemConsumo();
+        LoaderTelas.loaderTela(item,event, controllerItemConsumo,"view/ItemConsumo.fxml");
     }
 
     private boolean validarFormulario() {
@@ -134,12 +115,12 @@ public class ControllerEditarConsumo {
         }
     }
 
-    public void tranferiDados(ItemConsumo consumo) {
-        this.consumo = consumo;
+
+    @Override
+    public void tranferiDados(Item item) {
+        this.consumo = (ItemConsumo) item;
         PatrimonioLoader.carregarDados(consumo, campoNome, campoID, null, campoCategoria, campoLocalidade,
                 comboStatus, campoDescricao, campoQuantidade, null, imagemPatrimonio, labelSemFoto);
         arquivoImagemSelecionado = new File(consumo.getFoto());
     }
-
-
 }
