@@ -137,7 +137,7 @@ public class ControllerEditarPatrimoniado  {
     public void tranferiDados(ItemPatrimoniado patrimoniado) {
         this.patrimoniado = patrimoniado;
         PatrimonioLoader.carregarDados(patrimoniado, campoNome, campoTombo, campoNumeroSerie, campoCategoria, campoLocalidade,
-                comboStatus, null, null, null, imagemPatrimonio, labelSemFoto);
+                comboStatus, campoDescricao, null, null, imagemPatrimonio, labelSemFoto);
         arquivoImagemSelecionado = new File(patrimoniado.getFoto());
     }
 

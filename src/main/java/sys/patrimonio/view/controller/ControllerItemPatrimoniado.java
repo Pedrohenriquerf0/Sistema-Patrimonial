@@ -3,7 +3,6 @@ package sys.patrimonio.view.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,10 +14,8 @@ import sys.patrimonio.model.Item;
 import sys.patrimonio.model.ItemPatrimoniado;
 import sys.patrimonio.util.PatrimonioLoader;
 import java.io.InputStream;
-import java.net.URL;
-import java.util.ResourceBundle;
 
-public class ControllerItemPatrimoniado implements Initializable {
+public class ControllerItemPatrimoniado {
     private ItemPatrimoniado patrimoniado;
     @FXML
     private TextField campoNome;
@@ -52,10 +49,6 @@ public class ControllerItemPatrimoniado implements Initializable {
                 campoStatus, campoDescricao, campoQuantidade, campoEntrada, imagemPatrimonio, labelSemFoto);
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
 
     @FXML
     private void btt_editar(ActionEvent event){

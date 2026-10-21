@@ -1,0 +1,145 @@
+package sys.patrimonio.view.controller;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+import sys.patrimonio.exceptions.PatrimonioExistenteException;
+import sys.patrimonio.exceptions.PersistenciaException;
+import sys.patrimonio.model.*;
+import sys.patrimonio.service.ConsumoManager;
+import sys.patrimonio.service.PatrimoniadoManager;
+import sys.patrimonio.util.PatrimonioLoader;
+import sys.patrimonio.util.SeletorFoto;
+
+import java.io.File;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ControllerEditarConsumo {
+    private ItemConsumo consumo;
+    @FXML
+    private TextField campoNome;
+    @FXML
+    private TextField campoID;
+    @FXML
+    private TextField campoQuantidade;
+    @FXML
+    private TextField campoCategoria;
+    @FXML
+    private TextField campoLocalidade;
+    @FXML
+    private ComboBox<Status> comboStatus;
+    @FXML
+    private TextArea campoDescricao;
+
+    @FXML
+    private ImageView imagemPatrimonio;
+
+    @FXML
+    private Label labelSemFoto;
+
+    private File arquivoImagemSelecionado;
+
+    @FXML
+    public void btt_buscarFoto() {
+        File file = SeletorFoto.escolher(imagemPatrimonio.getScene().getWindow());
+
+        if (file != null) {
+            arquivoImagemSelecionado = file;
+            imagemPatrimonio.setImage(SeletorFoto.carregarReduzida(file, 272));
+            labelSemFoto.setVisible(false);
+        }
+    }
+
+
+    @FXML
+    public void btt_cancelar(ActionEvent event) {
+        boolean resposta = Alertas.confirmar("Deseja Cancelar?");
+        if (resposta) {
+            voltarDetalhes(consumo, event);
+        }
+    }
+
+    private void voltarDetalhes(Item item, ActionEvent event) {
+        if (item instanceof ItemConsumo consumo) {
+            try (InputStream fxmlStream = getClass().getClassLoader().getResourceAsStream("view/ItemConsumo.fxml")) {
+                if (fxmlStream == null) {
+                    throw new RuntimeException("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/ItemConsumo.fxml está correto.");
+                }
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                Parent parent = fxmlLoader.load(fxmlStream);
+                ControllerItemConsumo controller = fxmlLoader.getController();
+                controller.tranferiDados(consumo);
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(new Scene(parent));
+                stage.show();
+
+            } catch (Exception e) {
+                Alertas.erro("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/ItemConsumo.fxml está correto.");
+            }
+        }
+    }
+
+    private boolean validarFormulario() {
+        List<String> faltando = new ArrayList<>();
+
+        if (campoNome.getText().isBlank()) faltando.add("Nome");
+        if (campoCategoria.getText().isBlank()) faltando.add("Categoria");
+        if (comboStatus.getValue() == null) faltando.add("Status");
+        if (arquivoImagemSelecionado == null) faltando.add("Foto");
+        if (campoDescricao.getText().isBlank()) faltando.add("Descrição");
+
+        if (!faltando.isEmpty()) {
+            Alertas.aviso("Preencha: " + String.join(", ", faltando) + ".");
+            return false;
+        }
+        return true;
+    }
+
+    @FXML
+    public void btt_salvar(ActionEvent event) {
+        if (validarFormulario()) {
+            String nome = campoNome.getText();
+            Long id = Long.parseLong(campoID.getText());
+            String categoria = campoCategoria.getText();
+            String descricao = campoDescricao.getText();
+            Localidade localidade = Localidade.valueOf(campoLocalidade.getText());
+            int quantidade = Integer.parseInt(campoQuantidade.getText());
+            Status status = comboStatus.getValue();
+
+            ItemConsumo itemConsumo = new ItemConsumo(nome, quantidade, descricao, localidade, categoria, status, arquivoImagemSelecionado.getPath());
+            itemConsumo.setId(id);
+            ConsumoManager consumoManager = new ConsumoManager();
+
+            try {
+                consumoManager.atualizar(itemConsumo);
+                Alertas.informacao("Atualizado com sucesso");
+                voltarDetalhes(itemConsumo, event);
+            } catch (IllegalArgumentException e) {
+                Alertas.aviso(e.getMessage());
+            } catch (PersistenciaException e) {
+                Alertas.erro("Não foi possível salvar. Tente novamente.");
+            }
+
+        }
+    }
+
+    public void tranferiDados(ItemConsumo consumo) {
+        this.consumo = consumo;
+        PatrimonioLoader.carregarDados(consumo, campoNome, campoID, null, campoCategoria, campoLocalidade,
+                comboStatus, campoDescricao, campoQuantidade, null, imagemPatrimonio, labelSemFoto);
+        arquivoImagemSelecionado = new File(consumo.getFoto());
+    }
+
+
+}

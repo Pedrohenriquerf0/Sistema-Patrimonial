@@ -1,14 +1,219 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="sys.patrimonio.view.controller.ControllerItemConsumo"
-            prefHeight="400.0" prefWidth="600.0">
+<?import javafx.scene.control.Button?>
+<AnchorPane prefHeight="768.0"
+            prefWidth="1366.0"
+            stylesheets="@/css/cadastrarPatrimonio.css"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="sys.patrimonio.view.controller.ControllerItemConsumo">
 
+    <BorderPane AnchorPane.bottomAnchor="0.0"
+                AnchorPane.leftAnchor="0.0"
+                AnchorPane.rightAnchor="0.0"
+                AnchorPane.topAnchor="0.0">
+
+        <left>
+            <fx:include fx:id="sidebar" source="/view/sidebar.fxml"/>
+        </left>
+
+        <center>
+            <VBox spacing="20.0" styleClass="content">
+                <padding>
+                    <Insets top="30.0" right="30.0" bottom="30.0" left="30.0"/>
+                </padding>
+
+                <VBox spacing="5.0">
+                    <Label styleClass="title" text="Detalhes do Item Consumo"/>
+                    <Label styleClass="subtitle"
+                           text="Consulte as informações do patrimônio de consumo selecionado."/>
+                </VBox>
+
+                <VBox styleClass="table-card"
+                      spacing="24.0"
+                      VBox.vgrow="ALWAYS">
+
+                    <HBox spacing="32.0" VBox.vgrow="ALWAYS">
+
+                        <!-- FOTO -->
+                        <VBox alignment="TOP_CENTER"
+                              spacing="12.0"
+                              minWidth="280.0"
+                              maxWidth="280.0">
+
+                            <StackPane fx:id="areaFoto"
+                                       styleClass="area-foto"
+                                       minWidth="280.0"
+                                       minHeight="280.0"
+                                       prefWidth="280.0"
+                                       prefHeight="280.0"
+                                       maxWidth="280.0"
+                                       maxHeight="280.0">
+
+                                <Label fx:id="labelSemFoto"
+                                       text="Sem foto"/>
+
+                                <ImageView fx:id="imagemPatrimonio"
+                                           fitWidth="272.0"
+                                           fitHeight="272.0"
+                                           preserveRatio="true"
+                                           smooth="true"
+                                           pickOnBounds="true"/>
+                            </StackPane>
+
+                            <VBox alignment="BASELINE_LEFT">
+                                <HBox spacing="12.0" alignment="CENTER">
+                                    <Button fx:id="botaoMovimentacao" prefHeight="40.0" prefWidth="110.0"
+                                            styleClass="button-limpar" text="Gerar Movimentação" onAction="#btt_Movimentacao"/>
+                                    <Button fx:id="botaoEditar" prefHeight="40.0" prefWidth="110.0"
+                                            styleClass="button-salvar" text="Editar" onAction="#btt_editar"/>
+                                </HBox>
+                            </VBox>
+                        </VBox>
+
+                        <!-- CAMPOS -->
+                        <GridPane hgap="20.0"
+                                  vgap="18.0"
+                                  HBox.hgrow="ALWAYS">
+
+                            <columnConstraints>
+                                <ColumnConstraints percentWidth="50.0"
+                                                   hgrow="ALWAYS"/>
+                                <ColumnConstraints percentWidth="50.0"
+                                                   hgrow="ALWAYS"/>
+                            </columnConstraints>
+
+                            <!-- Nome -->
+                            <VBox spacing="8.0"
+                                  GridPane.rowIndex="0"
+                                  GridPane.columnIndex="0"
+                                  GridPane.columnSpan="2">
+
+                                <Label styleClass="form-label" text="Nome"/>
+
+                                <TextField fx:id="campoNome"
+                                           promptText="Nome do patrimônio"
+                                           prefHeight="41.0"
+                                           editable="false"
+                                           focusTraversable="false"/>
+                            </VBox>
+
+                            <!-- Tombo -->
+                            <VBox spacing="8.0"
+                                  GridPane.rowIndex="1"
+                                  GridPane.columnIndex="0">
+
+                                <Label styleClass="form-label"
+                                       text="ID do consumo"/>
+
+                                <TextField fx:id="campoID"
+                                           promptText="ID do consumo"
+                                           prefHeight="41.0"
+                                           editable="false"
+                                           focusTraversable="false"/>
+                            </VBox>
+
+                            <!-- Quantidade -->
+                            <VBox spacing="8.0"
+                                  GridPane.rowIndex="1"
+                                  GridPane.columnIndex="1">
+
+                                <Label styleClass="form-label" text="Quantidade"/>
+
+                                <TextField fx:id="campoQuantidade"
+                                           promptText="Quantidade"
+                                           prefHeight="41.0"
+                                           editable="false"
+                                           focusTraversable="false"/>
+                            </VBox>
+
+                            <!-- Categoria -->
+                            <VBox spacing="8.0"
+                                  GridPane.rowIndex="2"
+                                  GridPane.columnIndex="0">
+
+                                <Label styleClass="form-label" text="Categoria"/>
+
+                                <TextField fx:id="campoCategoria"
+                                           promptText="Categoria"
+                                           prefHeight="41.0"
+                                           editable="false"
+                                           focusTraversable="false"/>
+                            </VBox>
+
+                            <!-- Localidade -->
+                            <VBox spacing="8.0"
+                                  GridPane.rowIndex="2"
+                                  GridPane.columnIndex="1">
+
+                                <Label styleClass="form-label" text="Localidade"/>
+
+                                <TextField fx:id="campoLocalidade"
+                                           promptText="Localidade"
+                                           prefHeight="41.0"
+                                           editable="false"
+                                           focusTraversable="false"/>
+                            </VBox>
+
+                            <!-- Status -->
+                            <VBox spacing="8.0"
+                                  GridPane.rowIndex="3"
+                                  GridPane.columnIndex="0">
+
+                                <Label styleClass="form-label" text="Status"/>
+
+                                <TextField fx:id="campoStatus"
+                                           promptText="Status"
+                                           prefHeight="41.0"
+                                           editable="false"
+                                           focusTraversable="false"/>
+                            </VBox>
+
+                            <!-- Entrada -->
+                            <VBox spacing="8.0"
+                                  GridPane.rowIndex="3"
+                                  GridPane.columnIndex="1">
+
+                                <Label styleClass="form-label" text="Entrada"/>
+
+                                <TextField fx:id="campoEntrada"
+                                           promptText="Data de entrada"
+                                           prefHeight="41.0"
+                                           editable="false"
+                                           focusTraversable="false"/>
+                            </VBox>
+
+                            <!-- Descrição -->
+                            <VBox spacing="8.0"
+                                  GridPane.rowIndex="5"
+                                  GridPane.columnIndex="0"
+                                  GridPane.columnSpan="2">
+
+                                <Label styleClass="form-label" text="Descrição"/>
+
+                                <TextField fx:id="campoDescricao"
+                                           promptText="Descrição do patrimônio"
+                                           prefHeight="100.0"
+                                           editable="false"
+                                           focusTraversable="false"/>
+                            </VBox>
+
+                        </GridPane>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </center>
+    </BorderPane>
 </AnchorPane>

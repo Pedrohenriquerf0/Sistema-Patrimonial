@@ -100,7 +100,7 @@ public class ControllerHome implements Initializable {
         if (item instanceof ItemPatrimoniado patrimonio) {
             try (InputStream fxmlStream = getClass().getClassLoader().getResourceAsStream("view/ItemPatrimoniado.fxml")){
                 if (fxmlStream == null) {
-                    throw new RuntimeException("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/Home.fxml está correto.");
+                    throw new RuntimeException("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/ItemPatrimoniado.fxml está correto.");
                 }
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 Parent parent = fxmlLoader.load(fxmlStream);
@@ -114,7 +114,21 @@ public class ControllerHome implements Initializable {
                 e.printStackTrace();
             }
         } else if (item instanceof ItemConsumo consumo) {
+            try (InputStream fxmlStream = getClass().getClassLoader().getResourceAsStream("view/ItemConsumo.fxml")){
+                if (fxmlStream == null) {
+                    throw new RuntimeException("ARQUIVO NÃO ENCONTRADO: verifique se o caminho view/ItemConsumo.fxml está correto.");
+                }
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                Parent parent = fxmlLoader.load(fxmlStream);
+                ControllerItemConsumo controller = fxmlLoader.getController();
+                controller.tranferiDados(consumo);
+                Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(new Scene(parent));
+                stage.show();
 
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
