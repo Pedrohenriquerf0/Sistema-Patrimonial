@@ -37,11 +37,11 @@ public class ControllerItemConsumo implements DataBridge {
     @FXML
     private Label labelSemFoto;
 
-    private File arquivoImagemSelecionado;
 
     @FXML
     public void btt_Movimentacao(ActionEvent event) {
-        //TODO IMPLEMENTAR MOVIMENTAÇÃO
+        ControllerMovimentacaoConsumo controllerMovimentacaoConsumo = new ControllerMovimentacaoConsumo();
+        LoaderTelas.loaderTela(consumo, event, controllerMovimentacaoConsumo, "view/MovimentacaoConsumo.fxml");
     }
 
     @FXML

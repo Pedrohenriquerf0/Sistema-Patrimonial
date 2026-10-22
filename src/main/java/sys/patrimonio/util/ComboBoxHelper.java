@@ -4,6 +4,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import sys.patrimonio.model.Localidade;
 import sys.patrimonio.model.Status;
+import sys.patrimonio.model.TipoMovimentacao;
 
 public final class ComboBoxHelper {
 
@@ -13,6 +14,10 @@ public final class ComboBoxHelper {
 
     public static void carregarStatus(ComboBox<Status> statusComboBox) {
         statusComboBox.getItems().setAll(Status.values());
+    }
+
+    public static void carregarTipoMovimentacao(ComboBox<TipoMovimentacao> tipoMovimentacaoComboBox){
+        tipoMovimentacaoComboBox.getItems().setAll(TipoMovimentacao.values());
     }
 
 

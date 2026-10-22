@@ -193,6 +193,7 @@ public class ConsumoDAO implements ConsumoRepositorio {
                             Status.valueOf(resultSet.getString("status")),
                             caminhoFoto
                     );
+                    itemConsumo.setEntrada(resultSet.getDate("data_entrada").toLocalDate());
                     itemConsumo.setId(resultSet.getLong("id"));
                     consumoList.add(itemConsumo);
                 }
