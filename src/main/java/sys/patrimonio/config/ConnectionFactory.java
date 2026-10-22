@@ -1,5 +1,7 @@
 package sys.patrimonio.config;
 
+import sys.patrimonio.exceptions.ConfigurationInicializacaoException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -14,9 +16,9 @@ public class ConnectionFactory {
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("database/database.properties")) {
             properties.load(input);
         } catch (IOException e) {
-            throw new RuntimeException("Não foi possivel carregar database.properties"); // TODO - criar exceptions para esse tipo
+            throw new ConfigurationInicializacaoException("Não foi possivel carregar database.properties", e);
         } catch (NullPointerException e){
-           throw new RuntimeException("Não foi possivel achar arquivo");
+           throw new ConfigurationInicializacaoException("Não foi possivel achar arquivo", e);
         }
     }
 

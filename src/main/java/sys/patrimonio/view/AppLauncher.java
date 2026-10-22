@@ -8,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sys.patrimonio.config.AppContext;
 import sys.patrimonio.config.ConnectionFactory;
-import sys.patrimonio.exceptions.AppContextInicializacaoException;
+import sys.patrimonio.exceptions.ConfigurationInicializacaoException;
 import sys.patrimonio.repository.*;
 import sys.patrimonio.view.controller.Alertas;
 
@@ -29,7 +29,7 @@ public class AppLauncher extends Application {
 
         } catch (RuntimeException e){
             Alertas.erro("Falha ao conectar com o banco de dados");
-            throw new AppContextInicializacaoException("Falha ao conectar com o banco de dados", e);
+            throw new ConfigurationInicializacaoException("Falha ao conectar com o banco de dados", e);
         }
 
 

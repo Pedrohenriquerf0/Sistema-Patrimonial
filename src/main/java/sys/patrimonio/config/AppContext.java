@@ -1,6 +1,6 @@
 package sys.patrimonio.config;
 
-import sys.patrimonio.exceptions.AppContextInicializacaoException;
+import sys.patrimonio.exceptions.ConfigurationInicializacaoException;
 import sys.patrimonio.repository.CautelaRepositorio;
 import sys.patrimonio.repository.ConsumoRepositorio;
 import sys.patrimonio.repository.MovimentacaoRepositorio;
@@ -17,7 +17,7 @@ public class AppContext {
 
     }
 
-    public static void inicializar(CautelaRepositorio cautelaRepo, MovimentacaoRepositorio movimentacaoRepo,ConsumoRepositorio consumoRepo, PatrimoniadoRepositorio patrimoniadoRepo) throws AppContextInicializacaoException {
+    public static void inicializar(CautelaRepositorio cautelaRepo, MovimentacaoRepositorio movimentacaoRepo,ConsumoRepositorio consumoRepo, PatrimoniadoRepositorio patrimoniadoRepo) throws ConfigurationInicializacaoException {
         cautelaRepositorio = cautelaRepo;
         movimentacaoRepositorio = movimentacaoRepo;
         consumoRepositorio = consumoRepo;
