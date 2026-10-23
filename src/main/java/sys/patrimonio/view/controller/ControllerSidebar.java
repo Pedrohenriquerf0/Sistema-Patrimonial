@@ -14,6 +14,12 @@ public class ControllerSidebar {
     private Button btt_CadastrarPatrimoniado;
     @FXML
     private Button btt_CadastrarConsumo;
+    @FXML
+    private Button btt_movimentacoes;
+    @FXML
+    private Button btt_cautelas;
+    @FXML
+    private Button btt_configuracoes;
 
     @FXML
     private void voltarHome(ActionEvent event) {
@@ -31,6 +37,21 @@ public class ControllerSidebar {
         LoaderTelas.loaderTela(event, "view/CadastrarConsumo.fxml");
     }
 
+    @FXML
+    private void cautelas(ActionEvent event){
+        LoaderTelas.loaderTela(event, "view/Cautelas.fxml");
+    }
+
+    @FXML
+    private void movimentacoes(ActionEvent event){
+        LoaderTelas.loaderTela(event, "view/Movimentacoes.fxml");
+    }
+
+    @FXML
+    private void configuracoes(ActionEvent event){
+        LoaderTelas.loaderTela(event, "view/configuracoes.fxml");
+    }
+
     public void ativarHome() {
         ativar(btt_home);
     }
@@ -43,6 +64,17 @@ public class ControllerSidebar {
         ativar(btt_CadastrarConsumo);
     }
 
+    public void ativarCautelas(){
+        ativar(btt_cautelas);
+    }
+
+    public void ativarMovimentacoes(){
+        ativar(btt_movimentacoes);
+    }
+
+    public void ativarConfiguracoes(){
+        ativar(btt_configuracoes);
+    }
     private void ativar(Button ativo) {
         for (Button b : List.of(btt_home, btt_CadastrarPatrimoniado, btt_CadastrarConsumo)) {
             b.getStyleClass().remove("menu-button-active");

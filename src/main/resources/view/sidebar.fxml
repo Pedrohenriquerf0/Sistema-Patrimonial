@@ -34,22 +34,22 @@
     <Button fx:id="btt_CadastrarConsumo" maxWidth="1.7976931348623157E308" styleClass="menu-button" text="+   Cadastrar Consumo"
             onAction="#cadastrarConsumo"/>
 
+    <Button fx:id="btt_cautelas" maxWidth="1.7976931348623157E308" styleClass="menu-button" text="📄   Cautelas" onAction="#cautelas"/>
+
+
+    <Button fx:id="btt_movimentacoes" maxWidth="1.7976931348623157E308" styleClass="menu-button" text="↔   Movimentações" onAction="#movimentacoes"/>
+
+
     <Button maxWidth="1.7976931348623157E308" styleClass="menu-button" text="☷   Listar Patrimônio" />
 
 
     <Button maxWidth="1.7976931348623157E308" styleClass="menu-button" text="⌖   Localidades" />
 
 
-    <Button maxWidth="1.7976931348623157E308" styleClass="menu-button" text="◆   Categorias" />
-
-
-    <Button maxWidth="1.7976931348623157E308" styleClass="menu-button" text="◆   Tipos de Ativo" />
-
-
     <Button maxWidth="1.7976931348623157E308" styleClass="menu-button" text="▥   Relatórios"/>
 
 
-    <Button maxWidth="1.7976931348623157E308" styleClass="menu-button" text="⚙   Configurações"/>
+    <Button fx:id="btt_configuracoes" maxWidth="1.7976931348623157E308" styleClass="menu-button" text="⚙   Configurações" onAction="#configuracoes"/>
 
 
 </VBox>
