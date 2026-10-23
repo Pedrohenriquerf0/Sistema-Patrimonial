@@ -10,10 +10,10 @@ import sys.patrimonio.repository.MovimentacaoRepositorio;
 
 import java.util.List;
 
-public class MovimentacaoConsumo {
+public class MovimentacaoConsumoManager {
     private final MovimentacaoRepositorio movimentacaoRepositorio;
 
-    public MovimentacaoConsumo() {
+    public MovimentacaoConsumoManager() {
         this.movimentacaoRepositorio = AppContext.getMovimentacaoRepositorio();
     }
 
