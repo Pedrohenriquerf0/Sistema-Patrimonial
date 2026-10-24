@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 
-public class ControllerMovimentacaoConsumo implements Initializable, DataBridge {
+public class ControllerMovimentacaoConsumo implements Initializable, DataBridgePatrimonio {
     private ItemConsumo consumo;
     @FXML
     private TextField campoNome;
@@ -90,7 +90,7 @@ public class ControllerMovimentacaoConsumo implements Initializable, DataBridge 
         List<String> faltando = new ArrayList<>();
         Integer quantidadeAtual = Integer.parseInt(campoQuantidadeAtual.getText());
         Integer quantidadeMovimentacao = Integer.parseInt(campoQuantidadeMovimentacao.getText());
-        if (comboLocalDestino.getValue() == null) faltando.add("Localidade de destino");
+        if (comboTipoMovimentacao.getValue() != TipoMovimentacao.ENTRADA && comboLocalDestino.getValue() == null) faltando.add("Localidade de destino");
         if (comboTipoMovimentacao.getValue() == null) faltando.add("Tipo de Movimentação");
         if (comboTipoMovimentacao.getValue() == null || comboTipoMovimentacao.getValue().equals(TipoMovimentacao.SAIDA) && quantidadeAtual < quantidadeMovimentacao)
             faltando.add("Quantidade tem que ser menor que o estoque atual");

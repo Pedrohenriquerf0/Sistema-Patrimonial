@@ -10,7 +10,7 @@ import sys.patrimonio.model.ItemPatrimoniado;
 import sys.patrimonio.util.LoaderTelas;
 import sys.patrimonio.util.PatrimonioLoader;
 
-public class ControllerItemPatrimoniado implements DataBridge {
+public class ControllerItemPatrimoniado implements DataBridgePatrimonio {
     private ItemPatrimoniado patrimoniado;
     @FXML
     private TextField campoNome;

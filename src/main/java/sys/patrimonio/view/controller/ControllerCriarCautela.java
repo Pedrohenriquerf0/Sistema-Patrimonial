@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ControllerCriarCautela implements Initializable, DataBridge {
+public class ControllerCriarCautela implements Initializable, DataBridgePatrimonio {
     private ItemPatrimoniado patrimoniado;
     @FXML
     private TextField campoNome;

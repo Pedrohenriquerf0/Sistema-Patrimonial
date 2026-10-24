@@ -10,9 +10,7 @@ import sys.patrimonio.model.ItemConsumo;
 import sys.patrimonio.util.LoaderTelas;
 import sys.patrimonio.util.PatrimonioLoader;
 
-import java.io.File;
-
-public class ControllerItemConsumo implements DataBridge {
+public class ControllerItemConsumo implements DataBridgePatrimonio {
     private ItemConsumo consumo;
     @FXML
     private TextField campoNome;

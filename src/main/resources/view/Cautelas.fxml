@@ -6,6 +6,9 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
 <AnchorPane
         prefHeight="768.0"
         prefWidth="1366.0"
@@ -43,15 +46,23 @@
                         <Label styleClass="subtitle" text="Consulte e gerencie as cautelas no sistema."/>
 
                     </VBox>
+
+                    <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="search-card">
+
+                        <TextField fx:id="text_pesquisa" prefHeight="40.0"
+                                   promptText="Pesquisar id..."
+                                   styleClass="search-field" HBox.hgrow="ALWAYS"/>
+
+                        <Button onAction="#pesquisaCautelas" prefHeight="40.0" prefWidth="110.0"
+                                styleClass="button-search" text="Pesquisar"/>
+
+                    </HBox>
+
                     <VBox styleClass="table-card" VBox.vgrow="ALWAYS" spacing="24.0">
 
                     </VBox>
-
-
                 </VBox>
-
             </center>
-
         </BorderPane>
 
     </children>

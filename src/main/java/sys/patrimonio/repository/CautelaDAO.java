@@ -194,4 +194,49 @@ public class CautelaDAO implements CautelaRepositorio {
             );
         }
     }
+
+    @Override
+    public List<Cautela> buscarUltimasInsercoes() throws SQLException {
+        List<Cautela> cautelaList = new ArrayList<>();
+        PatrimoniadoRepositorio patrimoniadoRepositorio = AppContext.getPatrimoniadoRepositorio();
+        String sql = """
+                SELECT * FROM cautelas
+                ORDER BY criado_em DESC
+                LIMIT 5
+                """;
+
+        try (Connection connection = this.connectionFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                Localidade origemLocal = Optional.ofNullable(resultSet.getString("origem"))
+                        .filter(s -> !s.isBlank())
+                        .map(Localidade::valueOf)
+                        .orElse(null);
+
+                Localidade destinoLocal = Optional.ofNullable(resultSet.getString("destino"))
+                        .filter(s -> !s.isBlank())
+                        .map(Localidade::valueOf)
+                        .orElse(null);
+
+                ItemPatrimoniado itemPatrimoniado =
+                        patrimoniadoRepositorio.buscarPorId(resultSet.getString("tombo_item"));
+
+                Cautela novaCautela = new Cautela(
+                        destinoLocal,
+                        resultSet.getLong("id"),
+                        resultSet.getString("observacoes"),
+                        origemLocal,
+                        itemPatrimoniado,
+                        resultSet.getDate("criado_em").toLocalDate(),
+                        resultSet.getString("emissor")
+                );
+
+                cautelaList.add(novaCautela);
+            }
+
+            return cautelaList;
+        }
+    }
 }

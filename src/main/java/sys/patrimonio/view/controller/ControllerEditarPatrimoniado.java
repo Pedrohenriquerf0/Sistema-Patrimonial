@@ -24,8 +24,8 @@ import java.util.List;
 
 ;
 
-public class ControllerEditarPatrimoniado implements DataBridge {
-    private ItemPatrimoniado patrimoniado;
+public class ControllerEditarPatrimoniado implements DataBridgePatrimonio {
+    private ItemPatrimoniado patrimoniadoClass;
     @FXML
     private TextField campoNome;
     @FXML
@@ -64,7 +64,7 @@ public class ControllerEditarPatrimoniado implements DataBridge {
     public void btt_cancelar(ActionEvent event) {
         boolean resposta = Alertas.confirmar("Deseja Cancelar?");
         if (resposta) {
-            voltarDetalhes(patrimoniado, event);
+            voltarDetalhes(patrimoniadoClass, event);
         }
     }
 
@@ -101,6 +101,7 @@ public class ControllerEditarPatrimoniado implements DataBridge {
             Status status = comboStatus.getValue();
 
             ItemPatrimoniado patrimoniado = new ItemPatrimoniado(nome, tombo, numeroSerie, descricao, localidade, categoria, status, arquivoImagemSelecionado.getPath());
+            patrimoniado.setEntrada(patrimoniadoClass.getEntrada());
             PatrimoniadoManager patrimoniadoManager = new PatrimoniadoManager();
 
             try {
@@ -120,9 +121,9 @@ public class ControllerEditarPatrimoniado implements DataBridge {
 
     @Override
     public void tranferiDados(Item item) {
-        this.patrimoniado = (ItemPatrimoniado) item;
-        PatrimonioLoader.carregarDados(patrimoniado, campoNome, campoTombo, campoNumeroSerie, campoCategoria, campoLocalidade,
+        this.patrimoniadoClass = (ItemPatrimoniado) item;
+        PatrimonioLoader.carregarDados(patrimoniadoClass, campoNome, campoTombo, campoNumeroSerie, campoCategoria, campoLocalidade,
                 comboStatus, campoDescricao, null, null, imagemPatrimonio, labelSemFoto);
-        arquivoImagemSelecionado = new File(patrimoniado.getFoto());
+        arquivoImagemSelecionado = new File(patrimoniadoClass.getFoto());
     }
 }

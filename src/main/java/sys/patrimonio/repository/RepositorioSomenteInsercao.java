@@ -1,6 +1,7 @@
 package sys.patrimonio.repository;
 
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface RepositorioSomenteInsercao<T, ID> {
@@ -9,4 +10,6 @@ public interface RepositorioSomenteInsercao<T, ID> {
     List<T> listarTodos();
 
     void salvar(T obj);
+
+    List<T> buscarUltimasInsercoes() throws SQLException;
 }

@@ -135,10 +135,10 @@ public class MovimentacaoDAO implements MovimentacaoRepositorio {
                 AppContext.getConsumoRepositorio();
 
         String sql = """
-            INSERT INTO movimentacao_consumo
-            (item_consumo_id, tipo_movimentacao, destino, quantidade, emissor)
-            VALUES (?, ?, ?, ?, ?)
-            """;
+                INSERT INTO movimentacao_consumo
+                (item_consumo_id, tipo_movimentacao, destino, quantidade, emissor)
+                VALUES (?, ?, ?, ?, ?)
+                """;
 
         try (Connection connection = this.connectionFactory.getConnection()) {
             connection.setAutoCommit(false);
@@ -195,6 +195,55 @@ public class MovimentacaoDAO implements MovimentacaoRepositorio {
                     e
             );
         }
+    }
+
+    @Override
+    public List<MovimentacaoItemConsumo> buscarUltimasInsercoes() throws SQLException {
+        List<MovimentacaoItemConsumo> movimentacoes = new ArrayList<>();
+        ConsumoRepositorio consumoRepositorio = AppContext.getConsumoRepositorio();
+        String sql = """
+                SELECT * FROM movimentacao_consumo
+                ORDER BY criado_em DESC
+                LIMIT 5
+                """;
+
+        try (Connection connection = this.connectionFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                ItemConsumo itemConsumo =
+                        consumoRepositorio.buscarPorId(resultSet.getLong("item_consumo_id"));
+
+                LocalDate data = resultSet.getDate("criado_em").toLocalDate();
+
+                Localidade destino = Optional.ofNullable(resultSet.getString("destino"))
+                        .filter(s -> !s.isBlank())
+                        .map(Localidade::valueOf)
+                        .orElse(null);
+
+                TipoMovimentacao tipoMovimentacao =
+                        Optional.ofNullable(resultSet.getString("tipo_movimentacao"))
+                                .filter(s -> !s.isBlank())
+                                .map(TipoMovimentacao::valueOf)
+                                .orElse(null);
+
+                MovimentacaoItemConsumo movimentacao = new MovimentacaoItemConsumo(
+                        destino,
+                        resultSet.getString("emissor"),
+                        data,
+                        itemConsumo,
+                        tipoMovimentacao,
+                        resultSet.getInt("quantidade"),
+                        resultSet.getLong("id")
+                );
+
+                movimentacoes.add(movimentacao);
+            }
+
+            return movimentacoes;
+        }
+
     }
 
 }

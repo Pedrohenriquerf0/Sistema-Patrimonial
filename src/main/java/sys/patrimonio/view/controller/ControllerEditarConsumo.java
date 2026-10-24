@@ -21,8 +21,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ControllerEditarConsumo implements DataBridge{
-    private ItemConsumo consumo;
+public class ControllerEditarConsumo implements DataBridgePatrimonio {
+    private ItemConsumo consumoClass;
     @FXML
     private TextField campoNome;
     @FXML
@@ -62,7 +62,7 @@ public class ControllerEditarConsumo implements DataBridge{
     public void btt_cancelar(ActionEvent event) {
         boolean resposta = Alertas.confirmar("Deseja Cancelar?");
         if (resposta) {
-            voltarDetalhes(consumo, event);
+            voltarDetalhes(consumoClass, event);
         }
     }
 
@@ -100,6 +100,7 @@ public class ControllerEditarConsumo implements DataBridge{
 
             ItemConsumo itemConsumo = new ItemConsumo(nome, quantidade, descricao, localidade, categoria, status, arquivoImagemSelecionado.getPath());
             itemConsumo.setId(id);
+            itemConsumo.setEntrada(consumoClass.getEntrada());
             ConsumoManager consumoManager = new ConsumoManager();
 
             try {
@@ -118,9 +119,9 @@ public class ControllerEditarConsumo implements DataBridge{
 
     @Override
     public void tranferiDados(Item item) {
-        this.consumo = (ItemConsumo) item;
-        PatrimonioLoader.carregarDados(consumo, campoNome, campoID, null, campoCategoria, campoLocalidade,
+        this.consumoClass = (ItemConsumo) item;
+        PatrimonioLoader.carregarDados(consumoClass, campoNome, campoID, null, campoCategoria, campoLocalidade,
                 comboStatus, campoDescricao, campoQuantidade, null, imagemPatrimonio, labelSemFoto);
-        arquivoImagemSelecionado = new File(consumo.getFoto());
+        arquivoImagemSelecionado = new File(consumoClass.getFoto());
     }
 }

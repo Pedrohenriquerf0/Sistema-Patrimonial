@@ -9,12 +9,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import sys.patrimonio.model.Item;
 import sys.patrimonio.view.controller.Alertas;
-import sys.patrimonio.view.controller.DataBridge;
+import sys.patrimonio.view.controller.DataBridgePatrimonio;
 
 import java.io.InputStream;
 
 public final class LoaderTelas {
-    public static void loaderTela(Item item, ActionEvent event, DataBridge controller, String caminhoTela) { // EX: view/exemple.fxml
+    public static void loaderTela(Item item, ActionEvent event, DataBridgePatrimonio controller, String caminhoTela) { // EX: view/exemple.fxml
         try (InputStream fxmlStream = LoaderTelas.class.getClassLoader().getResourceAsStream(caminhoTela)) {
             if (fxmlStream == null) {
                 throw new RuntimeException("ARQUIVO NÃO ENCONTRADO: verifique se o caminho " + caminhoTela + " está correto.");
@@ -33,7 +33,7 @@ public final class LoaderTelas {
     }
 
 
-    public static void loaderTela(Item item, MouseEvent event, DataBridge controller, String caminhoTela) { // EX: view/exemple.fxml
+    public static void loaderTela(Item item, MouseEvent event, DataBridgePatrimonio controller, String caminhoTela) { // EX: view/exemple.fxml
         try (InputStream fxmlStream = LoaderTelas.class.getClassLoader().getResourceAsStream(caminhoTela)) {
             if (fxmlStream == null) {
                 throw new RuntimeException("ARQUIVO NÃO ENCONTRADO: verifique se o caminho " + caminhoTela + " está correto.");
