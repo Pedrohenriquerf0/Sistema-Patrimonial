@@ -69,7 +69,7 @@
                             <content>
                                 <VBox fx:id="listaCautelas" spacing="12.0">
                                     <!-- Os cards de cautela serão adicionados aqui -->
-                                    <fx:include fx:id="cautelas1" source="/view/CardCautelas.fxml"/>
+                                    <fx:include fx:id="cautelas1" source="/view/CardMovimentacoes.fxml"/>
                                 </VBox>
                             </content>
 

@@ -7,7 +7,7 @@ import sys.patrimonio.util.Processo;
 import java.time.LocalDate;
 import java.util.Optional;
 
-public class Cautela {
+public class Cautela  {
     private Localidade destino;
     private String emissor;
     private String data;

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      stylesheets="@/css/CardDetalhes.css"
+      styleClass="card-lista"
+      spacing="20"
+      fx:controller="sys.patrimonio.view.controller.ControllerCardMovimentacoes">
+
+    <HBox fx:id="cardItem" styleClass="card-item entrada"
+          alignment="CENTER_LEFT"
+          spacing="14">
+
+        <VBox alignment="CENTER" spacing="10">
+            <ImageView fx:id="iconsIO"
+                       fitWidth="24.0"
+                       fitHeight="24.0"
+                       preserveRatio="true">
+            </ImageView>
+        </VBox>
+
+        <VBox spacing="5"
+              minWidth="0"
+              HBox.hgrow="ALWAYS">
+
+            <Label fx:id="textoIO"
+                   styleClass="card-titulo"/>
+
+            <Label fx:id="textoConsumo" text="Computador Dell · Tombo PAT-001"
+                   styleClass="card-descricao"/>
+
+            <Label fx:id="textoQuantidade" text="22/10/2026 · Quantidade: 1"
+                   styleClass="card-detalhe"/>
+        </VBox>
+
+        <Label fx:id="textoIO2"
+               styleClass="card-badge"/>
+    </HBox>
+    <Separator/>
+</VBox>

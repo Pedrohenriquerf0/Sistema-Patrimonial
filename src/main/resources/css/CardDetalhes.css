@@ -1,7 +1,4 @@
 
-@import "global.css";
-
-
 /* ===== Lista ===== */
 .card-lista {
     -card-fundo: -cor-fundo;
@@ -15,91 +12,67 @@
     -fx-background-radius: 14;
     -fx-border-color: -card-borda;
     -fx-border-radius: 14;
-    -fx-padding: 6 0;
-}
-
-.card-lista .separator {
-    -fx-padding: 0 18;
-}
-
-.card-lista .separator .line {
-    -fx-border-color: -card-borda;
-    -fx-border-width: 1 0 0 0;
+    -fx-border-width: 1;
+    -fx-padding: 8 0;
 }
 
 /* ===== Item ===== */
 .card-item {
-    -fx-padding: 10 18;
+    -fx-padding: 16 22;
+    -fx-background-radius: 8;
+    -fx-min-height: 86;
 }
 
 .card-item:hover {
     -fx-background-color: rgba(255, 255, 255, 0.04);
 }
 
-/* ===== Ícone ===== */
-.card-icone {
-    -fx-min-width: 34;
-    -fx-min-height: 34;
-    -fx-max-width: 34;
-    -fx-max-height: 34;
-    -fx-background-radius: 999;
+/* ===== Área do ícone ===== */
+.card-item > VBox {
+    -fx-min-width: 42;
+    -fx-pref-width: 42;
+    -fx-min-height: 42;
+    -fx-alignment: center;
 }
 
-.card-seta {
-    -fx-fill: transparent;
-    -fx-stroke-width: 1.6;
-    -fx-stroke-line-cap: round;
-    -fx-stroke-line-join: round;
+/* ===== Imagem ===== */
+.card-item ImageView {
+    -fx-fit-width: 28;
+    -fx-fit-height: 28;
 }
 
 /* ===== Textos ===== */
 .card-titulo {
     -fx-text-fill: -card-texto;
-    -fx-font-size: 14px;
+    -fx-font-size: 16px;
     -fx-font-weight: bold;
 }
 
 .card-descricao {
     -fx-text-fill: -card-suave;
-    -fx-font-size: 12px;
+    -fx-font-size: 14px;
 }
 
 .card-detalhe {
     -fx-text-fill: -card-suave;
-    -fx-font-size: 11px;
+    -fx-font-size: 13px;
 }
 
 /* ===== Badge ===== */
 .card-badge {
-    -fx-font-size: 11px;
+    -fx-font-size: 12px;
     -fx-font-weight: bold;
     -fx-background-radius: 999;
-    -fx-padding: 2 10;
+    -fx-padding: 5 12;
 }
 
 /* ===== Entrada ===== */
-.card-item.entrada .card-icone {
-    -fx-background-color: rgba(74, 222, 128, 0.15);
-}
-
-.card-item.entrada .card-seta {
-    -fx-stroke: -card-verde;
-}
-
 .card-item.entrada .card-badge {
     -fx-background-color: rgba(74, 222, 128, 0.18);
     -fx-text-fill: -card-verde;
 }
 
 /* ===== Saída ===== */
-.card-item.saida .card-icone {
-    -fx-background-color: rgba(248, 113, 113, 0.15);
-}
-
-.card-item.saida .card-seta {
-    -fx-stroke: -card-vermelho;
-}
-
 .card-item.saida .card-badge {
     -fx-background-color: rgba(248, 113, 113, 0.18);
     -fx-text-fill: -card-vermelho;
