@@ -13,8 +13,8 @@ public class ConsumoManager {
         this.consumoRepositorio = AppContext.getConsumoRepositorio();
     }
 
-    public void salvar(ItemConsumo itemConsumo){
-        if(itemConsumo == null){
+    public void salvar(ItemConsumo itemConsumo) {
+        if (itemConsumo == null) {
             throw new IllegalArgumentException("item Consumo não pode ser nulo");
         }
 
@@ -22,19 +22,19 @@ public class ConsumoManager {
         this.consumoRepositorio.salvar(itemConsumo);
     }
 
-    public void excluir(ItemConsumo itemConsumo){
-        if(itemConsumo == null){
+    public void excluir(ItemConsumo itemConsumo) {
+        if (itemConsumo == null) {
             throw new IllegalArgumentException("item Consumo não pode ser nulo");
         }
         this.consumoRepositorio.excluir(itemConsumo.getId());
     }
 
-    public List<ItemConsumo> listar(){
+    public List<ItemConsumo> listar() {
         return this.consumoRepositorio.listar();
     }
 
-    public void atualizar(ItemConsumo itemConsumo){
-        if(itemConsumo == null){
+    public void atualizar(ItemConsumo itemConsumo) {
+        if (itemConsumo == null) {
             throw new IllegalArgumentException("item Consumo não pode ser nulo");
         }
 
@@ -42,19 +42,13 @@ public class ConsumoManager {
         this.consumoRepositorio.atualizar(itemConsumo);
     }
 
-    public ItemConsumo buscarPorID(long id){
-        if(id <= 0){
+    public ItemConsumo buscarPorID(long id) {
+        if (id <= 0) {
             throw new IllegalArgumentException("item Consumo não pode ter ID menor que zero");
         }
         return this.consumoRepositorio.buscarPorId(id);
     }
 
-    public List<ItemConsumo> buscarPorNome(String nome){
-        if(nome == null || nome.isBlank()){
-            throw new IllegalArgumentException("item Consumo não pode ser nulo");
-        }
-        return this.consumoRepositorio.buscarPorNome(nome);
-    }
 
     private void validar(ItemConsumo item) {
         if (item.getNome() == null || item.getNome().isBlank())
