@@ -9,6 +9,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.ScrollPane?>
 <AnchorPane
         prefHeight="768.0"
         prefWidth="1366.0"
@@ -59,6 +60,20 @@
                     </HBox>
 
                     <VBox styleClass="table-card" VBox.vgrow="ALWAYS" spacing="24.0">
+                        <ScrollPane fitToWidth="true"
+                                    hbarPolicy="NEVER"
+                                    vbarPolicy="AS_NEEDED"
+                                    VBox.vgrow="ALWAYS"
+                                    styleClass="card-scroll">
+
+                            <content>
+                                <VBox fx:id="listaCautelas" spacing="12.0">
+                                    <!-- Os cards de cautela serão adicionados aqui -->
+                                    <fx:include fx:id="cautelas1" source="/view/CardCautelas.fxml"/>
+                                </VBox>
+                            </content>
+
+                        </ScrollPane>
 
                     </VBox>
                 </VBox>

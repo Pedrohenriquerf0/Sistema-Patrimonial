@@ -42,8 +42,9 @@
                         <Label styleClass="subtitle" text="Consulte e gerencie as movimentações no sistema."/>
 
                     </VBox>
-                    <VBox styleClass="table-card" VBox.vgrow="ALWAYS" spacing="24.0">
 
+                    <VBox styleClass="table-card" VBox.vgrow="ALWAYS" spacing="24.0">
+                        <fx:include fx:id="movi1" source="CardCautelas.fxml"/>
                     </VBox>
 
 

@@ -5,6 +5,58 @@
 
 /* .content, .title e .subtitle já estão no global.css */
 
+/* ===== ScrollPane ===== */
+.card-scroll {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.card-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+.card-scroll .corner {
+    -fx-background-color: transparent;
+}
+
+/* ===== Barra de rolagem ===== */
+.card-scroll .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 12;
+    -fx-padding: 0 0 0 4;
+}
+
+.card-scroll .scroll-bar .track {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.card-scroll .scroll-bar .thumb {
+    -fx-background-color: #B4BED2;
+    -fx-background-radius: 999;
+    -fx-background-insets: 0;
+}
+
+.card-scroll .scroll-bar .thumb:hover {
+    -fx-background-color: #8F9BB3;
+}
+
+.card-scroll .scroll-bar .thumb:pressed {
+    -fx-background-color: #6E7B96;
+}
+
+.card-scroll .scroll-bar .increment-button,
+.card-scroll .scroll-bar .decrement-button {
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+}
+
+.card-scroll .scroll-bar .increment-arrow,
+.card-scroll .scroll-bar .decrement-arrow {
+    -fx-padding: 0;
+    -fx-shape: "";
+}
 
 /* =========================================================
    PESQUISA

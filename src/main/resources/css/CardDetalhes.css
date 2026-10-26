@@ -1,0 +1,106 @@
+
+@import "global.css";
+
+
+/* ===== Lista ===== */
+.card-lista {
+    -card-fundo: -cor-fundo;
+    -card-borda: -cor-borda;
+    -card-texto: -cor-texto;
+    -card-suave: -cor-texto-suave;
+    -card-verde: #4ADE80;
+    -card-vermelho: #F87171;
+
+    -fx-background-color: -card-fundo;
+    -fx-background-radius: 14;
+    -fx-border-color: -card-borda;
+    -fx-border-radius: 14;
+    -fx-padding: 6 0;
+}
+
+.card-lista .separator {
+    -fx-padding: 0 18;
+}
+
+.card-lista .separator .line {
+    -fx-border-color: -card-borda;
+    -fx-border-width: 1 0 0 0;
+}
+
+/* ===== Item ===== */
+.card-item {
+    -fx-padding: 10 18;
+}
+
+.card-item:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.04);
+}
+
+/* ===== Ícone ===== */
+.card-icone {
+    -fx-min-width: 34;
+    -fx-min-height: 34;
+    -fx-max-width: 34;
+    -fx-max-height: 34;
+    -fx-background-radius: 999;
+}
+
+.card-seta {
+    -fx-fill: transparent;
+    -fx-stroke-width: 1.6;
+    -fx-stroke-line-cap: round;
+    -fx-stroke-line-join: round;
+}
+
+/* ===== Textos ===== */
+.card-titulo {
+    -fx-text-fill: -card-texto;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.card-descricao {
+    -fx-text-fill: -card-suave;
+    -fx-font-size: 12px;
+}
+
+.card-detalhe {
+    -fx-text-fill: -card-suave;
+    -fx-font-size: 11px;
+}
+
+/* ===== Badge ===== */
+.card-badge {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 999;
+    -fx-padding: 2 10;
+}
+
+/* ===== Entrada ===== */
+.card-item.entrada .card-icone {
+    -fx-background-color: rgba(74, 222, 128, 0.15);
+}
+
+.card-item.entrada .card-seta {
+    -fx-stroke: -card-verde;
+}
+
+.card-item.entrada .card-badge {
+    -fx-background-color: rgba(74, 222, 128, 0.18);
+    -fx-text-fill: -card-verde;
+}
+
+/* ===== Saída ===== */
+.card-item.saida .card-icone {
+    -fx-background-color: rgba(248, 113, 113, 0.15);
+}
+
+.card-item.saida .card-seta {
+    -fx-stroke: -card-vermelho;
+}
+
+.card-item.saida .card-badge {
+    -fx-background-color: rgba(248, 113, 113, 0.18);
+    -fx-text-fill: -card-vermelho;
+}
