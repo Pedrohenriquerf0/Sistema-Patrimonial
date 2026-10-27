@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="108.0" prefWidth="252.0" spacing="20" styleClass="card-lista" stylesheets="@/css/CardDetalhes.css"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="sys.patrimonio.view.controller.ControllerCardCautela">
+
+    <HBox fx:id="cardItem" alignment="CENTER_LEFT" spacing="14" styleClass="card-item entrada">
+
+        <VBox alignment="CENTER" spacing="10">
+            <ImageView fx:id="iconsCautela" fitHeight="51.0" fitWidth="39.0" nodeOrientation="RIGHT_TO_LEFT"
+                       preserveRatio="true">
+            </ImageView>
+        </VBox>
+
+        <VBox minWidth="0" spacing="5" HBox.hgrow="ALWAYS">
+            <Label fx:id="textoPatrimonio" styleClass="card-titulo" text="Computador Dell · Tombo PAT-001"/>
+            <HBox spacing="30.0" prefHeight="100.0" prefWidth="200.0">
+                <children>
+
+                    <Label fx:id="textoData" styleClass="card-detalhe"/>
+                    <Label fx:id="textoIDCautela" styleClass="card-detalhe"/>
+                </children>
+            </HBox>
+            <Label fx:id="textoOrigemDestino" styleClass="card-detalhe"/>
+        </VBox>
+    </HBox>
+    <Separator/>
+</VBox>

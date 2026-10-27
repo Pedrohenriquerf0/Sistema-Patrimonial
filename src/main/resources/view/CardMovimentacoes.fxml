@@ -2,10 +2,8 @@
 
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-
+<?import javafx.scene.layout.*?>
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       stylesheets="@/css/CardDetalhes.css"
       styleClass="card-lista"

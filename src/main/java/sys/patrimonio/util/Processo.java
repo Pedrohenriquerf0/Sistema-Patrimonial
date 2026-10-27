@@ -23,4 +23,8 @@ public final class Processo {
         return idFormatada;
     }
 
+    public static Long IDSomente(String idString){
+        return Long.parseLong(idString.substring(0, idString.indexOf("/")));
+    }
+
 }

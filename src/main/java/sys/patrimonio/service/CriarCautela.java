@@ -33,14 +33,7 @@ public class CriarCautela {
         return new CriarCautela(cautela);
     }
 
-    public static Cautela buscarPorID(long id) {
-        CriarCautela criarCautela = new CriarCautela(null);
-        if (id <= 0) {
-            throw new IllegalArgumentException("ID não pode se menor que zero");
-        }
-        Cautela cautela = criarCautela.cautelaRepositorio.buscarPorId(id);
-        return cautela;
-    }
+
 
     private void salvar() {
         this.cautela.getItemPatrimoniado().setLocal(this.cautela.getDestino());

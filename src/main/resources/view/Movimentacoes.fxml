@@ -58,22 +58,22 @@
 
                     </HBox>
 
+
                     <VBox styleClass="table-card" VBox.vgrow="ALWAYS" spacing="24.0">
-                        <VBox styleClass="table-card" VBox.vgrow="ALWAYS" spacing="24.0">
-                            <ScrollPane fitToWidth="true"
-                                        hbarPolicy="NEVER"
-                                        vbarPolicy="AS_NEEDED"
-                                        VBox.vgrow="ALWAYS"
-                                        styleClass="card-scroll">
+                        <ScrollPane fitToWidth="true"
+                                    hbarPolicy="NEVER"
+                                    vbarPolicy="AS_NEEDED"
+                                    VBox.vgrow="ALWAYS"
+                                    styleClass="card-scroll">
 
-                                <content>
-                                    <VBox fx:id="listaMovimentacoes" spacing="12.0">
+                            <content>
+                                <VBox fx:id="listaMovimentacoes" spacing="12.0">
 
-                                    </VBox>
-                                </content>
+                                </VBox>
+                            </content>
 
-                            </ScrollPane>
-                        </VBox>
+                        </ScrollPane>
+
                     </VBox>
                 </VBox>
             </center>
