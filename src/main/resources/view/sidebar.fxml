@@ -46,7 +46,7 @@
     <Button maxWidth="1.7976931348623157E308" styleClass="menu-button" text="⌖   Localidades" />
 
 
-    <Button maxWidth="1.7976931348623157E308" styleClass="menu-button" text="▥   Relatórios"/>
+    <Button fx:id="btt_Relatorios" maxWidth="1.7976931348623157E308" styleClass="menu-button" text="▥   Relatórios" onAction="#relatorios"/>
 
 
     <Button fx:id="btt_configuracoes" maxWidth="1.7976931348623157E308" styleClass="menu-button" text="⚙   Configurações" onAction="#configuracoes"/>

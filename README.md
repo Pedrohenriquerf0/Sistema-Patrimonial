@@ -1,36 +1,37 @@
+# Sistema Patrimonial
 # 🏛️ Sistema Patrimonial
 
-Aplicação desktop para controle de bens patrimoniais e itens de consumo. O sistema está sendo desenvolvido com **Java, JavaFX e MariaDB**, com telas FXML, acesso a dados JDBC e regras de negócio organizadas em serviços. 💻📦
+Aplicação desktop para gestão de bens patrimoniais e itens de consumo. O sistema oferece cadastro e consulta de itens, controle de entradas e saídas de estoque e emissão e consulta de cautelas de bens patrimoniais.
 
-## ✨ Funcionalidades implementadas
+## Funcionalidades
+## ✨ Funcionalidades
 
-- 🏷️ Cadastro, consulta e remoção de itens patrimoniais.
-- 📦 Cadastro e consulta de itens de consumo.
-- 🔄 Registro de movimentações de itens de consumo.
-- 📝 Registro e consulta de cautelas de itens patrimoniais.
-- 🖥️ Interface desktop com JavaFX e FXML.
-- 🗄️ Persistência usando MariaDB e JDBC.
+- Cadastro, edição, pesquisa e remoção de itens patrimoniais.
+- Cadastro, edição, pesquisa e remoção de itens de consumo.
+- Registro de entradas e saídas de itens de consumo, com consulta ao histórico de movimentações.
+- Criação e consulta de cautelas associadas a bens patrimoniais.
+- Armazenamento de dados no MariaDB, com acesso JDBC.
+- Interface desktop em JavaFX, com telas definidas em FXML.
 
-> 🚧 O projeto continua em desenvolvimento. Consulte esta página novamente para acompanhar novos recursos e melhorias!
-
+## Tecnologias
 ## 🛠️ Tecnologias
 
 - Java 21
-- MariaDB Server 12.2.2
 - JavaFX 21.0.1 (Controls e FXML)
-- Maven
+- MariaDB e MariaDB Connector/J 3.3.3
+- Maven e JavaFX Maven Plugin
 
-## ✅ Pré-requisitos
+## Requisitos
+## ✅ Requisitos
 
-1. ☕ Instale o JDK 21 e configure `JAVA_HOME`.
-2. 🐬 Instale o MariaDB Server 12.2.2 e deixe o serviço iniciado.
-3. 🧰 Instale o Apache Maven ou use o Maven integrado da sua IDE.
-4. 🧾 O esquema SQL incluído no projeto está em `src/main/resources/database/esquema tabelas.sql`. Ele cria as tabelas usadas pela aplicação.
+- JDK 21.
+- MariaDB Server em execução.
+- Acesso ao Maven pelo `mvn` ou uso do Maven Wrapper incluído (`mvnw`/`mvnw.cmd`).
 
-## 🗄️ Configurar o MariaDB
+## Configuração do banco de dados
+## 🗄️ Configuração do banco de dados
 
-1. ▶️ Inicie o serviço do MariaDB.
-2. 🏗️ Crie o banco de dados:
+1. Crie o banco de dados:
 
    ```sql
    CREATE DATABASE sistema_patrimonial
@@ -38,85 +39,81 @@ Aplicação desktop para controle de bens patrimoniais e itens de consumo. O sis
        COLLATE utf8mb4_unicode_ci;
    ```
 
-3. 📥 Para configurar um banco **novo e vazio**, importe o esquema SQL incluído no projeto. Ele cria as tabelas `item_patrimoniado`, `item_consumo`, `cautelas` e `movimentacao_consumo`:
+2. Importe o esquema em um banco novo e vazio. No Windows PowerShell:
 
-   ```bash
-   mariadb -u root -p sistema_patrimonial < "src/main/resources/database/esquema tabelas.sql"
+   ```powershell
+   Get-Content -Raw "src/main/resources/database/esquema tabelas.sql" | mariadb -u root -p sistema_patrimonial
    ```
 
-   No Windows, também é possível abrir `src/main/resources/database/esquema tabelas.sql` no HeidiSQL ou no cliente MariaDB e executar seu conteúdo conectado ao banco `sistema_patrimonial`.
+   Também é possível executar o arquivo pelo HeidiSQL ou por outro cliente MariaDB, conectado ao banco `sistema_patrimonial`.
 
-   ⚠️ **Atenção:** o script contém `DROP TABLE IF EXISTS` e recria as tabelas. Executá-lo em um banco que já tenha dados pode apagá-los. Use-o somente para preparar um banco vazio. Para atualizar uma instalação existente, faça backup e use uma migração apropriada; não execute esse script como atualização.
+   **Atenção:** `esquema tabelas.sql` contém comandos `DROP TABLE IF EXISTS` e recria as tabelas. Importá-lo em um banco existente pode apagar os dados dessas tabelas. Faça backup e não use esse arquivo como migração de uma instalação com dados.
+   ⚠️ **Atenção:** `esquema tabelas.sql` contém comandos `DROP TABLE IF EXISTS` e recria as tabelas. Importá-lo em um banco existente pode apagar os dados dessas tabelas. Faça backup e não use esse arquivo como migração de uma instalação com dados.
 
-4. ⚙️ Crie o arquivo local de configuração a partir do exemplo. Na raiz do repositório:
+3. Crie a configuração local copiando o exemplo:
 
    ```powershell
    Copy-Item "src/main/resources/database/database.example.properties" "src/main/resources/database/database.properties"
    ```
 
-5. 🔐 Edite `src/main/resources/database/database.properties` com os dados do seu servidor:
+4. Edite `src/main/resources/database/database.properties` e informe o banco, usuário e senha corretos:
 
    ```properties
    db.url=jdbc:mariadb://localhost:3306/sistema_patrimonial
-   db.username=root
+   db.username=SEU_USUARIO
    db.password=SUA_SENHA
    ```
 
-   Use as credenciais de um usuário MariaDB que tenha permissão de leitura e escrita nesse banco. O arquivo com credenciais reais é ignorado pelo Git; não o publique. 🔒
+   O exemplo contém valores ilustrativos (`banco_de_dados` e `SUA_SENHA_AQUI`); substitua-os antes de executar. O arquivo `database.properties` está no `.gitignore`. Não publique credenciais reais no repositório.
 
-## 🚀 Executar pela IDE (IntelliJ IDEA)
+## Executar
+## 🚀 Executar
 
-1. 📂 Clone o repositório e abra a pasta do projeto que contém o `pom.xml`.
-2. ⏳ Aguarde a IDE importar o projeto Maven e baixar as dependências.
-3. ☕ Configure o Project SDK para JDK 21.
-4. 🗄️ Conclua a configuração do MariaDB acima.
-5. ▶️ Abra `src/main/java/sys/patrimonio/view/Main.java` e execute `Main.main()` (Run `Main`).
+Na raiz do projeto, compile o código:
 
-A classe `Main` inicializa a aplicação JavaFX. O `AppLauncher` carrega as telas e configura os repositórios que usam o MariaDB.
-
-## 🧪 Compilar e executar pelo terminal
-
-Na pasta que contém o `pom.xml`, compile o projeto:
-
-```bash
-mvn clean package
+```powershell
+./mvnw.cmd clean package
 ```
 
-O `pom.xml` configura o `javafx-maven-plugin`. Com o banco configurado, inicie a aplicação pelo Maven:
+Para iniciar a aplicação:
 
-```bash
-mvn javafx:run
+```powershell
+./mvnw.cmd javafx:run
 ```
 
-O comando `mvn clean package` verifica a compilação e gera o JAR em `target/`. O JAR não empacota os runtimes do JavaFX; por isso, `java -jar` não é o comando de inicialização configurado neste projeto. Para iniciar pela IDE, siga os passos acima.
+No Linux ou macOS, use `./mvnw` no lugar de `./mvnw.cmd`. Também é possível abrir o projeto na IDE como projeto Maven, configurar o JDK 21 e executar `sys.patrimonio.view.Main`.
 
-## 🧭 Estrutura do código
+O banco precisa estar configurado e acessível ao iniciar o aplicativo. O ponto de entrada está em `src/main/java/sys/patrimonio/view/Main.java` e o inicializador carrega a interface `view/Home.fxml`.
+
+## Organização do projeto
+## 🧭 Organização do projeto
 
 ```text
 src/main/java/sys/patrimonio/
 ├── config/       # conexão e contexto da aplicação
 ├── exceptions/   # exceções da aplicação
 ├── model/        # entidades e tipos de domínio
-├── repository/   # repositórios e DAOs JDBC
-├── service/      # regras e operações de negócio
-├── util/         # utilitários
+├── repository/   # repositórios e acesso JDBC
+├── service/      # operações e regras de negócio
+├── util/         # utilitários e carregamento de telas
 └── view/         # inicialização JavaFX e controllers
 
 src/main/resources/
-├── css/          # estilos
+├── css/          # estilos da interface
 ├── database/     # exemplo de configuração e esquema SQL
-└── view/         # interfaces FXML
+├── icons/        # ícones
+└── view/         # telas FXML
 ```
 
+## Problemas comuns
 ## 🩹 Problemas comuns
 
-- **📄 Arquivo `database.properties` não encontrado:** confirme se criou `src/main/resources/database/database.properties` e recarregue o projeto Maven.
-- **🔌 Falha ao conectar:** verifique se o serviço MariaDB está ativo, se URL/porta/banco estão corretos e se usuário e senha funcionam.
-- **🧱 Tabela não encontrada:** confirme que executou `src/main/resources/database/esquema tabelas.sql` no banco configurado.
-- **🪟 JavaFX não inicia:** confirme o JDK 21 e aguarde a sincronização Maven. Pelo terminal, tente iniciar com `mvn javafx:run`.
+- **Erro ao carregar `database.properties`:** confirme que o arquivo está em `src/main/resources/database/` e se chama exatamente `database.properties`.
+- **Falha ao conectar ao MariaDB:** confira se o serviço está ativo e se `db.url`, `db.username` e `db.password` estão corretos.
+- **Tabela não encontrada:** confirme que o esquema foi importado no banco `sistema_patrimonial`.
+- **JavaFX não inicia:** confirme que está usando JDK 21 e execute a aplicação com `./mvnw.cmd javafx:run` no Windows ou `./mvnw javafx:run` em Linux/macOS.
 
+## Licença
 ## 📜 Licença
 
-Este projeto está disponível sob a licença **MIT**. Você pode usar, copiar, modificar e distribuir o software, inclusive em projetos comerciais, desde que mantenha o aviso de direitos autorais e o texto da licença nas cópias ou partes substanciais do projeto. O software é fornecido sem garantias.
-
-Consulte o arquivo [`LICENSE`](LICENSE) para ler o texto completo.
+Distribuído sob a licença MIT. Consulte o arquivo [`LICENSE`](LICENSE) para ver os termos.

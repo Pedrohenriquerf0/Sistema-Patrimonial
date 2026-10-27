@@ -7,7 +7,7 @@ import sys.patrimonio.exceptions.PersistenciaException;
 import sys.patrimonio.model.ItemPatrimoniado;
 import sys.patrimonio.model.Localidade;
 import sys.patrimonio.model.Status;
-import sys.patrimonio.util.Converter;
+import sys.patrimonio.util.ConverterArquivos;
 
 import java.io.IOException;
 import java.sql.*;
@@ -39,7 +39,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
             statement.setString(6, String.valueOf(objeto.getLocal()));
             statement.setString(7, String.valueOf(objeto.getStatus()));
             statement.setString(8, objeto.getCategoria());
-            statement.setBytes(9, Converter.pathsToBytes(objeto.getFoto()));
+            statement.setBytes(9, ConverterArquivos.pathsToBytes(objeto.getFoto()));
 
             statement.executeUpdate();
 
@@ -71,7 +71,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
-                String caminhoFoto = Converter.bytesToPaths(resultSet.getBytes("foto"), resultSet.getString("tombo"));
+                String caminhoFoto = ConverterArquivos.bytesToPaths(resultSet.getBytes("foto"), resultSet.getString("tombo"));
 
                 ItemPatrimoniado itemPatrimoniado =
                         new ItemPatrimoniado(
@@ -119,7 +119,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
             statement.setString(3, String.valueOf(objeto.getLocal()));
             statement.setString(4, String.valueOf(objeto.getStatus()));
             statement.setString(5, objeto.getCategoria());
-            statement.setBytes(6, Converter.pathsToBytes(objeto.getFoto()));
+            statement.setBytes(6, ConverterArquivos.pathsToBytes(objeto.getFoto()));
             statement.setString(7, objeto.getTombo());
 
             statement.executeUpdate();
@@ -145,7 +145,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                String caminhoFoto = Converter.bytesToPaths(resultSet.getBytes("foto"), resultSet.getString("tombo"));
+                String caminhoFoto = ConverterArquivos.bytesToPaths(resultSet.getBytes("foto"), resultSet.getString("tombo"));
 
                 ItemPatrimoniado itemPatrimoniado =
                         new ItemPatrimoniado(
@@ -187,7 +187,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                String caminhoFoto = Converter.bytesToPaths(resultSet.getBytes("foto"), resultSet.getString("tombo"));
+                String caminhoFoto = ConverterArquivos.bytesToPaths(resultSet.getBytes("foto"), resultSet.getString("tombo"));
 
                 ItemPatrimoniado itemPatrimoniado =
                         new ItemPatrimoniado(
@@ -247,7 +247,7 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                String caminhoFoto = Converter.bytesToPaths(resultSet.getBytes("foto"), resultSet.getString("tombo"));
+                String caminhoFoto = ConverterArquivos.bytesToPaths(resultSet.getBytes("foto"), resultSet.getString("tombo"));
 
                 ItemPatrimoniado itemPatrimoniado =
                         new ItemPatrimoniado(

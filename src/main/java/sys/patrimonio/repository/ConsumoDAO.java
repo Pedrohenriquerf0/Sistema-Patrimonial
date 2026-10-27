@@ -6,7 +6,7 @@ import sys.patrimonio.exceptions.PersistenciaException;
 import sys.patrimonio.model.ItemConsumo;
 import sys.patrimonio.model.Localidade;
 import sys.patrimonio.model.Status;
-import sys.patrimonio.util.Converter;
+import sys.patrimonio.util.ConverterArquivos;
 
 import java.io.IOException;
 import java.sql.*;
@@ -38,7 +38,7 @@ public class ConsumoDAO implements ConsumoRepositorio {
             statement.setString(5, String.valueOf(objeto.getLocal()));
             statement.setString(6, String.valueOf(objeto.getStatus()));
             statement.setString(7, objeto.getCategoria());
-            statement.setBytes(8, Converter.pathsToBytes(objeto.getFoto()));
+            statement.setBytes(8, ConverterArquivos.pathsToBytes(objeto.getFoto()));
 
             statement.executeUpdate();
 
@@ -71,7 +71,7 @@ public class ConsumoDAO implements ConsumoRepositorio {
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
-                String caminhoFoto = Converter.bytesToPaths(
+                String caminhoFoto = ConverterArquivos.bytesToPaths(
                         resultSet.getBytes("foto"), resultSet.getString("nome"));
 
                 ItemConsumo itemConsumo = new ItemConsumo(
@@ -116,7 +116,7 @@ public class ConsumoDAO implements ConsumoRepositorio {
             statement.setString(4, String.valueOf(objeto.getLocal()));
             statement.setString(5, String.valueOf(objeto.getStatus()));
             statement.setString(6, objeto.getCategoria());
-            statement.setBytes(7, Converter.pathsToBytes(objeto.getFoto()));
+            statement.setBytes(7, ConverterArquivos.pathsToBytes(objeto.getFoto()));
             statement.setLong(8, objeto.getId());
 
             statement.executeUpdate();
@@ -143,7 +143,7 @@ public class ConsumoDAO implements ConsumoRepositorio {
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    String caminhoFoto = Converter.bytesToPaths(
+                    String caminhoFoto = ConverterArquivos.bytesToPaths(
                             resultSet.getBytes("foto"), resultSet.getString("nome"));
 
                     ItemConsumo itemConsumo = new ItemConsumo(
@@ -181,7 +181,7 @@ public class ConsumoDAO implements ConsumoRepositorio {
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    String caminhoFoto = Converter.bytesToPaths(
+                    String caminhoFoto = ConverterArquivos.bytesToPaths(
                             resultSet.getBytes("foto"), resultSet.getString("nome"));
 
                     ItemConsumo itemConsumo = new ItemConsumo(

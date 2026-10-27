@@ -20,6 +20,8 @@ public class ControllerSidebar {
     private Button btt_cautelas;
     @FXML
     private Button btt_configuracoes;
+    @FXML
+    private Button btt_Relatorios;
 
     @FXML
     private void voltarHome(ActionEvent event) {
@@ -48,6 +50,10 @@ public class ControllerSidebar {
     }
 
     @FXML
+    private void relatorios(ActionEvent event){
+        LoaderTelas.loaderTela(event, "view/Relatorios.fxml");
+    }
+    @FXML
     private void configuracoes(ActionEvent event){
         LoaderTelas.loaderTela(event, "view/configuracoes.fxml");
     }
@@ -75,6 +81,12 @@ public class ControllerSidebar {
     public void ativarConfiguracoes(){
         ativar(btt_configuracoes);
     }
+
+    public void ativarRelatorios() {ativar(btt_Relatorios);
+    }
+
+
+
     private void ativar(Button ativo) {
         for (Button b : List.of(btt_home, btt_CadastrarPatrimoniado, btt_CadastrarConsumo)) {
             b.getStyleClass().remove("menu-button-active");
@@ -83,5 +95,6 @@ public class ControllerSidebar {
         ativo.getStyleClass().remove("menu-button");
         ativo.getStyleClass().add("menu-button-active");
     }
+
 
 }
