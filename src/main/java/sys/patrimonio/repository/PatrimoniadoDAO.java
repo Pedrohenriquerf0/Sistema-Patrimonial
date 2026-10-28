@@ -13,8 +13,10 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 
-public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
+public class PatrimoniadoDAO implements PatrimoniadoRepositorio, Relatorios<ItemPatrimoniado,ItemPatrimoniado> {
     private final ConnectionFactory connectionFactory;
 
     public PatrimoniadoDAO(ConnectionFactory connectionFactory) {
@@ -290,5 +292,10 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio {
             statement.executeUpdate();
 
         }
+    }
+
+    @Override
+    public Optional<List<ItemPatrimoniado>> relatorio(Predicate<ItemPatrimoniado> patrimoniadoPredicate) throws SQLException{
+        return Optional.empty();
     }
 }

@@ -55,7 +55,7 @@ public class ControllerSidebar {
     }
     @FXML
     private void configuracoes(ActionEvent event){
-        LoaderTelas.loaderTela(event, "view/configuracoes.fxml");
+        LoaderTelas.loaderTela(event, "view/Configuracoes.fxml");
     }
 
     public void ativarHome() {
