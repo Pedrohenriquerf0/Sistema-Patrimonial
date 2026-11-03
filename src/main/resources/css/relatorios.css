@@ -1,0 +1,365 @@
+/* =========================================================
+   CONFIGURAÇÃO GERAL
+   ========================================================= */
+@import "global.css";
+
+/* .content, .title e .subtitle já estão no global.css */
+
+/* ===== ScrollPane ===== */
+.card-scroll {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.card-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+.card-scroll .corner {
+    -fx-background-color: transparent;
+}
+
+/* ===== Barra de rolagem ===== */
+.card-scroll .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 12;
+    -fx-padding: 0 0 0 4;
+}
+
+.card-scroll .scroll-bar .track {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.card-scroll .scroll-bar .thumb {
+    -fx-background-color: #B4BED2;
+    -fx-background-radius: 999;
+    -fx-background-insets: 0;
+}
+
+.card-scroll .scroll-bar .thumb:hover {
+    -fx-background-color: #8F9BB3;
+}
+
+.card-scroll .scroll-bar .thumb:pressed {
+    -fx-background-color: #6E7B96;
+}
+
+.card-scroll .scroll-bar .increment-button,
+.card-scroll .scroll-bar .decrement-button {
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+}
+
+.card-scroll .scroll-bar .increment-arrow,
+.card-scroll .scroll-bar .decrement-arrow {
+    -fx-padding: 0;
+    -fx-shape: "";
+}
+
+
+/* Container que organiza os quatro cartões */
+.indicadores-container {
+    -fx-spacing: 18px;
+}
+
+/* Estilo base dos cartões */
+.indicador-card {
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-border-width: 1px;
+    -fx-padding: 20px;
+    -fx-min-height: 106px;
+    -fx-alignment: CENTER_LEFT;
+}
+
+/* Azul — Total de Patrimônios */
+.indicador-azul {
+    -fx-background-color: #E8F0FE;
+    -fx-border-color: #C5D8FF;
+}
+
+/* Verde — Ativos */
+.indicador-verde {
+    -fx-background-color: #E5F6EC;
+    -fx-border-color: #BCE8CD;
+}
+
+/* Laranja — Em manutenção */
+.indicador-laranja {
+    -fx-background-color: #FFF0E2;
+    -fx-border-color: #FFD6B0;
+}
+
+/* Roxo — Baixados */
+.indicador-roxo {
+    -fx-background-color: #F0EAFE;
+    -fx-border-color: #D8CAFF;
+}
+
+/* Número principal */
+.indicador-valor {
+    -fx-font-family: "System";
+    -fx-font-size: 27px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #17243B;
+}
+
+/* Descrição abaixo do número */
+.indicador-descricao {
+    -fx-font-size: 13px;
+    -fx-text-fill: #455570;
+}
+
+/* Símbolos que representam os indicadores */
+.indicador-icone {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-min-width: 48px;
+    -fx-alignment: CENTER;
+}
+
+/* Cor dos símbolos por cartão */
+.indicador-azul .indicador-icone {
+    -fx-text-fill: #2563EB;
+}
+
+.indicador-verde .indicador-icone {
+    -fx-text-fill: #16A765;
+}
+
+.indicador-laranja .indicador-icone {
+    -fx-text-fill: #F28C28;
+}
+
+.indicador-roxo .indicador-icone {
+    -fx-text-fill: #7041C6;
+}
+
+
+/* ==============================
+   CARTÃO DE FILTROS
+   ============================== */
+
+.table-card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 14px;
+    -fx-border-color: #E1E7F0;
+    -fx-border-radius: 14px;
+    -fx-border-width: 1px;
+    -fx-padding: 20px;
+}
+
+/* Título */
+.section-title {
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #17243B;
+}
+
+/* Rótulos dos campos */
+.field-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #34435B;
+}
+
+/* ==============================
+   DATE PICKER E COMBO BOX
+   ============================== */
+
+.date-picker,
+.combo-box {
+    -fx-pref-height: 42px;
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 8px;
+    -fx-border-color: #D6DEEA;
+    -fx-border-radius: 8px;
+    -fx-border-width: 1px;
+    -fx-font-size: 13px;
+}
+
+.date-picker:hover,
+.combo-box:hover {
+    -fx-border-color: #93B4F8;
+}
+
+.date-picker:focused,
+.combo-box:focused {
+    -fx-border-color: #2563EB;
+    -fx-border-width: 1.5px;
+}
+
+.date-picker .text-field {
+    -fx-background-color: transparent;
+    -fx-text-fill: #26364F;
+    -fx-prompt-text-fill: #8A96A8;
+    -fx-background-radius: 8px;
+}
+
+.combo-box .list-cell {
+    -fx-text-fill: #26364F;
+    -fx-font-size: 13px;
+}
+
+/* ==============================
+   BOTÃO GERAR RELATÓRIO
+   ============================== */
+
+.button-gerar {
+    -fx-pref-height: 42px;
+    -fx-max-width: Infinity;
+    -fx-background-color: #1D4ED8;
+    -fx-background-radius: 8px;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 16px;
+    -fx-cursor: hand;
+}
+
+.button-gerar:hover {
+    -fx-background-color: #1E40AF;
+}
+
+.button-gerar:pressed {
+    -fx-background-color: #1E3A8A;
+}
+
+/* ==============================
+   BOTÃO LIMPAR FILTROS
+   ============================== */
+
+.button-limpar {
+    -fx-pref-height: 42px;
+    -fx-max-width: Infinity;
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 8px;
+    -fx-border-color: #B8CCF7;
+    -fx-border-radius: 8px;
+    -fx-border-width: 1px;
+    -fx-text-fill: #1D4ED8;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 16px;
+    -fx-cursor: hand;
+}
+
+.button-limpar:hover {
+    -fx-background-color: #EFF6FF;
+    -fx-border-color: #2563EB;
+}
+
+.button-limpar:pressed {
+    -fx-background-color: #DBEAFE;
+}
+
+
+
+/* =========================================================
+   CARD DA TABELA
+   ========================================================= */
+
+.table-card {
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+    -fx-border-color: -cor-card-borda;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-padding: 18px;
+}
+
+.section-title {
+    -fx-text-fill: -cor-texto;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+
+/* =========================================================
+   TABLE VIEW
+   ========================================================= */
+
+.patrimonio-table {
+    -fx-background-color: transparent;
+    -fx-border-color: -cor-card-borda;
+    -fx-border-width: 1px;
+    -fx-border-radius: 7px;
+    -fx-background-radius: 7px;
+}
+
+/* CABEÇALHO */
+
+.patrimonio-table .column-header-background {
+    -fx-background-color: -cor-campo-travado;
+    -fx-background-radius: 7px 7px 0 0;
+}
+
+.patrimonio-table .column-header {
+    -fx-background-color: transparent;
+    -fx-border-color: -cor-card-borda;
+    -fx-border-width: 0 1px 0 0;
+}
+
+.patrimonio-table .column-header .label {
+    -fx-text-fill: -cor-texto-label;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER;
+    -fx-text-alignment: CENTER;
+}
+
+/* LINHAS */
+
+.patrimonio-table .table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: transparent transparent -cor-campo-travado transparent;
+    -fx-text-fill: -cor-texto;
+}
+
+.patrimonio-table .table-row-cell:hover {
+    -fx-background-color: -cor-area-foto;
+}
+
+.patrimonio-table .table-row-cell:selected {
+    -fx-background-color: -cor-primaria-clara;
+}
+
+.patrimonio-table .table-row-cell:selected .text {
+    -fx-fill: -cor-primaria;
+}
+
+/* CÉLULAS */
+
+.patrimonio-table .table-cell {
+    -fx-text-fill: -cor-texto;
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER;
+    -fx-border-color: transparent;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+.scroll-bar:vertical,
+.scroll-bar:horizontal {
+    -fx-background-color: -cor-area-foto;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: -cor-borda;
+    -fx-background-radius: 5px;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: derive(-cor-borda, -25%);
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
