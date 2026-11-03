@@ -8,16 +8,16 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-public class Movimentacoesconsulta {
+public class MovimentacoesConsulta {
     private MovimentacaoRepositorio movimentacaoRepositorio = AppContext.getMovimentacaoRepositorio();
     private String pesquisa;
 
-    public Movimentacoesconsulta(String pesquisa) {
+    public MovimentacoesConsulta(String pesquisa) {
         this.pesquisa = pesquisa;
     }
 
 
-    public Movimentacoesconsulta() {
+    public MovimentacoesConsulta() {
     }
 
     public List<MovimentacaoItemConsumo> movimentacoesList5Last() throws SQLException {

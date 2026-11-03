@@ -171,7 +171,8 @@ public class MovimentacaoDAO implements MovimentacaoRepositorio {
                 }
                 consumoRepositorio.atualizarQuantidade(
                         connection,
-                        obj.getItemConsumo()
+                        obj.getItemConsumo(),
+                        obj.getTipoMovimentacao()
                 );
 
                 // Confirma as duas operações.

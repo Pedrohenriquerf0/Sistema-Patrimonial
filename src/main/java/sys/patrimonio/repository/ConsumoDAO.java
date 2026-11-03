@@ -6,6 +6,7 @@ import sys.patrimonio.exceptions.PersistenciaException;
 import sys.patrimonio.model.ItemConsumo;
 import sys.patrimonio.model.Localidade;
 import sys.patrimonio.model.Status;
+import sys.patrimonio.model.TipoMovimentacao;
 import sys.patrimonio.util.ConverterArquivos;
 
 import java.io.IOException;
@@ -128,7 +129,6 @@ public class ConsumoDAO implements ConsumoRepositorio {
     }
 
 
-
     @Override
     public ItemConsumo buscarPorId(Long aLong) {
         String sql = """
@@ -224,25 +224,54 @@ public class ConsumoDAO implements ConsumoRepositorio {
     }
 
     @Override
-    public void atualizarQuantidade(Connection connection, ItemConsumo objeto) throws SQLException, IOException {
-        String sql = """
-            UPDATE item_consumo
-            SET quantidade = ?
-            WHERE id = ?
-            """;
+    public void atualizarQuantidade(Connection connection, ItemConsumo objeto, TipoMovimentacao tipoMovimentacao) throws SQLException, IOException {
+        String sql;
+        if (tipoMovimentacao.equals(TipoMovimentacao.ENTRADA)) {
+            sql = """
+                    UPDATE item_consumo
+                    SET quantidade = ?
+                    WHERE id = ?
+                    """;
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, objeto.getQuantidade());
-            statement.setLong(2, objeto.getId());
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setInt(1, objeto.getQuantidade());
+                statement.setLong(2, objeto.getId());
 
-            int linhasAfetadas = statement.executeUpdate();
 
-            if (linhasAfetadas != 1) {
-                throw new SQLException(
-                        "O item de consumo não foi encontrado para atualização."
-                );
+                int linhasAfetadas = statement.executeUpdate();
+
+                if (linhasAfetadas != 1) {
+                    throw new SQLException(
+                            "O item de consumo não foi encontrado para atualização."
+                    );
+                }
+            }
+        } else {
+            sql = """
+                    UPDATE item_consumo
+                    SET quantidade = quantidade - ?
+                    WHERE id = ?
+                    AND quantidade >= ?
+                    """;
+
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setInt(1, objeto.getQuantidade());
+                statement.setLong(2, objeto.getId());
+                statement.setInt(3, objeto.getQuantidade());
+
+
+                int linhasAfetadas = statement.executeUpdate();
+
+                if (linhasAfetadas != 1) {
+                    throw new SQLException(
+                            "O item de consumo não foi encontrado para atualização."
+                    );
+                }
             }
         }
+
+
+
     }
 }
 

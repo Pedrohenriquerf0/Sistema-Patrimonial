@@ -8,7 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.VBox;
 import sys.patrimonio.model.MovimentacaoItemConsumo;
-import sys.patrimonio.service.Movimentacoesconsulta;
+import sys.patrimonio.service.MovimentacoesConsulta;
 
 import java.io.IOException;
 import java.net.URL;
@@ -37,7 +37,7 @@ public class ControllerMovimentacoes implements Initializable {
             return;
         }
 
-        movimentacaoList = new Movimentacoesconsulta(pesquisa).buscarPorID();
+        movimentacaoList = new MovimentacoesConsulta(pesquisa).buscarPorID();
         for (MovimentacaoItemConsumo consumo : movimentacaoList) {
             adicionarCard(consumo);
         }
@@ -46,7 +46,7 @@ public class ControllerMovimentacoes implements Initializable {
     private void movimentacoesList5Last() {
         try {
             movimentacaoList =
-                    new Movimentacoesconsulta().movimentacoesList5Last();
+                    new MovimentacoesConsulta().movimentacoesList5Last();
         } catch (SQLException e) {
             movimentacaoList = List.of();
             Alertas.erro("Erro ao buscar as últimas movimentações.");
