@@ -39,10 +39,6 @@ public class PatrimoniadoManager {
         patrimoniadoRepositorio.excluir(patrimoniado.getTombo());
     }
 
-    public List<ItemPatrimoniado> listar() {
-        return patrimoniadoRepositorio.listar();
-    }
-
     private void validar(ItemPatrimoniado item) {
         if (item.getNome() == null || item.getNome().isBlank())
             throw new IllegalArgumentException("Nome é obrigatório.");

@@ -4,7 +4,6 @@ import sys.patrimonio.config.AppContext;
 import sys.patrimonio.model.ItemConsumo;
 import sys.patrimonio.repository.ConsumoRepositorio;
 
-import java.util.List;
 
 public class ConsumoManager {
     private final ConsumoRepositorio consumoRepositorio;
@@ -27,10 +26,6 @@ public class ConsumoManager {
             throw new IllegalArgumentException("item Consumo não pode ser nulo");
         }
         this.consumoRepositorio.excluir(itemConsumo.getId());
-    }
-
-    public List<ItemConsumo> listar() {
-        return this.consumoRepositorio.listar();
     }
 
     public void atualizar(ItemConsumo itemConsumo) {

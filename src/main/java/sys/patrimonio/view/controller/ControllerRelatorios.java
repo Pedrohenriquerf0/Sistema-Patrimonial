@@ -1,27 +1,36 @@
 package sys.patrimonio.view.controller;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
-import sys.patrimonio.config.AppContext;
-import sys.patrimonio.model.ItemPatrimoniado;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import sys.patrimonio.model.Localidade;
 import sys.patrimonio.model.Status;
-import sys.patrimonio.repository.PatrimoniadoRepositorio;
+import sys.patrimonio.service.RelatoriosManager;
 import sys.patrimonio.util.ComboBoxHelper;
 
+import java.io.IOException;
 import java.net.URL;
-import java.util.List;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class ControllerRelatorios implements Initializable {
-    private PatrimoniadoRepositorio patrimoniadoRepositorio = AppContext.getPatrimoniadoRepositorio();
     @FXML
     private ControllerSidebar sidebarController;
     @FXML
     private ComboBox<Status> comboStatus;
     @FXML
     private ComboBox<Localidade> comboLocalidade;
+    @FXML
+    private Label totalPatrimonios, patrimonios, consumos;
+    @FXML
+    private DatePicker dataInicial, dataFinal;
+
+    @FXML
 
 
     @Override
@@ -29,17 +38,26 @@ public class ControllerRelatorios implements Initializable {
         sidebarController.ativarRelatorios();
         ComboBoxHelper.carregarLocalidade(comboLocalidade);
         ComboBoxHelper.carregarStatus(comboStatus);
-        Thread.ofVirtual().start(() -> {
 
-            List<ItemPatrimoniado> patrimoniadoList = patrimoniadoRepositorio.listar();
-            for (ItemPatrimoniado patrimoniado : patrimoniadoList) {
-                System.out.println(patrimoniado.getNome() + "" + patrimoniado.getTombo());
+        Thread.ofVirtual().name("THREAD INITIALIZE").start(() -> {
+            RelatoriosManager relatoriosManager = new RelatoriosManager();
+
+            try {
+                Map<String, Integer> totais = relatoriosManager.totais();
+                Platform.runLater(() -> {
+                    totalPatrimonios.setText(Integer.toString(totais.get("patrimoniado") + totais.get("consumo")));
+                    patrimonios.setText(Integer.toString(totais.get("patrimoniado")));
+                    consumos.setText(String.valueOf(totais.get("consumo")));
+                });
+            } catch (SQLException e) {
+                Alertas.erro("Erro ao iniciar.....");
             }
-            System.out.println("thread Virtual");
         });
     }
 
     public void limparFiltros() {
+        dataInicial.editorProperty().get().clear();
+        dataFinal.editorProperty().get().clear();
         comboLocalidade.getSelectionModel().clearSelection();
         comboStatus.getSelectionModel().clearSelection();
         ComboBoxHelper.configurarCelulasComboBox(comboLocalidade, comboStatus);
@@ -47,5 +65,19 @@ public class ControllerRelatorios implements Initializable {
 
     public void gerarRelatorio() {
 
+        LocalDate dataInical = dataInicial.getValue();
+        LocalDate dataFinal = dataInicial.getValue();
+        Status status = comboStatus.getValue();
+        Localidade localidade = comboLocalidade.getValue();
+
+        Thread.ofVirtual().name("THREAD GERAR RELATORIO").start(() -> {
+            RelatoriosManager relatoriosManager = new RelatoriosManager(dataInical, dataFinal, status, localidade);
+            try {
+                System.out.println(relatoriosManager.gerarRelatorio());
+            } catch (SQLException | IOException e) {
+                e.printStackTrace();
+            }
+
+        });
     }
 }

@@ -45,7 +45,7 @@
                     <!-- CARTÕES DE INDICADORES -->
                     <HBox spacing="18.0" styleClass="indicadores-container">
 
-                        <!-- CARTÃO AZUL: TOTAL DE PATRIMÔNIOS -->
+                        <!-- CARTÃO AZUL: TOTAL DE PATRIMÔNIOS PATRIMONIADO E CONSUMO -->
                         <VBox spacing="8.0"
                               styleClass="indicador-card"
                               HBox.hgrow="ALWAYS">
@@ -57,7 +57,7 @@
                                 <Label text="◇" styleClass="indicador-icone"/>
 
                                 <VBox spacing="4.0">
-                                    <Label text="1.248" styleClass="indicador-valor"/>
+                                    <Label fx:id="totalPatrimonios" text="1.248" styleClass="indicador-valor"/>
                                     <Label text="Total de Patrimônios"
                                            styleClass="indicador-descricao"/>
                                 </VBox>
@@ -73,11 +73,11 @@
                             </styleClass>
 
                             <HBox alignment="CENTER_LEFT" spacing="14.0">
-                                <Label text="✓" styleClass="indicador-icone"/>
+                                <Label text="📌" styleClass="indicador-icone"/>
 
                                 <VBox spacing="4.0">
-                                    <Label text="1.102" styleClass="indicador-valor"/>
-                                    <Label text="Ativos"
+                                    <Label fx:id="patrimonios" text="1.102" styleClass="indicador-valor"/>
+                                    <Label text="Itens Patrimoniados"
                                            styleClass="indicador-descricao"/>
                                 </VBox>
                             </HBox>
@@ -92,11 +92,11 @@
                             </styleClass>
 
                             <HBox alignment="CENTER_LEFT" spacing="14.0">
-                                <Label text="!" styleClass="indicador-icone"/>
+                                <Label text="📦" styleClass="indicador-icone"/>
 
                                 <VBox spacing="4.0">
-                                    <Label text="98" styleClass="indicador-valor"/>
-                                    <Label text="Em Manutenção"
+                                    <Label fx:id="consumos" text="98" styleClass="indicador-valor"/>
+                                    <Label text="Itens de Consumos"
                                            styleClass="indicador-descricao"/>
                                 </VBox>
                             </HBox>
@@ -138,7 +138,8 @@
                                        styleClass="field-label"/>
                                 <DatePicker fx:id="dataInicial"
                                             promptText="Data inicial"
-                                            maxWidth="Infinity"/>
+                                            maxWidth="Infinity"
+                                            editable="false"/>
                             </VBox>
 
                             <VBox spacing="7.0"
@@ -147,7 +148,8 @@
                                        styleClass="field-label"/>
                                 <DatePicker fx:id="dataFinal"
                                             promptText="Data final"
-                                            maxWidth="Infinity"/>
+                                            maxWidth="Infinity"
+                                            editable="false"/>
                             </VBox>
 
                             <VBox spacing="7.0"
@@ -178,6 +180,7 @@
                             </VBox>
 
                             <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+
                                 <Button text="Gerar relatório"
                                         maxWidth="Infinity"
                                         styleClass="button-gerar"

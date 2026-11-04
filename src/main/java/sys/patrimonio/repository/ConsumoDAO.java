@@ -3,18 +3,16 @@ package sys.patrimonio.repository;
 import sys.patrimonio.config.ConnectionFactory;
 import sys.patrimonio.exceptions.ConsultaException;
 import sys.patrimonio.exceptions.PersistenciaException;
-import sys.patrimonio.model.ItemConsumo;
-import sys.patrimonio.model.Localidade;
-import sys.patrimonio.model.Status;
-import sys.patrimonio.model.TipoMovimentacao;
+import sys.patrimonio.model.*;
 import sys.patrimonio.util.ConverterArquivos;
 
 import java.io.IOException;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConsumoDAO implements ConsumoRepositorio {
+public class ConsumoDAO implements ConsumoRepositorio{
     private final ConnectionFactory connectionFactory;
 
     public ConsumoDAO(ConnectionFactory connectionFactory) {
@@ -61,37 +59,19 @@ public class ConsumoDAO implements ConsumoRepositorio {
     }
 
     @Override
-    public List<ItemConsumo> listar() {
-        List<ItemConsumo> consumoList = new ArrayList<>();
-        String sql = """
-                SELECT * FROM item_consumo
-                """;
+    public Integer listarTotal() throws SQLException {
+        String sql = "SELECT COUNT(*) AS total FROM item_consumo";
 
-        try (Connection connection = this.connectionFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery()) {
+        try (Connection conn = connectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
 
-            while (resultSet.next()) {
-                String caminhoFoto = ConverterArquivos.bytesToPaths(
-                        resultSet.getBytes("foto"), resultSet.getString("nome"));
-
-                ItemConsumo itemConsumo = new ItemConsumo(
-                        resultSet.getString("nome"),
-                        resultSet.getInt("quantidade"),
-                        resultSet.getString("descricao"),
-                        Localidade.valueOf(resultSet.getString("localidade")),
-                        resultSet.getString("categoria"),
-                        Status.valueOf(resultSet.getString("status")),
-                        caminhoFoto
-                );
-                itemConsumo.setId(resultSet.getLong("id"));
-                consumoList.add(itemConsumo);
+            if (rs.next()) {
+                int total = rs.getInt("total");
+               return total;
             }
-
-            return consumoList;
-        } catch (SQLException | IOException e) {
-            throw new ConsultaException("Não foi possível listar os itens de consumo.", e);
         }
+        return 0;
     }
 
     @Override
@@ -271,7 +251,65 @@ public class ConsumoDAO implements ConsumoRepositorio {
         }
 
 
+    }
 
+    @Override
+    public List<ItemConsumo> relatorio(LocalDate dataInicial, LocalDate dataFinal, Status status, Localidade localidade) throws SQLException, IOException {
+        List<ItemConsumo> consumoList = new ArrayList<>();
+        List<Object> parametros = new ArrayList<>();
+
+        StringBuilder sql = new StringBuilder("""
+                SELECT * FROM item_consumo
+                WHERE 1 = 1
+                """);
+
+        if (dataInicial != null) {
+            sql.append(" AND data_entrada >= ?");
+            parametros.add(Date.valueOf(dataInicial));
+        }
+        if (dataFinal != null) {
+            sql.append(" AND data_entrada <= ?");
+            parametros.add(Date.valueOf(dataFinal));
+        }
+        if (status != null) {
+            sql.append(" AND status = ?");
+            parametros.add(String.valueOf(status));
+        }
+        if (localidade != null) {
+            sql.append(" AND localidade = ?");
+            parametros.add(String.valueOf(localidade));
+        }
+
+        sql.append(" ORDER BY data_entrada DESC");
+
+        try (Connection connection = this.connectionFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql.toString())) {
+
+            for (int index = 0; index < parametros.size(); index++) {
+                statement.setObject(index + 1, parametros.get(index));
+            }
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    String caminhoFoto = ConverterArquivos.bytesToPaths(
+                            resultSet.getBytes("foto"), resultSet.getString("nome"));
+
+                    ItemConsumo itemConsumo = new ItemConsumo(
+                            resultSet.getString("nome"),
+                            resultSet.getInt("quantidade"),
+                            resultSet.getString("descricao"),
+                            Localidade.valueOf(resultSet.getString("localidade")),
+                            resultSet.getString("categoria"),
+                            Status.valueOf(resultSet.getString("status")),
+                            caminhoFoto
+                    );
+                    itemConsumo.setId(resultSet.getLong("id"));
+                    consumoList.add(itemConsumo);
+                }
+
+                return consumoList;
+            }
+        }
     }
 }
 

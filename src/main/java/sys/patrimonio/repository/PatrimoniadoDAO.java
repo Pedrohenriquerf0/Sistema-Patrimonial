@@ -11,12 +11,11 @@ import sys.patrimonio.util.ConverterArquivos;
 
 import java.io.IOException;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
 
-public class PatrimoniadoDAO implements PatrimoniadoRepositorio, Relatorios<ItemPatrimoniado,ItemPatrimoniado> {
+public class PatrimoniadoDAO implements PatrimoniadoRepositorio{
     private final ConnectionFactory connectionFactory;
 
     public PatrimoniadoDAO(ConnectionFactory connectionFactory) {
@@ -60,45 +59,6 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio, Relatorios<Item
         }
     }
 
-    @Override
-    public List<ItemPatrimoniado> listar() { // TODO implementação para inventario ou relatorio
-        List<ItemPatrimoniado> patrimoniadoList = new ArrayList<>();
-
-        String sql = """
-                SELECT * FROM item_patrimoniado
-                """;
-
-        try (Connection connection = this.connectionFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery()) {
-
-            while (resultSet.next()) {
-                String caminhoFoto = ConverterArquivos.bytesToPaths(resultSet.getBytes("foto"), resultSet.getString("tombo"));
-
-                ItemPatrimoniado itemPatrimoniado =
-                        new ItemPatrimoniado(
-                                resultSet.getString("nome"),
-                                resultSet.getString("tombo"),
-                                resultSet.getString("numero_serie"),
-                                resultSet.getString("descricao"),
-                                Localidade.valueOf(
-                                        resultSet.getString("localidade")
-                                ),
-                                resultSet.getString("categoria"),
-                                Status.valueOf(
-                                        resultSet.getString("status")
-                                ),
-                                caminhoFoto
-                        );
-                itemPatrimoniado.setEntrada(resultSet.getDate("data_entrada").toLocalDate());
-                patrimoniadoList.add(itemPatrimoniado);
-            }
-
-            return patrimoniadoList;
-        } catch (SQLException | IOException e) {
-            throw new ConsultaException("Não foi possível listar os patrimônios.", e);
-        }
-    }
 
     @Override
     public void atualizar(ItemPatrimoniado objeto) {
@@ -295,7 +255,82 @@ public class PatrimoniadoDAO implements PatrimoniadoRepositorio, Relatorios<Item
     }
 
     @Override
-    public Optional<List<ItemPatrimoniado>> relatorio(Predicate<ItemPatrimoniado> patrimoniadoPredicate) throws SQLException{
-        return Optional.empty();
+    public List<ItemPatrimoniado> relatorio(LocalDate dataInicial, LocalDate dataFinal, Status status, Localidade localidade) throws SQLException, IOException {
+        List<ItemPatrimoniado> patrimoniadoList = new ArrayList<>();
+        List<Object> parametros = new ArrayList<>();
+
+        StringBuilder sql = new StringBuilder("""
+                SELECT * FROM item_patrimoniado
+                WHERE 1 = 1
+                """);
+
+        if(dataInicial != null){
+            sql.append("AND data_entrada >= ?");
+            parametros.add(Date.valueOf(dataInicial));
+        }
+        if(dataFinal != null){
+            sql.append("AND data_entrada <= ?");
+            parametros.add(Date.valueOf(dataFinal));
+        }
+        if (status != null) {
+            sql.append("AND status = ?");
+            parametros.add(String.valueOf(status));
+        }
+        if (localidade != null) {
+            sql.append("AND localidade = ?");
+            parametros.add(String.valueOf(localidade));
+        }
+
+        sql.append("ORDER BY data_entrada DESC");
+
+        try (Connection connection = this.connectionFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql.toString())) {
+
+            for(int index = 0; index < parametros.size(); index++){
+                statement.setObject(index +1,parametros.get(index));
+            }
+
+            try(ResultSet resultSet = statement.executeQuery()){
+
+                while (resultSet.next()) {
+                    String caminhoFoto = ConverterArquivos.bytesToPaths(resultSet.getBytes("foto"), resultSet.getString("tombo"));
+
+                    ItemPatrimoniado itemPatrimoniado =
+                            new ItemPatrimoniado(
+                                    resultSet.getString("nome"),
+                                    resultSet.getString("tombo"),
+                                    resultSet.getString("numero_serie"),
+                                    resultSet.getString("descricao"),
+                                    Localidade.valueOf(
+                                            resultSet.getString("localidade")
+                                    ),
+                                    resultSet.getString("categoria"),
+                                    Status.valueOf(
+                                            resultSet.getString("status")
+                                    ),
+                                    caminhoFoto
+                            );
+                    itemPatrimoniado.setEntrada(resultSet.getDate("data_entrada").toLocalDate());
+                    patrimoniadoList.add(itemPatrimoniado);
+                }
+            }
+            return patrimoniadoList;
+        }
+    }
+
+    @Override
+    public Integer listarTotal() throws SQLException {
+        String sql = "SELECT COUNT(*) AS total FROM item_patrimoniado";
+
+        try (Connection conn =connectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                int total = rs.getInt("total");
+               return total;
+            }
+        }
+        return 0;
     }
 }
