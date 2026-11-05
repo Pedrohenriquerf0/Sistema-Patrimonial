@@ -31,9 +31,6 @@ public class ControllerRelatorios implements Initializable {
     @FXML
     private DatePicker dataInicial, dataFinal;
 
-    @FXML
-
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         sidebarController.ativarRelatorios();
@@ -51,7 +48,9 @@ public class ControllerRelatorios implements Initializable {
                     consumos.setText(String.valueOf(totais.get("consumo")));
                 });
             } catch (SQLException e) {
-                Alertas.erro("Erro ao iniciar.....");
+                Platform.runLater(() -> {
+                    Alertas.erro("Erro ao iniciar.....");
+                });
             }
         });
     }
@@ -74,13 +73,21 @@ public class ControllerRelatorios implements Initializable {
         Thread.ofVirtual().name("THREAD GERAR RELATORIO").start(() -> {
             RelatoriosManager relatoriosManager = new RelatoriosManager(dataInical, dataFinal, status, localidade);
             try {
-                System.out.println(relatoriosManager.gerarRelatorio());
                 CriarXlsx criarXlsx = new CriarXlsx();
-                criarXlsx.criarXlsx(relatoriosManager.gerarRelatorio());
-            } catch (SQLException | IOException e) {
-                e.printStackTrace();
-            }
+                String nomeArquivo = criarXlsx.criarXlsx(relatoriosManager.gerarRelatorio());
+                Platform.runLater(() -> {
+                    if (nomeArquivo == null) {
+                        Alertas.aviso("Não foi possível criar o relatório, os filtros colocados não contêm dados.");
+                    } else {
+                        Alertas.informacao("Relatorio Criado com sucesso, planilha: " + nomeArquivo);
+                    }
+                });
 
+            } catch (SQLException | IOException e) {
+                Platform.runLater(() -> {
+                    Alertas.erro("Erro ao fazer o relatorio.");
+                });
+            }
         });
     }
 }

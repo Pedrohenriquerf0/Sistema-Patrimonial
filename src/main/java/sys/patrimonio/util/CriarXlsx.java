@@ -21,82 +21,135 @@ public final class CriarXlsx {
         return String.valueOf(pasta);
     }
 
-    public void criarXlsx(List<Item> itemList) throws IOException {
+    public String criarXlsx(List<Item> itemList) throws IOException {
 
-        Workbook workbook = new XSSFWorkbook();
-        Sheet sheet = null;
+        if (!itemList.isEmpty()) {
 
-        //  ESTILOS
-        CellStyle estilo = workbook.createCellStyle();
-        estilo.setAlignment(HorizontalAlignment.CENTER);
-        estilo.setVerticalAlignment(VerticalAlignment.CENTER);
+            int linha = 0;
+            Workbook workbook = new XSSFWorkbook();
+            Sheet sheet = null;
 
-        // TODO LOGICA D ESEPARAÇÃO E CRIAÇÃO DE CADA SHEETS
-        for (Item item : itemList) {
+            //  ESTILOS
+            CellStyle estilo = workbook.createCellStyle();
+            estilo.setAlignment(HorizontalAlignment.CENTER);
+            estilo.setVerticalAlignment(VerticalAlignment.CENTER);
 
-            if (item instanceof ItemPatrimoniado itemPatrimoniado) {
 
-                sheet = workbook.getSheet("Patrimoniado");
+            for (Item item : itemList) {
 
-                if (sheet == null) {
-                    sheet = workbook.createSheet("Patrimoniado");
+                if (item instanceof ItemPatrimoniado itemPatrimoniado) {
 
-                    Row header = sheet.createRow(0);
-                    header.createCell(0).setCellValue("NOME");
-                    header.createCell(1).setCellValue("TOMBO");
-                    header.createCell(2).setCellValue("NUMERO DE SERIE");
-                    header.createCell(3).setCellValue("DESCRIÇÃO");
-                    header.createCell(4).setCellValue("CATEGORIA");
-                    header.createCell(5).setCellValue("STATUS");
-                    header.createCell(6).setCellValue("LOCALIDADE");
-                    header.createCell(7).setCellValue("QUANTIDADE");
-                    //header.createCell(8).setCellValue("FOTO");
+                    sheet = workbook.getSheet("Patrimoniado");
+
+                    if (sheet == null) {
+                        sheet = workbook.createSheet("Patrimoniado");
+
+                        Row header = sheet.createRow(0);
+                        header.createCell(0).setCellValue("NOME");
+                        header.createCell(1).setCellValue("TOMBO");
+                        header.createCell(2).setCellValue("NUMERO DE SERIE");
+                        header.createCell(3).setCellValue("DESCRIÇÃO");
+                        header.createCell(4).setCellValue("CATEGORIA");
+                        header.createCell(5).setCellValue("STATUS");
+                        header.createCell(6).setCellValue("LOCALIDADE");
+                        header.createCell(7).setCellValue("QUANTIDADE");
+                        header.createCell(8).setCellValue("FOTO");
+                    }
+
+                    Row body = sheet.createRow(++linha);
+                    body.createCell(0).setCellValue(itemPatrimoniado.getNome());
+                    body.createCell(1).setCellValue(itemPatrimoniado.getTombo());
+                    body.createCell(2).setCellValue(itemPatrimoniado.getNumeroSerie());
+                    body.createCell(3).setCellValue(itemPatrimoniado.getDescricao());
+                    body.createCell(4).setCellValue(itemPatrimoniado.getCategoria());
+                    body.createCell(5).setCellValue(String.valueOf(itemPatrimoniado.getStatus()));
+                    body.createCell(6).setCellValue(String.valueOf(itemPatrimoniado.getLocal()));
+                    body.createCell(7).setCellValue(itemPatrimoniado.getQuantidade());
+
+                    // Carregar imagem
+                    byte[] bytes = ConverterArquivos.pathsToBytes(itemPatrimoniado.getFoto());
+
+                    int pictureIndex = workbook.addPicture(
+                            bytes,
+                            Workbook.PICTURE_TYPE_PNG
+                    );
+
+                    CreationHelper helper = workbook.getCreationHelper();
+                    Drawing<?> drawing = sheet.createDrawingPatriarch();
+
+                    body.setHeightInPoints(80);
+                    sheet.setColumnWidth(8, 20 * 256);
+
+                    ClientAnchor anchor = helper.createClientAnchor();
+
+                    anchor.setCol1(8); // Coluna I
+                    anchor.setCol2(9); // Limite da coluna
+
+                    anchor.setRow1(linha);
+                    anchor.setRow2(linha + 1);
+                    drawing.createPicture(anchor, pictureIndex);
                 }
 
-                Row header = sheet.createRow(0);
-                header.createCell(0).setCellValue(itemPatrimoniado.getNome());
-                header.createCell(1).setCellValue(itemPatrimoniado.getTombo());
-                header.createCell(2).setCellValue(itemPatrimoniado.getNumeroSerie());
-                header.createCell(3).setCellValue(itemPatrimoniado.getDescricao());
-                header.createCell(4).setCellValue(itemPatrimoniado.getCategoria());
-                header.createCell(5).setCellValue(String.valueOf(itemPatrimoniado.getStatus()));
-                header.createCell(6).setCellValue(String.valueOf(itemPatrimoniado.getLocal()));
-                header.createCell(7).setCellValue(itemPatrimoniado.getQuantidade());
-                //header.createCell(8).setCellValue();
-            }
+                if (item instanceof ItemConsumo itemConsumo) {
 
-            if (item instanceof ItemConsumo itemConsumo) {
+                    sheet = workbook.getSheet("Consumo");
 
-                sheet = workbook.getSheet("Consumo");
+                    if (sheet == null) {
+                        sheet = workbook.createSheet("Consumo");
+                        linha = 0;
 
-                if (sheet == null) {
-                    sheet = workbook.createSheet("Consumo");
+                        Row header = sheet.createRow(0);
+                        header.createCell(0).setCellValue("NOME");
+                        header.createCell(1).setCellValue("DESCRIÇÃO");
+                        header.createCell(2).setCellValue("CATEGORIA");
+                        header.createCell(3).setCellValue("STATUS");
+                        header.createCell(4).setCellValue("LOCALIDADE");
+                        header.createCell(5).setCellValue("QUANTIDADE");
+                        //header.createCell(6).setCellValue("FOTO");
+                    }
 
-                    Row header = sheet.createRow(0);
-                    header.createCell(0).setCellValue("NOME");
-                    header.createCell(1).setCellValue("DESCRIÇÃO");
-                    header.createCell(2).setCellValue("CATEGORIA");
-                    header.createCell(3).setCellValue("STATUS");
-                    header.createCell(4).setCellValue("LOCALIDADE");
-                    header.createCell(5).setCellValue("QUANTIDADE");
-                    //header.createCell(6).setCellValue("FOTO");
+                    Row body = sheet.createRow(++linha);
+                    body.createCell(0).setCellValue(itemConsumo.getNome());
+                    body.createCell(1).setCellValue(itemConsumo.getDescricao());
+                    body.createCell(2).setCellValue(itemConsumo.getCategoria());
+                    body.createCell(3).setCellValue(String.valueOf(itemConsumo.getStatus()));
+                    body.createCell(4).setCellValue(String.valueOf(itemConsumo.getLocal()));
+                    body.createCell(5).setCellValue(itemConsumo.getQuantidade());
+
+                    // Carregar imagem
+                    byte[] bytes = ConverterArquivos.pathsToBytes(itemConsumo.getFoto());
+
+                    int pictureIndex = workbook.addPicture(
+                            bytes,
+                            Workbook.PICTURE_TYPE_PNG
+                    );
+
+                    CreationHelper helper = workbook.getCreationHelper();
+                    Drawing<?> drawing = sheet.createDrawingPatriarch();
+
+                    body.setHeightInPoints(80);
+                    sheet.setColumnWidth(8, 20 * 256);
+
+                    ClientAnchor anchor = helper.createClientAnchor();
+
+                    anchor.setCol1(8); // Coluna I
+                    anchor.setCol2(9); // Limite da coluna
+
+                    anchor.setRow1(linha);
+                    anchor.setRow2(linha + 1);
+                    drawing.createPicture(anchor, pictureIndex);
                 }
-
-                Row header = sheet.createRow(0);
-                header.createCell(0).setCellValue(itemConsumo.getNome());
-                header.createCell(1).setCellValue(itemConsumo.getDescricao());
-                header.createCell(2).setCellValue(itemConsumo.getCategoria());
-                header.createCell(3).setCellValue(String.valueOf(itemConsumo.getStatus()));
-                header.createCell(4).setCellValue(String.valueOf(itemConsumo.getLocal()));
-                header.createCell(5).setCellValue(itemConsumo.getQuantidade());
-                //header.createCell(6).setCellValue();
             }
+
+            Path caminho = Paths.get(criarCaminho(), Processo.relatoriosNome());
+            try (FileOutputStream output = new FileOutputStream(caminho.toFile())) {
+                workbook.write(output);
+            }
+            workbook.close();
+
+            return caminho.toString();
         }
 
-        Path caminho = Paths.get(criarCaminho(), Processo.relatoriosNome());
-        try (FileOutputStream output = new FileOutputStream(caminho.toFile())) {
-            workbook.write(output);
-        }
-        workbook.close();
+        return null;
     }
 }
