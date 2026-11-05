@@ -6,8 +6,12 @@ import sys.patrimonio.model.Localidade;
 import sys.patrimonio.model.Status;
 import sys.patrimonio.repository.ConsumoRepositorio;
 import sys.patrimonio.repository.PatrimoniadoRepositorio;
+import sys.patrimonio.util.Processo;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -47,6 +51,5 @@ public class RelatoriosManager {
         totalpatrimonio.put("consumo", consumoRepositorio.listarTotal());
         return totalpatrimonio;
     }
-
 
 }
