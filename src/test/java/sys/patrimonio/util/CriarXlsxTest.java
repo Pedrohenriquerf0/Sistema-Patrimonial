@@ -12,7 +12,7 @@ class CriarXlsxTest {
     void criarXlsx() {
         try {
             CriarXlsx criarXlsx = new CriarXlsx();
-            criarXlsx.criarXlsx();
+            criarXlsx.criarXlsx(null); // erro  de proposito
         }catch (IOException e){
             e.printStackTrace();
         }

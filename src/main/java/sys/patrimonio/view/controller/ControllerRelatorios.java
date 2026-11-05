@@ -10,6 +10,7 @@ import sys.patrimonio.model.Localidade;
 import sys.patrimonio.model.Status;
 import sys.patrimonio.service.RelatoriosManager;
 import sys.patrimonio.util.ComboBoxHelper;
+import sys.patrimonio.util.CriarXlsx;
 
 import java.io.IOException;
 import java.net.URL;
@@ -74,6 +75,8 @@ public class ControllerRelatorios implements Initializable {
             RelatoriosManager relatoriosManager = new RelatoriosManager(dataInical, dataFinal, status, localidade);
             try {
                 System.out.println(relatoriosManager.gerarRelatorio());
+                CriarXlsx criarXlsx = new CriarXlsx();
+                criarXlsx.criarXlsx(relatoriosManager.gerarRelatorio());
             } catch (SQLException | IOException e) {
                 e.printStackTrace();
             }

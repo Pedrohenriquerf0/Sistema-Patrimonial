@@ -41,7 +41,7 @@ public class RelatoriosManager {
     }
 
     public List<Item> gerarRelatorio() throws SQLException, IOException {
-        return Stream.concat(patrimoniadoRepositorio.relatorio(dataInicial, datafinal, status, localidade).stream(), consumoRepositorio.relatorio(dataInicial, datafinal, status, localidade).stream())
+        return Stream.concat(patrimoniadoRepositorio.relatorio(this.dataInicial, this.datafinal, this.status, this.localidade).stream(), consumoRepositorio.relatorio(dataInicial, datafinal, status, localidade).stream())
                 .map(item -> (Item) item).toList();
     }
 
