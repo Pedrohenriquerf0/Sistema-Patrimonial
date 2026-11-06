@@ -65,13 +65,13 @@ public class ControllerRelatorios implements Initializable {
 
     public void gerarRelatorio() {
 
-        LocalDate dataInical = dataInicial.getValue();
-        LocalDate dataFinal = dataInicial.getValue();
+        LocalDate data_inicial = dataInicial.getValue();
+        LocalDate data_final = dataFinal.getValue();
         Status status = comboStatus.getValue();
         Localidade localidade = comboLocalidade.getValue();
 
         Thread.ofVirtual().name("THREAD GERAR RELATORIO").start(() -> {
-            RelatoriosManager relatoriosManager = new RelatoriosManager(dataInical, dataFinal, status, localidade);
+            RelatoriosManager relatoriosManager = new RelatoriosManager(data_inicial, data_final, status, localidade);
             try {
                 CriarXlsx criarXlsx = new CriarXlsx();
                 String nomeArquivo = criarXlsx.criarXlsx(relatoriosManager.gerarRelatorio());

@@ -90,6 +90,7 @@
 
     <build>
         <plugins>
+            <!-- Mantemos o seu plugin atual para usar o ./mvnw javafx:run -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
@@ -97,6 +98,39 @@
                 <configuration>
                     <mainClass>sys.patrimonio.view.Main</mainClass>
                 </configuration>
+            </plugin>
+
+            <!-- Adicionamos o plugin para gerar o Fat JAR executável -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.5.2</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Remove assinaturas de bibliotecas de terceiros (MariaDB/H2) para evitar erro de segurança -->
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                            <transformers>
+                                <!-- Define o AppLauncher como ponto de entrada para o JAR funcionar sem conflitos de módulos -->
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>sys.patrimonio.view.Main</mainClass>                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

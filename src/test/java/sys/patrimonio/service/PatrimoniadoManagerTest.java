@@ -29,10 +29,17 @@ class PatrimoniadoManagerTest {
 
     @Test
     void deveSalvarEBuscarItemPatrimoniadoPorNumeroDeSerie() {
+        ConnectionFactory connectionFactory = new ConnectionFactory();
+        PatrimoniadoRepositorio patrimoniadoRepositorio = new PatrimoniadoDAO(connectionFactory);
+        ConsumoRepositorio consumoRepositorio = new ConsumoDAO(connectionFactory);
+        CautelaRepositorio cautelaRepositorio = new CautelaDAO(connectionFactory);
+        MovimentacaoRepositorio movimentacaoRepositorio = new MovimentacaoDAO(connectionFactory);
+
+        AppContext.inicializar(cautelaRepositorio, movimentacaoRepositorio, consumoRepositorio, patrimoniadoRepositorio);
         // Arrange: Preparação dos dados (exatamente como fez no TesteSQL.java)
         ItemPatrimoniado notebook = new ItemPatrimoniado(
-                "LENOVO IDEAPAD 4", "321561561saxsa", "xsaxsa61cx5s6a4",
-                "NOTEBOOK GAMER", Localidade.TI, "INFORMATICA", Status.NOVO, null
+                "LENOVO IDEAPAD 4", "TESTE001002", "TESTE001002NS",
+                "NOTEBOOK GAMER", Localidade.TI, "INFORMATICA", Status.NOVO, "src/test/java/sys/patrimonio/service/foto_test.png"
         );
         PatrimoniadoManager manager = new PatrimoniadoManager();
 
