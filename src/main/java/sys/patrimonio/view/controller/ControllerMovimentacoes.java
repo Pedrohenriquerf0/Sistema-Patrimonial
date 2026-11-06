@@ -1,119 +1,185 @@
 package sys.patrimonio.view.controller;
 
+import javafx.beans.property.ReadOnlyIntegerWrapper;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
+import sys.patrimonio.model.Cautela;
 import sys.patrimonio.model.MovimentacaoItemConsumo;
 import sys.patrimonio.service.MovimentacoesConsulta;
+import sys.patrimonio.util.Processo;
 
-import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.function.UnaryOperator;
 
 public class ControllerMovimentacoes implements Initializable {
-    private List<MovimentacaoItemConsumo> movimentacaoList;
-    @FXML
-    private TextField text_pesquisa;
-    @FXML
-    private VBox listaMovimentacoes;
+    private List<MovimentacaoItemConsumo> movimentacaoItemConsumoList;
+    private final MovimentacoesConsulta consulta = new MovimentacoesConsulta();
     @FXML
     private ControllerSidebar sidebarController;
+    @FXML
+    private Label totalCautelasLabel, ultimaCautelaLabel, textoResultado;
+    @FXML
+    private TextField buscarIdField;
+    @FXML
+    private TableView<MovimentacaoItemConsumo> tabela_movimentacoes;
+    @FXML
+    private TableColumn<MovimentacaoItemConsumo, String> idColumn;
+    @FXML
+    private TableColumn<MovimentacaoItemConsumo, String> itemColumn;
+    @FXML
+    private TableColumn<MovimentacaoItemConsumo, String> localDestinoColumn;
+    @FXML
+    private TableColumn<MovimentacaoItemConsumo, String> tipoColumn;
+    @FXML
+    private TableColumn<MovimentacaoItemConsumo, Number> quantidadeColumn;
+    @FXML
+    private TableColumn<MovimentacaoItemConsumo, String> dataColumn;
+    @FXML
+    private TableColumn<MovimentacaoItemConsumo, String> emissorColumn;
 
+
+    @FXML
     public void pesquisaMovimentacoes() {
-        String pesquisa = text_pesquisa.getText();
+        String pesquisa = buscarIdField.getText();
 
-        listaMovimentacoes.getChildren().clear();
+        tabela_movimentacoes.getItems().clear();
 
-        if (pesquisa == null || pesquisa.isBlank()
-                || !pesquisa.matches("\\d+")) {
+        if (pesquisa == null || pesquisa.isBlank()) {
             list5Last();
             return;
         }
 
-        movimentacaoList = new MovimentacoesConsulta(pesquisa).buscarPorID();
-        for (MovimentacaoItemConsumo consumo : movimentacaoList) {
-            adicionarCard(consumo);
-        }
+        movimentacaoItemConsumoList = consulta.buscarPorID(Long.parseLong(pesquisa));
+        textoResultado.setText(pesquisa);
+        tabela_movimentacoes.getItems().setAll(movimentacaoItemConsumoList);
     }
 
     private void movimentacoesList5Last() {
         try {
-            movimentacaoList =
-                    new MovimentacoesConsulta().movimentacoesList5Last();
+            movimentacaoItemConsumoList = consulta.movimentacoesList5Last();
         } catch (SQLException e) {
-            movimentacaoList = List.of();
-            Alertas.erro("Erro ao buscar as últimas movimentações.");
+            movimentacaoItemConsumoList = List.of();
+            Alertas.erro("Erro ao buscar as ultimas inserções.");
         }
     }
 
-    private void adicionarCard(MovimentacaoItemConsumo consumo) {
-        URL caminho = getClass().getResource("/view/CardMovimentacoes.fxml");
+    public void list5Last() {
+        tabela_movimentacoes.getItems().clear();
 
-        if (caminho == null) {
-            throw new IllegalStateException(
-                    "Não foi encontrado: /view/CardMovimentacoes.fxml"
-            );
+        movimentacoesList5Last();
+
+        if (movimentacaoItemConsumoList == null) {
+            return;
         }
 
-        try {
-            FXMLLoader loader = new FXMLLoader(caminho);
-            Parent card = loader.load();
-
-            ControllerCardMovimentacoes controller =
-                    loader.getController();
-
-            controller.setDados(
-                    consumo.getItemConsumo().getNome() + " · " + consumo.getItemConsumo().getId(),
-                    String.valueOf(consumo.getQuantidade()),
-                    consumo.getTipoMovimentacao()
-            );
-
-            listaMovimentacoes.getChildren().add(card);
-
-        } catch (IOException e) {
-            throw new RuntimeException(
-                    "Erro ao carregar card da movimentação",
-                    e
-            );
-        }
+        textoResultado.setText("Últimas 5 Movimentações");
+        tabela_movimentacoes.getItems().setAll(movimentacaoItemConsumoList);
     }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         sidebarController.ativarMovimentacoes();
+        configurarColunas();
         list5Last();
+        atualizaTotalData();
 
+        tabela_movimentacoes.setRowFactory(tv -> {
+            TableRow<MovimentacaoItemConsumo> linha = new TableRow<>();
 
-        UnaryOperator<TextFormatter.Change> filtroNumerico = change -> {
-            String novoTexto = change.getControlNewText();
+            linha.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2
+                        && !linha.isEmpty()) {
 
-            if (novoTexto.matches("\\d{0,9}")) {
-                return change;
-            }
-            return null;
-        };
+                    MovimentacaoItemConsumo itemConsumo = linha.getItem();
+                    abrirDetalhes(itemConsumo, event);
+                }
+            });
 
-        text_pesquisa.setTextFormatter(new TextFormatter<>(filtroNumerico));
+            return linha;
+        });
     }
 
-    public void list5Last() {
-        listaMovimentacoes.getChildren().clear();
 
-        movimentacoesList5Last();
+    private void abrirDetalhes(MovimentacaoItemConsumo movimentacaoItemConsumo, MouseEvent event) {
+        // TODO ABRI DETALHE
+    }
 
-        if (movimentacaoList == null) {
-            return;
+
+    private void configurarColunas() {
+        idColumn.setCellValueFactory(cell ->
+                new ReadOnlyStringWrapper(String.valueOf(cell.getValue().getId())));
+
+
+        itemColumn.setCellValueFactory(cell ->
+                new ReadOnlyStringWrapper(
+                        cell.getValue().getItemConsumo().getNome()
+                )
+        );
+
+
+        tipoColumn.setCellValueFactory(cell ->
+                new ReadOnlyStringWrapper(String.valueOf(cell.getValue().getTipoMovimentacao())));
+
+
+        localDestinoColumn.setCellValueFactory(cell ->
+                new ReadOnlyStringWrapper(
+                        String.valueOf(cell.getValue().getDestino())
+                )
+        );
+
+
+        quantidadeColumn.setCellValueFactory(cell ->
+                new ReadOnlyIntegerWrapper(
+                        cell.getValue().getQuantidade()
+                )
+        );
+
+        emissorColumn.setCellValueFactory(cell ->
+                new ReadOnlyStringWrapper(cell.getValue().getEmissor()));
+
+        dataColumn.setCellValueFactory(cell ->
+                new ReadOnlyStringWrapper(cell.getValue().getData())
+        );
+
+        tipoColumn.setCellFactory(column -> new TableCell<MovimentacaoItemConsumo, String>() {
+
+            @Override
+            protected void updateItem(String tipo, boolean empty) {
+                super.updateItem(tipo, empty);
+
+                if (empty || tipo == null) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    setText(tipo);
+
+                    if (tipo.equalsIgnoreCase("SAIDA")) {
+                        setStyle("-fx-text-fill: #E53935; -fx-font-weight: bold;");
+                    } else if (tipo.equalsIgnoreCase("ENTRADA")) {
+                        setStyle("-fx-text-fill: #2E7D32; -fx-font-weight: bold;");
+                    } else {
+                        setStyle("");
+                    }
+                }
+            }
+        });
+    }
+
+    public void atualizaTotalData(){
+        try {
+            Map<String, String> resultado = consulta.listarTotalData();
+            totalCautelasLabel.setText(resultado.get("total"));
+            ultimaCautelaLabel.setText(resultado.get("ultima_data"));
+        } catch (SQLException e) {
+            Alertas.erro("Erro ao buscar total de Movimentações");
         }
 
-        for (MovimentacaoItemConsumo consumo : movimentacaoList) {
-            adicionarCard(consumo);
-        }
     }
 }

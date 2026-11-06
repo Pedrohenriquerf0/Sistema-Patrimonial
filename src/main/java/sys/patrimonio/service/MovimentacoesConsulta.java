@@ -11,12 +11,6 @@ import java.util.Optional;
 
 public class MovimentacoesConsulta {
     private MovimentacaoRepositorio movimentacaoRepositorio = AppContext.getMovimentacaoRepositorio();
-    private String pesquisa;
-
-    public MovimentacoesConsulta(String pesquisa) {
-        this.pesquisa = pesquisa;
-    }
-
 
     public MovimentacoesConsulta() {
     }
@@ -25,8 +19,7 @@ public class MovimentacoesConsulta {
         return movimentacaoRepositorio.buscarUltimasInsercoes();
     }
 
-    public List<MovimentacaoItemConsumo> buscarPorID() {
-        Long id = Long.parseLong(pesquisa);
+    public List<MovimentacaoItemConsumo> buscarPorID(Long id) {
         Optional<MovimentacaoItemConsumo> optionalMovimentacao = Optional.ofNullable(this.movimentacaoRepositorio.buscarPorId(id));
         return optionalMovimentacao.map(List::of).orElseGet(List::of);
     }

@@ -1,4 +1,3 @@
-
 @import "global.css";
 
 /* CABEÇALHO */
@@ -125,6 +124,25 @@
     -fx-background-radius: 7px;
     -fx-border-radius: 7px;
     -fx-cursor: hand;
+}
+
+.button-azul {
+    -fx-background-color: #128cb1;
+    -fx-border-color: #128cb1;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 7px;
+    -fx-border-radius: 7px;
+    -fx-cursor: hand;
+}
+
+.button-azul:hover {
+    -fx-background-color: derive(#128cb1, -15%);
+}
+
+.button-azul:pressed {
+    -fx-background-color: derive(#128cb1, -25%);
 }
 
 .button-search:hover {

@@ -4,6 +4,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             prefWidth="1366.0" prefHeight="768.0"
@@ -36,7 +38,17 @@
             <HBox spacing="14.0" styleClass="summary-row">
                 <HBox spacing="16.0" alignment="CENTER"
                       styleClass="summary-card" HBox.hgrow="ALWAYS">
-                    <Label text="▤" styleClass="summary-icon"/>
+
+                    <ImageView
+                            fitWidth="32"
+                            fitHeight="32"
+                            preserveRatio="true">
+
+                        <image>
+                            <Image url="@/icons/doc.png"/>
+                        </image>
+                    </ImageView>
+
                     <VBox spacing="4.0">
                         <Label text="Total de Cautelas" styleClass="summary-label"/>
                         <Label fx:id="totalCautelasLabel" text="-1"
@@ -46,7 +58,16 @@
 
                 <HBox spacing="16.0" alignment="CENTER"
                       styleClass="summary-card" HBox.hgrow="ALWAYS">
-                    <Label text="▦" styleClass="summary-icon"/>
+
+                    <ImageView
+                            fitWidth="32"
+                            fitHeight="32"
+                            preserveRatio="true">
+
+                        <image>
+                            <Image url="@/icons/calendar.png"/>
+                        </image>
+                    </ImageView>
                     <VBox spacing="4.0">
                         <Label text="Última Cautela" styleClass="summary-label"/>
                         <Label fx:id="ultimaCautelaLabel" text="31/02/2026"
