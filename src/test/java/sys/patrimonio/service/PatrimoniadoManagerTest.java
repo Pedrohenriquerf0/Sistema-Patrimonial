@@ -10,6 +10,8 @@ import sys.patrimonio.model.Status;
 import sys.patrimonio.repository.*;
 
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -37,8 +39,10 @@ class PatrimoniadoManagerTest {
 
         AppContext.inicializar(cautelaRepositorio, movimentacaoRepositorio, consumoRepositorio, patrimoniadoRepositorio);
         // Arrange: Preparação dos dados (exatamente como fez no TesteSQL.java)
+        String testeId = UUID.randomUUID().toString();
+        String testeNumeroSerie = testeId + "NS";
         ItemPatrimoniado notebook = new ItemPatrimoniado(
-                "LENOVO IDEAPAD 4", "TESTE001002", "TESTE001002NS",
+                "LENOVO IDEAPAD 4", testeId, testeNumeroSerie,
                 "NOTEBOOK GAMER", Localidade.TI, "INFORMATICA", Status.NOVO, "src/test/java/sys/patrimonio/service/foto_test.png"
         );
         PatrimoniadoManager manager = new PatrimoniadoManager();
