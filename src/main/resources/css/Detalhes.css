@@ -1,0 +1,213 @@
+
+@import "global.css";
+
+/* CABEÇALHO */
+.page-header {
+    -fx-padding: 0 0 2 0;
+}
+
+.header-icon {
+    -fx-background-color: -cor-primaria;
+    -fx-background-radius: 50;
+    -fx-min-width: 66;
+    -fx-min-height: 66;
+    -fx-alignment: center;
+    -fx-text-fill: white;
+    -fx-font-size: 31px;
+}
+
+.page-title {
+    -fx-font-size: 29px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -cor-texto;
+}
+
+.page-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: -cor-texto-suave;
+}
+
+.date-card {
+    -fx-background-color: white;
+    -fx-background-radius: 11;
+    -fx-border-color: -cor-card-borda;
+    -fx-border-radius: 11;
+    -fx-padding: 12 17 12 17;
+    -fx-min-width: 145;
+}
+
+.date-text {
+    -fx-font-size: 13px;
+    -fx-text-fill: -cor-texto-label;
+}
+
+/* INDICADORES */
+.summary-row {
+    -fx-fill-height: true;
+}
+
+.summary-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-border-color: -cor-card-borda;
+    -fx-border-radius: 12;
+    -fx-padding: 18 22 18 22;
+    -fx-min-height: 105;
+    -fx-effect: dropshadow(gaussian, rgba(27, 36, 51, 0.07), 10, 0.12, 0, 3);
+}
+
+.summary-icon {
+    -fx-background-color: -cor-primaria-clara;
+    -fx-background-radius: 10;
+    -fx-min-width: 48;
+    -fx-min-height: 48;
+    -fx-alignment: center;
+    -fx-text-fill: -cor-primaria;
+    -fx-font-size: 27px;
+    -fx-font-weight: bold;
+}
+
+.summary-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -cor-texto-label;
+}
+
+.summary-value {
+    -fx-font-size: 29px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -cor-texto;
+}
+
+.summary-date {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -cor-texto;
+}
+
+/* CAMPO DE BUSCA */
+.search-icon {
+    -fx-font-size: 25px;
+    -fx-text-fill: -cor-texto-label;
+}
+
+
+.search-card {
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+    -fx-border-color: -cor-card-borda;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-padding: 14px;
+}
+
+.search-field {
+    -fx-background-color: white;
+    -fx-text-fill: -cor-texto;
+    -fx-prompt-text-fill: -cor-texto-suave;
+    -fx-font-size: 14px;
+    -fx-background-radius: 7px;
+    -fx-border-color: -cor-borda;
+    -fx-border-width: 1px;
+    -fx-border-radius: 7px;
+    -fx-padding: 0 14px 0 14px;
+}
+
+.search-field:focused {
+    -fx-border-color: -cor-primaria;
+}
+
+.button-search {
+    -fx-background-color: -cor-primaria;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 7px;
+    -fx-border-radius: 7px;
+    -fx-cursor: hand;
+}
+
+.button-search:hover {
+    -fx-background-color: derive(-cor-primaria, -15%);
+}
+
+.button-search:pressed {
+    -fx-background-color: derive(-cor-primaria, -25%);
+}
+
+
+/* ÁREA DO HISTÓRICO */
+.table-card {
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+    -fx-border-color: -cor-card-borda;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-padding: 18px;
+}
+
+.section-title {
+    -fx-text-fill: -cor-texto;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+/* TABELA */
+.cautelas-table {
+    -fx-background-color: transparent;
+    -fx-border-color: -cor-card-borda;
+    -fx-border-width: 1px;
+    -fx-border-radius: 7px;
+    -fx-background-radius: 7px;
+}
+
+.cautelas-table .column-header-background {
+    -fx-background-color: -cor-campo-travado;
+    -fx-background-radius: 7px 7px 0 0;
+}
+
+.cautelas-table .column-header {
+    -fx-background-color: transparent;
+    -fx-border-color: -cor-card-borda;
+    -fx-border-width: 0 1px 0 0;
+}
+
+.cautelas-table .column-header .label {
+    -fx-text-fill: -cor-texto-label;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER;
+    -fx-text-alignment: CENTER;
+}
+
+.cautelas-table .table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: transparent transparent -cor-campo-travado transparent;
+    -fx-text-fill: -cor-texto;
+}
+
+.cautelas-table .table-row-cell:odd {
+    -fx-background-color: derive(-cor-fundo, 2%);
+}
+
+.cautelas-table .table-row-cell:selected {
+    -fx-background-color: -cor-primaria-clara;
+}
+
+.cautelas-table .table-cell {
+    -fx-text-fill: -cor-texto;
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER;
+    -fx-padding: 7 8 7 8;
+}
+
+.empty-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -cor-texto-label;
+}
+
+.empty-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: -cor-texto-suave;
+}

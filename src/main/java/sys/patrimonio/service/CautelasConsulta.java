@@ -6,6 +6,7 @@ import sys.patrimonio.repository.CautelaRepositorio;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -25,5 +26,9 @@ public class CautelasConsulta {
         }
         Optional<Cautela> optionalCautela = Optional.ofNullable(cautelaRepositorio.buscarPorId(id));
         return optionalCautela.map(List::of).orElseGet(List::of);
+    }
+
+    public Map<String, String> listarTotalData() throws SQLException{
+        return cautelaRepositorio.listarTotalData();
     }
 }

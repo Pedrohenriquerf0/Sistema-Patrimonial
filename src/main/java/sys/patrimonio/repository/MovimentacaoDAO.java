@@ -8,15 +8,15 @@ import sys.patrimonio.model.ItemConsumo;
 import sys.patrimonio.model.Localidade;
 import sys.patrimonio.model.MovimentacaoItemConsumo;
 import sys.patrimonio.model.TipoMovimentacao;
+import sys.patrimonio.util.DataFormatada;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class MovimentacaoDAO implements MovimentacaoRepositorio {
     private final ConnectionFactory connectionFactory;
@@ -247,4 +247,33 @@ public class MovimentacaoDAO implements MovimentacaoRepositorio {
 
     }
 
+    @Override
+    public Map<String, String> listarTotalData() throws SQLException {
+        Map<String, String> mapTotalData = new HashMap<>();
+        String sql = """
+                SELECT
+                    COUNT(*) AS total,
+                    MAX(criado_em) AS ultima_insercao
+                FROM movimentacao_consumo
+                """;
+
+        try (Connection conn = connectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                int total = rs.getInt("total");
+
+                LocalDateTime ultimaInsercao =
+                        rs.getTimestamp("ultima_insercao") != null
+                                ? rs.getTimestamp("ultima_insercao").toLocalDateTime()
+                                : null;
+
+
+                mapTotalData.put("total", String.valueOf(total));
+                mapTotalData.put("ultima_data", DataFormatada.dataTime(ultimaInsercao));
+            }
+            return mapTotalData;
+        }
+    }
 }

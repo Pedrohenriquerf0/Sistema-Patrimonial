@@ -7,13 +7,14 @@ import sys.patrimonio.exceptions.PersistenciaException;
 import sys.patrimonio.model.Cautela;
 import sys.patrimonio.model.ItemPatrimoniado;
 import sys.patrimonio.model.Localidade;
+import sys.patrimonio.util.DataFormatada;
 import sys.patrimonio.util.Processo;
 
 import java.sql.*;
+import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class CautelaDAO implements CautelaRepositorio {
     private final ConnectionFactory connectionFactory;
@@ -237,6 +238,35 @@ public class CautelaDAO implements CautelaRepositorio {
             }
 
             return cautelaList;
+        }
+    }
+
+    @Override
+    public Map<String, String> listarTotalData() throws SQLException {
+        Map<String, String> mapTotalData = new HashMap<>();
+        String sql = """
+                SELECT
+                COUNT(*) AS total,
+                MAX(criado_em) AS ultima_insercao
+                FROM cautelas
+                """;
+
+        try (Connection conn = connectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                int total = rs.getInt("total");
+
+                LocalDateTime ultimaInsercao =
+                        rs.getTimestamp("ultima_insercao") != null
+                                ? rs.getTimestamp("ultima_insercao").toLocalDateTime()
+                                : null;
+
+                mapTotalData.put("total", String.valueOf(total));
+                mapTotalData.put("ultima_data", DataFormatada.dataTime(ultimaInsercao));
+            }
+            return mapTotalData;
         }
     }
 }

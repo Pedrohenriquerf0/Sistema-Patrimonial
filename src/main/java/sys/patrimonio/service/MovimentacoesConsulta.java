@@ -6,6 +6,7 @@ import sys.patrimonio.repository.MovimentacaoRepositorio;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class MovimentacoesConsulta {
@@ -33,5 +34,10 @@ public class MovimentacoesConsulta {
 
     public List<MovimentacaoItemConsumo> listarTodos() {
         return this.movimentacaoRepositorio.listarTodos();
+    }
+
+
+    public Map<String, String> listarTotalData() throws SQLException{
+        return movimentacaoRepositorio.listarTotalData();
     }
 }
