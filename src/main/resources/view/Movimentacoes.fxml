@@ -49,7 +49,7 @@
                             <Image url="@/icons/arrows.png"/>
                         </image>
                     </ImageView>
-                    <VBox spacing="4.0">
+                    <VBox spacing="4.0" alignment="CENTER">
                         <Label text="Total de Cautelas" styleClass="summary-label"/>
                         <Label fx:id="totalCautelasLabel" text="-1"
                                styleClass="summary-value"/>
@@ -67,7 +67,7 @@
                             <Image url="@/icons/calendar.png"/>
                         </image>
                     </ImageView>
-                    <VBox spacing="4.0">
+                    <VBox spacing="4.0"  alignment="CENTER">
                         <Label text="Última Cautela" styleClass="summary-label"/>
                         <Label fx:id="ultimaCautelaLabel" text="31/02/2026"
                                styleClass="summary-date"/>

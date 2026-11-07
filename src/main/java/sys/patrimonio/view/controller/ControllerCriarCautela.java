@@ -7,10 +7,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import sys.patrimonio.model.Cautela;
-import sys.patrimonio.model.Item;
-import sys.patrimonio.model.ItemPatrimoniado;
-import sys.patrimonio.model.Localidade;
+import sys.patrimonio.model.*;
 import sys.patrimonio.service.CriarCautela;
 import sys.patrimonio.util.ComboBoxHelper;
 import sys.patrimonio.util.LoaderTelas;
@@ -101,8 +98,8 @@ public class ControllerCriarCautela implements Initializable, DataBridgePatrimon
     }
 
     @Override
-    public void tranferiDados(Item item) {
-        this.patrimoniado = (ItemPatrimoniado) item;
+    public void tranferiDados(EntidadeModel model) {
+        this.patrimoniado = (ItemPatrimoniado) model;
         PatrimonioLoader.carregarDados(patrimoniado, campoNome, campoTombo, campoNumeroSerie, campoCategoria, campoLocalOrigem,
                 campoStatus, null, campoQuantidade, campoEntrada, imagemPatrimonio, labelSemFoto);
     }

@@ -9,10 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.image.ImageView;
 import sys.patrimonio.exceptions.SaldoInsuficienteException;
-import sys.patrimonio.model.Item;
-import sys.patrimonio.model.ItemConsumo;
-import sys.patrimonio.model.Localidade;
-import sys.patrimonio.model.TipoMovimentacao;
+import sys.patrimonio.model.*;
 import sys.patrimonio.service.MovimentacaoConsumoManager;
 import sys.patrimonio.util.ComboBoxHelper;
 import sys.patrimonio.util.LoaderTelas;
@@ -24,7 +21,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 
-public class ControllerMovimentacaoConsumo implements Initializable, DataBridgePatrimonio {
+public class ControllerCriarMovimentacaoConsumo implements Initializable, DataBridgePatrimonio {
     private ItemConsumo consumo;
     @FXML
     private TextField campoNome;
@@ -107,8 +104,8 @@ public class ControllerMovimentacaoConsumo implements Initializable, DataBridgeP
     }
 
     @Override
-    public void tranferiDados(Item item) {
-        this.consumo = (ItemConsumo) item;
+    public void tranferiDados(EntidadeModel model) {
+        this.consumo = (ItemConsumo) model;
         PatrimonioLoader.carregarDados(consumo, campoNome, campoID, null, campoCategoria, campoLocalidade,
                 campoStatus, null, campoQuantidadeAtual, campoEntrada, imagemPatrimonio, labelSemFoto);
     }

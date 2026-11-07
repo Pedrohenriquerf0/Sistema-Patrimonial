@@ -9,10 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import sys.patrimonio.exceptions.PatrimonioExistenteException;
 import sys.patrimonio.exceptions.PersistenciaException;
-import sys.patrimonio.model.Item;
-import sys.patrimonio.model.ItemPatrimoniado;
-import sys.patrimonio.model.Localidade;
-import sys.patrimonio.model.Status;
+import sys.patrimonio.model.*;
 import sys.patrimonio.service.PatrimoniadoManager;
 import sys.patrimonio.util.LoaderTelas;
 import sys.patrimonio.util.PatrimonioLoader;
@@ -120,8 +117,8 @@ public class ControllerEditarPatrimoniado implements DataBridgePatrimonio {
     }
 
     @Override
-    public void tranferiDados(Item item) {
-        this.patrimoniadoClass = (ItemPatrimoniado) item;
+    public void tranferiDados(EntidadeModel model) {
+        this.patrimoniadoClass = (ItemPatrimoniado) model;
         PatrimonioLoader.carregarDados(patrimoniadoClass, campoNome, campoTombo, campoNumeroSerie, campoCategoria, campoLocalidade,
                 comboStatus, campoDescricao, null, null, imagemPatrimonio, labelSemFoto);
         arquivoImagemSelecionado = new File(patrimoniadoClass.getFoto());

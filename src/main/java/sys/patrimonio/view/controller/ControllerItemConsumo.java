@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import sys.patrimonio.model.EntidadeModel;
 import sys.patrimonio.model.Item;
 import sys.patrimonio.model.ItemConsumo;
 import sys.patrimonio.util.LoaderTelas;
@@ -38,8 +39,8 @@ public class ControllerItemConsumo implements DataBridgePatrimonio {
 
     @FXML
     public void btt_Movimentacao(ActionEvent event) {
-        ControllerMovimentacaoConsumo controllerMovimentacaoConsumo = new ControllerMovimentacaoConsumo();
-        LoaderTelas.loaderTela(consumo, event, controllerMovimentacaoConsumo, "view/MovimentacaoConsumo.fxml");
+        ControllerCriarMovimentacaoConsumo controllerMovimentacaoConsumo = new ControllerCriarMovimentacaoConsumo();
+        LoaderTelas.loaderTela(consumo, event, controllerMovimentacaoConsumo, "view/CriarMovimentacaoConsumo.fxml");
     }
 
     @FXML
@@ -48,8 +49,8 @@ public class ControllerItemConsumo implements DataBridgePatrimonio {
     }
 
     @Override
-    public void tranferiDados(Item item) {
-        this.consumo = (ItemConsumo) item;
+    public void tranferiDados(EntidadeModel model) {
+        this.consumo = (ItemConsumo) model;
         PatrimonioLoader.carregarDados(consumo, campoNome, campoID, null, campoCategoria, campoLocalidade,
                 campoStatus, campoDescricao, campoQuantidade, campoEntrada, imagemPatrimonio, labelSemFoto);
     }

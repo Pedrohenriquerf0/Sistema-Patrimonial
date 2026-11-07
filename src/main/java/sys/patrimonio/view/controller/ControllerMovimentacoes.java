@@ -9,6 +9,7 @@ import javafx.scene.input.MouseEvent;
 import sys.patrimonio.model.Cautela;
 import sys.patrimonio.model.MovimentacaoItemConsumo;
 import sys.patrimonio.service.MovimentacoesConsulta;
+import sys.patrimonio.util.LoaderTelas;
 import sys.patrimonio.util.Processo;
 
 import java.net.URL;
@@ -16,6 +17,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
 
 public class ControllerMovimentacoes implements Initializable {
     private List<MovimentacaoItemConsumo> movimentacaoItemConsumoList;
@@ -90,6 +92,16 @@ public class ControllerMovimentacoes implements Initializable {
         list5Last();
         atualizaTotalData();
 
+        UnaryOperator<TextFormatter.Change> filtroNumerico = change -> {
+            String novoTexto = change.getControlNewText();
+
+            if (novoTexto.matches("\\d{0,9}")) {
+                return change;
+            }
+            return null;
+        };
+        buscarIdField.setTextFormatter(new TextFormatter<>(filtroNumerico));
+
         tabela_movimentacoes.setRowFactory(tv -> {
             TableRow<MovimentacaoItemConsumo> linha = new TableRow<>();
 
@@ -108,7 +120,8 @@ public class ControllerMovimentacoes implements Initializable {
 
 
     private void abrirDetalhes(MovimentacaoItemConsumo movimentacaoItemConsumo, MouseEvent event) {
-        // TODO ABRI DETALHE
+        ControllerMovimentacoesDetalhe controllerMovimentacoesDetalhe = new ControllerMovimentacoesDetalhe();
+        LoaderTelas.loaderTela(movimentacaoItemConsumo, event,controllerMovimentacoesDetalhe, "view/MovimentacoesDetalhe.fxml");
     }
 
 

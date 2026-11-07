@@ -3,7 +3,7 @@ package sys.patrimonio.model;
 
 import java.time.LocalDate;
 
-public abstract class Item {
+public abstract class Item implements EntidadeModel {
     private int quantidade;
     private LocalDate entrada;
     private String nome;

@@ -5,7 +5,7 @@ import sys.patrimonio.util.Processo;
 
 import java.time.LocalDate;
 
-public class MovimentacaoItemConsumo {
+public class MovimentacaoItemConsumo  implements EntidadeModel{
     private final Localidade destino;
     private final String emissor;
     private final String data;

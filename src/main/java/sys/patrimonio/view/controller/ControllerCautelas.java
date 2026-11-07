@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import sys.patrimonio.model.Cautela;
 import sys.patrimonio.service.CautelasConsulta;
+import sys.patrimonio.util.LoaderTelas;
 import sys.patrimonio.util.Processo;
 
 import java.net.URL;
@@ -105,7 +106,8 @@ public class ControllerCautelas implements Initializable {
 
 
     private void abrirDetalhes(Cautela cautela, MouseEvent event) {
-       // TODO ABRI DETALHE
+        ControllerCautelaDetalhe controllerCautelaDetalhe = new ControllerCautelaDetalhe();
+        LoaderTelas.loaderTela(cautela, event, controllerCautelaDetalhe, "view/CautelaDetalhe.fxml");
     }
 
 
@@ -143,7 +145,7 @@ public class ControllerCautelas implements Initializable {
 
     }
 
-    public void atualizaTotalData(){
+    public void atualizaTotalData() {
         try {
             Map<String, String> resultado = cautelasConsulta.listarTotalData();
             totalCautelasLabel.setText(resultado.get("total"));

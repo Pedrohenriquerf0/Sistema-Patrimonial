@@ -8,10 +8,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import sys.patrimonio.exceptions.PersistenciaException;
-import sys.patrimonio.model.Item;
-import sys.patrimonio.model.ItemConsumo;
-import sys.patrimonio.model.Localidade;
-import sys.patrimonio.model.Status;
+import sys.patrimonio.model.*;
 import sys.patrimonio.service.ConsumoManager;
 import sys.patrimonio.util.LoaderTelas;
 import sys.patrimonio.util.PatrimonioLoader;
@@ -118,8 +115,8 @@ public class ControllerEditarConsumo implements DataBridgePatrimonio {
 
 
     @Override
-    public void tranferiDados(Item item) {
-        this.consumoClass = (ItemConsumo) item;
+    public void tranferiDados(EntidadeModel model) {
+        this.consumoClass = (ItemConsumo) model;
         PatrimonioLoader.carregarDados(consumoClass, campoNome, campoID, null, campoCategoria, campoLocalidade,
                 comboStatus, campoDescricao, campoQuantidade, null, imagemPatrimonio, labelSemFoto);
         arquivoImagemSelecionado = new File(consumoClass.getFoto());

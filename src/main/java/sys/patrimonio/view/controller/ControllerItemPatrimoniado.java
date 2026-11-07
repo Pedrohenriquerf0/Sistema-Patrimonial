@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import sys.patrimonio.model.EntidadeModel;
 import sys.patrimonio.model.Item;
 import sys.patrimonio.model.ItemPatrimoniado;
 import sys.patrimonio.util.LoaderTelas;
@@ -39,8 +40,8 @@ public class ControllerItemPatrimoniado implements DataBridgePatrimonio {
 
 
     @Override
-    public void tranferiDados(Item item) {
-        this.patrimoniado = (ItemPatrimoniado) item;
+    public void tranferiDados(EntidadeModel model) {
+        this.patrimoniado = (ItemPatrimoniado) model;
         PatrimonioLoader.carregarDados(patrimoniado, campoNome, campoTombo, campoNumeroSerie, campoCategoria, campoLocalidade,
                 campoStatus, campoDescricao, campoQuantidade, campoEntrada, imagemPatrimonio, labelSemFoto);
     }
