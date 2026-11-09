@@ -1,125 +1,121 @@
 # 🏛️ Sistema Patrimonial
 
-Aplicação desktop para gestão de bens patrimoniais e itens de consumo. O sistema oferece cadastro e consulta de itens, controle de entradas e saídas de estoque, emissão de cautelas de bens patrimoniais e exportação de relatórios.
+> **Gestão Integrada de Patrimônio, Almoxarifado e Cautelas**  
+> Aplicação desktop desenvolvida em **Java 21** e **JavaFX**, com persistência em **MariaDB**, relatórios em **Excel (Apache POI)** e suíte de testes com **JUnit 5**.
 
-## ✨ Funcionalidades
+---
 
-- Cadastro, edição, pesquisa e remoção de itens patrimoniais.
-- Cadastro, edição, pesquisa e remoção de itens de consumo.
-- Registro de entradas e saídas de itens de consumo, com validação de saldo e histórico de movimentações.
-- Criação e consulta de cautelas associadas a bens patrimoniais, com geração de recibos.
-- **[Novo]** Geração e exportação de relatórios gerenciais em formato Excel (.xlsx).
-- **[Novo]** Validação de regras de negócio através de testes automatizados.
-- Armazenamento de dados no MariaDB, com acesso estruturado via padrão DAO/JDBC.
-- Interface desktop interativa em JavaFX, com telas estilizadas via CSS e FXML.
+## ⚡ Quick Start: Executar Demonstração (Sem Instalar Banco)
 
-## 🛠️ Tecnologias
+Para testar a aplicação imediatamente sem configurar servidor de banco de dados ou compilar o código:
 
-- **Linguagem:** Java 21
-- **Interface Gráfica:** JavaFX 21.0.1 (Controls e FXML)
-- **Banco de Dados:** MariaDB e MariaDB Connector/J 3.3.3
-- **Testes Automatizados:** JUnit 5
-- **Manipulação de Arquivos:** Apache POI (Geração de Excel)
-- **Build e Gerenciamento:** Maven (com Maven Wrapper e Maven Shade Plugin)
+> 📦 **Download do Pacote de Teste (`.zip`)**
+> 
+> O projeto disponibiliza um arquivo `.zip` com o **Fat JAR compilado** e uma base **H2 Database embutida** pronta com dados de exemplo.
+>
+> 1. Baixe e descompacte o arquivo `.zip` do projeto.
+> 2. Com o **Java 21** instalado, abra o terminal na pasta descompactada e rode:
+>    ```bash
+>    java -jar Sistema-Patrimonial-1.0.0.jar
+>    ```
+> O sistema abrirá imediatamente conectado à base H2 de teste.
 
-## ✅ Requisitos
+---
 
-- JDK 21 instalado nas variáveis de ambiente.
-- MariaDB Server em execução.
-- Acesso ao Maven pelo `mvn` ou uso do Maven Wrapper incluído (`mvnw`/`mvnw.cmd`).
+## 📸 Demonstração da Interface
 
-## 🗄️ Configuração do banco de dados
+| 🏷️ Consulta de Patrimônios | 🔍 Detalhes do Bem com Foto |
+| :---: | :---: |
+| ![Consulta de Patrimônios](docs/screenshots/patrimonios_consulta.png) | ![Detalhes do Bem](docs/screenshots/detalhes_patrimonio.png) |
 
-1. Crie o banco de dados:
+| 📦 Movimentações de Almoxarifado | 📝 Emissão e Histórico de Cautelas |
+| :---: | :---: |
+| ![Movimentações](docs/screenshots/movimentacoes.png) | ![Cautelas](docs/screenshots/cautelas.png) |
 
-   ```sql
-   CREATE DATABASE sistema_patrimonial
-       CHARACTER SET utf8mb4
-       COLLATE utf8mb4_unicode_ci;
-   ```
+---
 
-2. Importe o esquema em um banco novo e vazio. No Windows PowerShell:
+## 🚀 Principais Módulos
 
-   ```powershell
-   Get-Content -Raw "src/main/resources/database/esquema_tabelas.sql" | mariadb -u root -p sistema_patrimonial
-   ```
+- **Gestão de Bens Patrimoniais:** Tombamento, controle de estado, localização física e suporte a fotos do item.
+- **Controle de Almoxarifado (Consumo):** Entradas e saídas de itens com histórico e bloqueio contra saldo negativo.
+- **Cautelas e Termos de Responsabilidade:** Empréstimo de bens com emissão de recibos e rastreio de devoluções.
+- **Exportação de Relatórios:** Geração de relatórios gerenciais em planilhas `.xlsx` via Apache POI.
+- **Regras de Negócio Testadas:** Cobertura de regras críticas via testes automatizados com JUnit 5.
 
-   Também é possível executar o arquivo pelo HeidiSQL, DBeaver ou por outro cliente MariaDB conectado ao banco `sistema_patrimonial`.
+---
 
-   ⚠️ **Atenção:** O script SQL contém comandos `DROP TABLE IF EXISTS` e recria as tabelas. Importá-lo em um banco existente apagará os dados dessas tabelas. Faça backup e não use esse arquivo como migração de uma instalação com dados.
+## 🛠️ Stack Tecnológica
 
-3. Crie a configuração local copiando o exemplo:
+| Componente | Tecnologia |
+|---|---|
+| **Linguagem** | Java 21 LTS |
+| **Interface Gráfica** | JavaFX 21 (FXML + CSS) |
+| **Banco de Dados Principal** | MariaDB |
+| **Banco de Dados para Testes** | H2 Database (embutido) |
+| **Driver JDBC** | MariaDB Connector/J 3.3.3 |
+| **Exportação de Relatórios** | Apache POI 5.5.1 (.xlsx) |
+| **Testes Unitários** | JUnit 5 |
+| **Build e Empacotamento** | Maven Wrapper + Maven Shade (Fat JAR) |
 
-   ```powershell
-   Copy-Item "src/main/resources/database/database.example.properties" "src/main/resources/database/database.properties"
-   ```
+---
 
-4. Edite `src/main/resources/database/database.properties` e informe o banco, usuário e senha corretos:
+## ⚙️ Configuração para Desenvolvimento (MariaDB)
 
-   ```properties
-   db.url=jdbc:mariadb://localhost:3306/sistema_patrimonial
-   db.username=SEU_USUARIO
-   db.password=SUA_SENHA
-   ```
-   *(O arquivo `database.properties` está no `.gitignore`. Não publique credenciais reais no repositório).*
+Caso queira rodar a partir do código-fonte ou com o MariaDB completo:
 
-## 🚀 Executar e Testar
-
-### Executar os Testes Automatizados
-Para rodar a suíte de testes JUnit e validar as regras de negócio:
-```powershell
-./mvnw.cmd test
+### 1. Banco de Dados
+Crie a base no MariaDB e importe o esquema:
+```sql
+CREATE DATABASE sistema_patrimonial CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
-### Executar em Ambiente de Desenvolvimento
-Para compilar e iniciar a aplicação rapidamente via Maven:
+Importe o arquivo `src/main/resources/database/esquema_tabelas.sql`:
 ```powershell
+# Windows PowerShell
+Get-Content -Raw "src/main/resources/database/esquema_tabelas.sql" | mariadb -u root -p sistema_patrimonial
+```
+
+### 2. Configuração de Acesso
+Copie o template de propriedades:
+```powershell
+Copy-Item "src/main/resources/database/database.example.properties" "src/main/resources/database/database.properties"
+```
+Ajuste usuário e senha no `src/main/resources/database/database.properties`.
+
+---
+
+## 💻 Comandos Úteis (Maven Wrapper)
+
+```bash
+# Rodar testes automatizados
+./mvnw.cmd test          # Windows
+./mvnw test              # Linux/macOS
+
+# Executar a aplicação em desenvolvimento
 ./mvnw.cmd clean javafx:run
-```
+./mvnw clean javafx:run
 
-### Gerar e Executar o Executável (Fat JAR)
-Para gerar uma versão final da aplicação (ideal para distribuição e portfólio), empacotando todas as dependências:
-```powershell
+# Gerar o Fat JAR executável (na pasta target/)
 ./mvnw.cmd clean package
-```
-O executável será gerado na pasta `target/`. Para rodar:
-```powershell
+./mvnw clean package
+
+# Executar o Fat JAR gerado
 java -jar target/Sistema-Patrimonial-1.0.0.jar
 ```
-*(Nota: No Linux ou macOS, use `./mvnw` no lugar de `./mvnw.cmd`)*.
 
-O ponto de entrada principal para o executável é a classe `sys.patrimonio.view.AppLauncher`, que carrega o contexto do JavaFX e a interface `view/Home.fxml` de forma segura.
+---
 
-## 🧭 Organização do projeto
+## 📂 Visão Geral da Estrutura
 
-```text
-Sistema-Patrimonial/
-├── src/main/java/sys/patrimonio/
-│   ├── config/       # conexão, propriedades e contexto da aplicação (Service Locator)
-│   ├── exceptions/   # exceções personalizadas de regras de negócio
-│   ├── model/        # entidades e tipos de domínio
-│   ├── repository/   # padrão DAO e acesso JDBC ao banco
-│   ├── service/      # operações, regras de negócio e validações
-│   ├── util/         # utilitários, carregamento de telas e geração de XLSX
-│   └── view/         # AppLauncher (ponto de entrada) e controllers JavaFX
-│
-├── src/main/resources/
-│   ├── css/          # folhas de estilo globais e específicas das telas
-│   ├── database/     # exemplo de properties e script SQL de criação do esquema
-│   ├── icons/        # recursos visuais
-│   └── view/         # arquivos FXML contendo o design das telas
-│
-└── src/test/java/sys/patrimonio/
-    └── service/      # testes automatizados unitários (JUnit)
-```
+- `src/main/java/sys/patrimonio/model/`: Entidades de domínio (Item, Cautela, Movimentação).
+- `src/main/java/sys/patrimonio/repository/`: Camada DAO com queries JDBC.
+- `src/main/java/sys/patrimonio/service/`: Regras de negócio e validações.
+- `src/main/java/sys/patrimonio/view/`: Controllers JavaFX e launchers da aplicação.
+- `src/main/resources/`: Arquivos FXML, estilos CSS e scripts SQL.
+- `src/test/java/`: Testes de regras de negócio em JUnit 5.
 
-## 🩹 Problemas comuns
+---
 
-- **Erro ao carregar `database.properties`:** Confirme que o arquivo foi renomeado corretamente a partir do exemplo, está em `src/main/resources/database/` e não possui extensões ocultas (`.properties.txt`).
-- **Falha ao conectar ao MariaDB:** Confira se o serviço está ativo e se a porta (padrão 3306) e as credenciais estão corretas no arquivo de propriedades.
-- **Tabela não encontrada:** Confirme que o esquema foi devidamente importado no banco `sistema_patrimonial`.
-- **JavaFX não inicia no Fat JAR:** Certifique-se de executar via `AppLauncher` e não via `Main`, para evitar restrições de módulos do Java.
+## 📄 Licença
 
-## 📜 Licença
-
-Distribuído sob a licença MIT. Consulte o arquivo [`LICENSE`](LICENSE) para ver os termos.
+Distribuído sob licença MIT. Veja [`LICENSE`](LICENSE) para mais detalhes.
