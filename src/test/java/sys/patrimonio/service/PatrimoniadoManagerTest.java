@@ -10,6 +10,7 @@ import sys.patrimonio.model.Status;
 import sys.patrimonio.repository.*;
 
 
+import java.util.Random;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class PatrimoniadoManagerTest {
 
     @Test
-    void iniciarConfiguracaoDeContexto(){
+    void iniciarConfiguracaoDeContexto() {
         ConnectionFactory connectionFactory = new ConnectionFactory();
         PatrimoniadoRepositorio patrimoniadoRepositorio = new PatrimoniadoDAO(connectionFactory);
         ConsumoRepositorio consumoRepositorio = new ConsumoDAO(connectionFactory);
@@ -38,8 +39,9 @@ class PatrimoniadoManagerTest {
         MovimentacaoRepositorio movimentacaoRepositorio = new MovimentacaoDAO(connectionFactory);
 
         AppContext.inicializar(cautelaRepositorio, movimentacaoRepositorio, consumoRepositorio, patrimoniadoRepositorio);
-        // Arrange: Preparação dos dados (exatamente como fez no TesteSQL.java)
-        String testeId = UUID.randomUUID().toString();
+        Random random = new Random();
+
+        String testeId = "TESTE" + random.nextInt(20) + 1000;
         String testeNumeroSerie = testeId + "NS";
         ItemPatrimoniado notebook = new ItemPatrimoniado(
                 "LENOVO IDEAPAD 4", testeId, testeNumeroSerie,
