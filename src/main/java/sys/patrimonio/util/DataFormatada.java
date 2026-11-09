@@ -20,6 +20,9 @@ public final class DataFormatada {
     }
 
     public static String dataTime(LocalDateTime dateTime) {
+        if (dateTime == null) {
+            return "Sem registros";
+        }
         return dateTime.format(datetime);
     }
 
